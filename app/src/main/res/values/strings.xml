@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Dis-moi tout SMS</string>
+    <string name="service_notif_titre">Dis moi tout Sms</string>
+    <string name="service_notif_texte">Diction des SMS activée</string>
+    <string name="dit">dit:</string>
+    <string name="fermer">Fermer</string>
+    <string name="translate_emoticones">Traduire les émoticônes</string>
+    <string name="test_diction">Dis-moi tout lit les SMS pour vous. Si vous avez les mains occupées, activez Dis-moi tout pour continuer vos conversations sans avoir à toucher votre téléphone. Choisissez les contacts que vous souhaitez entendre et activez les commandes vocales. Vous pouvez même lui demander de s\'arrêter automatiquement dès que vous vous mettez à marcher.</string>
+    <string name="tester_dictiontext">Essayer</string>
+    <string name="commande_vocale">Réponse vocale</string>
+    <string name="repondre">Répondre</string>
+    <string name="reponse">Réponse</string>
+    <string name="envoyer">Envoyer</string>
+    <string name="messageenvoye">Message envoyé</string>
+    <string name="vousavezrepondu">Vous avez répondu: </string>
+    <string name="uniquementcontacts">Uniquement mes contacts</string>
+    <string name="selectionnertous">Tous</string>
+    <string name="deselectionencours">Configuration en cours</string>
+    <string name="volume">Volume</string>
+    <string name="nom">Nom: </string>
+    <string name="numero">Tel: </string>
+    <string name="selectioncontacttitle">Qui entendre ?</string>
+    <string name="supprimerTousLesContacts">Tout supprimer</string>
+    <string name="ajouterTousLesContacts">Tout ajouter</string>
+    <string name="suppression">Suppression</string>
+    <string name="confirmersuppression">Retirer de la liste ?</string>
+    <string name="oui">Oui</string>
+    <string name="non">Non</string>
+    <string name="confirmerEnregistrer">Sauvegarde</string>
+    <string name="voulezVousnregistrer">Voulez-vous sauvegarder ?</string>
+    <string name="sauvegardeeffectuee">Sauvegarde effectuée</string>
+    <string name="nouveaumessage">Nouveau message</string>
+    <string name="recherchercontact">Rechercher contact</string>
+    <string name="votrereponseest">Vous avez répondu: </string>
+    <string name="langue">Langue</string>
+    <string name="dites">dites</string>
+    <string name="ou">ou</string>
+    <string name="modifier">Modifier</string>
+    <string name="aajoute">a ajouté</string>
+    <string name="principal">Principal</string>
+    <string name="parametres">Paramètres</string>
+    <string name="activated">Activé</string>
+    <string name="deactivated">Désactivé</string>
+    <string name="activate">Activer</string>
+    <string name="deactivate">Désactiver</string>
+    <string name="stoppedByStepText">Marche détectée - Arrêt automatique</string>
+    <string name="stepDetectorOption">Désactiver quand je marche</string>
+    <string name="areYouSure">Êtes-vous sûr ?</string>
+    
+    <!-- emoticones -->
+    <string name="emoticone_ange">ange</string>
+    <string name="emoticone_sourrire">sourire</string>
+    <string name="emoticone_triste">triste</string>
+    <string name="emoticone_pleur">pleur</string>
+    <string name="emoticone_clein_d_oeil">clin-d\'oeil</string>
+    <string name="emoticone_tirer_la_langue">tirer la langue</string>
+    <string name="emoticone_surpris">surpris</string>
+    <string name="emoticone_bisou">bisou</string>
+    <string name="emoticone_hurlement">hurlement</string>
+    <string name="emoticone_cool">cool</string>
+    <string name="emoticone_decu">déçu</string>
+    <string name="emoticone_bouche_cousue">bouche cousue</string>
+    <string name="emoticone_rires">rires</string>
+    <string name="emoticone_confus">confus</string>
+    <string name="emoticone_embarrasse">embarrassé</string>
+    <string name="emoticone_indecis">indecis</string>
+    <string name="emoticone_perspective_d_argent">perspective d\'argent</string>
+    <string name="emoticone_circonflex"> </string>
+
+    
+</resources>

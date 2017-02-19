@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Dis-moi tout SMS</string>
+    <string name="service_notif_titre">Dis moi tout Sms</string>
+    <string name="service_notif_texte">SMS diction enabled</string>
+    <string name="dit">says:</string>
+    <string name="fermer">Close</string>
+    <string name="translate_emoticones">Translate emoticons</string>
+    <string name="test_diction">I read SMS for you^^. ;-)</string>
+    <string name="tester_dictiontext">Test diction</string>
+    <string name="commande_vocale">Voice response</string>
+    <string name="repondre">Answer</string>
+    <string name="reponse">Reply</string>
+    <string name="envoyer">Send</string>
+    <string name="messageenvoye">Message was sent</string>
+    <string name="vousavezrepondu">You sent: </string>
+    <string name="uniquementcontacts">Only my contacts</string>
+    <string name="selectionnertous">All</string>
+    <string name="deselectionencours">Configuring</string>
+    <string name="volume">Volume</string>
+    <string name="nom">Name: </string>
+    <string name="numero">Phone: </string>
+    <string name="selectioncontacttitle">hear any contacts?</string>
+    <string name="supprimerTousLesContacts">Delete all</string>
+    <string name="ajouterTousLesContacts">Add all</string>
+    <string name="suppression">Delete</string>
+    <string name="confirmersuppression">Not hear this contact?</string>
+    <string name="oui">Yes</string>
+    <string name="non">No</string>
+    <string name="confirmerEnregistrer">Save</string>
+    <string name="voulezVousnregistrer">Do you want to save ?</string>
+    <string name="sauvegardeeffectuee">Saved</string>
+    <string name="nouveaumessage">New mail</string>
+    <string name="recherchercontact">Search contact</string>
+    <string name="votrereponseest">You said: </string>
+    <string name="langue">Language</string>
+    <string name="dites">say</string>
+    <string name="ou">or</string>
+    <string name="modifier">Modify</string>
+    <string name="aajoute">added</string>
+    <string name="principal">Principal</string>
+    <string name="parametres">Parameters</string>
+    <string name="activated">Activated</string>
+    <string name="deactivated">Not activated</string>
+    <string name="activate">Switch on</string>
+    <string name="deactivate">Switch off</string>
+    <string name="stoppedByStepText">Walk detected - Automatic stop</string>
+    <string name="stepDetectorOption">Disable when I walk</string>
+    <string name="areYouSure">Are you sure ?</string>
+    
+    <!-- emoticones -->
+    <string name="emoticone_ange">angel</string>
+    <string name="emoticone_sourrire">smile</string>
+    <string name="emoticone_triste">sad</string>
+    <string name="emoticone_pleur">cry</string>
+    <string name="emoticone_clein_d_oeil">clein eye</string>
+    <string name="emoticone_tirer_la_langue">tongue out</string>
+    <string name="emoticone_surpris">surprised</string>
+    <string name="emoticone_bisou">kiss</string>
+    <string name="emoticone_hurlement">scream</string>
+    <string name="emoticone_cool">cool</string>
+    <string name="emoticone_decu">disappointed</string>
+    <string name="emoticone_bouche_cousue">mum</string>
+    <string name="emoticone_rires">laughter</string>
+    <string name="emoticone_confus">confused</string>
+    <string name="emoticone_embarrasse">embarrassed</string>
+    <string name="emoticone_indecis">undecided</string>
+    <string name="emoticone_perspective_d_argent">rich</string>
+    <string name="emoticone_circonflex"> </string>
+    
+</resources>

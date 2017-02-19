@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:right="8sp" android:left="8sp">
+        <shape
+            android:shape="oval">
+
+            <solid android:color="@color/green500" />
+            <size android:height="24sp" android:width="24sp" />
+
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_volume_up_white_48dp"
+        android:left="16sp" android:right="16sp" android:top="8sp"
+        android:bottom="8sp"/>
+</layer-list>

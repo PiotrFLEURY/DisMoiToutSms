@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.piotr.dismoitoutsms"
+    android:versionCode="25"
+    android:versionName="3.4" >
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+	<uses-permission android:name="android.permission.READ_SMS" />
+	<uses-permission android:name="android.permission.SEND_SMS" />
+	<uses-permission android:name="android.permission.WRITE_SMS" />
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
+	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- required=false pour rester compatible avec les version inférieures à 4.4-->
+    <uses-feature android:name="android.hardware.sensor.stepdetector" android:required="false" />
+	
+    <application
+        android:icon="@drawable/iconeprincipale"
+        android:label="@string/app_name" >
+        <activity
+            android:name=".DisMoiToutSmsActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".SmsRecuActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
+            android:permission="android.permission.DISABLE_KEYGUARD"
+            android:showOnLockScreen="true"/>
+
+        <activity android:name=".ContactSelectionActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <service android:name="fr.piotr.dismoitoutsms.reception.ServiceCommunicator"/>
+    </application>
+
+</manifest>

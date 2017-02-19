@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">Dis-moi tout SMS</string>
+    <string name="service_notif_titre">Dis moi tout Sms</string>
+    <string name="service_notif_texte">Permitieron SMS Dicción</string>
+    <string name="dit">dijo:</string>
+    <string name="fermer">Cerrar</string>
+    <string name="translate_emoticones">Traducir emoticonos</string>
+    <string name="test_diction">Leí SMS para usted ^^. ;-)</string>
+    <string name="tester_dictiontext">Dicción de prueba</string>
+    <string name="commande_vocale">Respuesta de Voz</string>
+    <string name="repondre">Responder</string>
+    <string name="reponse">Responder</string>
+    <string name="envoyer">Adelante</string>
+    <string name="messageenvoye">Mensaje enviado</string>
+    <string name="vousavezrepondu">Ha respondido: </string>
+    <string name="uniquementcontacts">Sólo mis contactos</string>
+    <string name="selectionnertous">Todos</string>
+    <string name="deselectionencours">Configuración</string>
+    <string name="volume">Volumen</string>
+    <string name="nom">Nombre: </string>
+    <string name="numero">Tel: </string>
+    <string name="selectioncontacttitle">escuchar contactos?</string>
+    <string name="supprimerTousLesContacts">Retire todo</string>
+    <string name="ajouterTousLesContacts">seleccionar todo</string>
+    <string name="suppression">supresión</string>
+    <string name="confirmersuppression">No escuchar este contacto?</string>
+    <string name="oui">Si</string>
+    <string name="non">No</string>
+    <string name="confirmerEnregistrer">salvaguardar</string>
+    <string name="voulezVousnregistrer">¿Quiere ahorrar?</string>
+    <string name="sauvegardeeffectuee">ahorrado</string>
+    <string name="nouveaumessage">nuevo mensaje</string>
+    <string name="recherchercontact">buscar contactar</string>
+    <string name="votrereponseest">usted contestó: </string>
+    <string name="langue">idioma</string>
+    <string name="dites">decir</string>
+    <string name="ou">o</string>
+    <string name="modifier">cambio</string>
+    <string name="aajoute">añadió</string>
+    <string name="principal">Principal</string>
+    <string name="parametres">Parámetros</string>
+    <string name="activated">activado</string>
+    <string name="deactivated">desactivado</string>
+    <string name="activate">activar</string>
+    <string name="deactivate">desactivar</string>
+    <string name="stoppedByStepText">Caminar detectado - Parada automática</string>
+    <string name="stepDetectorOption">Desactivar cuando camino</string>
+    <string name="areYouSure">Está usted seguro ?</string>
+    
+    <!-- emoticones -->
+    <string name="emoticone_ange">ángel</string>
+    <string name="emoticone_sourrire">sonreír</string>
+    <string name="emoticone_triste">triste</string>
+    <string name="emoticone_pleur">llanto</string>
+    <string name="emoticone_clein_d_oeil">centelleo</string>
+    <string name="emoticone_tirer_la_langue">lengua fuera</string>
+    <string name="emoticone_surpris">sorprendido</string>
+    <string name="emoticone_bisou">besar</string>
+    <string name="emoticone_hurlement">aullido</string>
+    <string name="emoticone_cool">fresco</string>
+    <string name="emoticone_decu">decepcionado</string>
+    <string name="emoticone_bouche_cousue">silencio</string>
+    <string name="emoticone_rires">risa</string>
+    <string name="emoticone_confus">confundido</string>
+    <string name="emoticone_embarrasse">avergonzado</string>
+    <string name="emoticone_indecis">indeciso</string>
+    <string name="emoticone_perspective_d_argent">perspectiva plata</string>
+    <string name="emoticone_circonflex"> </string>
+    
+</resources>

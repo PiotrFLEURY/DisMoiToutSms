@@ -159,6 +159,7 @@ public class ContactSelectionActivity extends AbstractActivity {
                         getContactsSelectionnes().add(contact);
                     }
                 }
+                contactsAdapter.notifyDataSetChanged();
             }
         }.execute(this);
 	}

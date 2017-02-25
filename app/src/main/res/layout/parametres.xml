@@ -8,29 +8,35 @@
     android:orientation="vertical"
     android:clickable="true">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80sp"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8sp"
         android:background="@color/cardview_dark_background"
         android:gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="54sp"
-            android:layout_height="54sp"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="16sp"
-            android:src="@drawable/iconeprincipale"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/iconeprincipale"
             android:text="@string/parametres"
-            android:textColor="@color/white"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textColor="@android:color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse" />
 
-    </FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_gravity="bottom|end"
+            android:onClick="openPrivacyPolicy"
+            android:text="@string/privacy_policy"
+            android:id="@+id/textView"
+            android:drawableRight="@android:drawable/ic_menu_info_details"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small.Inverse" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

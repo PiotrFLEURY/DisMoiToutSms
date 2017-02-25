@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -472,4 +473,9 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         return checkbox(R.id.stepDetectorCheckBox);
     }
 
+    public void openPrivacyPolicy(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("http://objectifandroid.blogspot.fr/2016/12/politique-de-confidentialite.html"));
+        startActivity(intent);
+    }
 }

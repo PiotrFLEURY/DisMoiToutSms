@@ -68,5 +68,6 @@
     <string name="emoticone_indecis">undecided</string>
     <string name="emoticone_perspective_d_argent">rich</string>
     <string name="emoticone_circonflex"> </string>
-    
+    <string name="toast.error.permission.denial">The application can not work without your permission</string>
+
 </resources>

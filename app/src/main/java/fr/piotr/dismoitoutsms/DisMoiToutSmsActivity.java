@@ -3,12 +3,16 @@ package fr.piotr.dismoitoutsms;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -51,8 +55,29 @@ import static fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean;
 
 public class DisMoiToutSmsActivity extends AbstractActivity {
 
+    public static final String EVENT_ACTIVATE = "EVENT_ACTIVATE";
+    public static final String EVENT_DEACTIVATE = "EVENT_DEACTIVATE";
+
     public static final String TAG = "DisMoiToutSmsActivity";
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch(intent.getAction()){
+                case EVENT_ACTIVATE:
+                    onActivate();
+                    break;
+                case EVENT_DEACTIVATE:
+                    onDeactivate();
+                    break;
+            }
+        }
+    };
+
+    private IntentFilter filter = new IntentFilter(){{
+        addAction(EVENT_ACTIVATE);
+        addAction(EVENT_DEACTIVATE);
+    }};
 
 	/** Called when the activity is first created. */
 	@Override
@@ -83,16 +108,14 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
         initStepDetectorOption();
 
-        checkPermissions(PERMISSIONS_REQUEST_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS);
-
-        checkPermissions(PERMISSIONS_READ_PHONE_STATE, Manifest.permission.READ_PHONE_STATE);
-
 	}
 
 	@SuppressLint("RtlHardcoded")
     @Override
 	protected void onResume() {
 		super.onResume();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
         findViewById(R.id.menu).setOnClickListener(v -> {
             DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -132,22 +155,12 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
         TextView btnActivate = (TextView)findViewById(R.id.btn_activate);
         btnActivate.setOnClickListener(v -> {
-            if(!isMyServiceRunning()){
-                Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
-                intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
-                startService(intent);
-                toggleStatus(true);
-            }
+            onActivate();
         });
 
         TextView btnDeactivate = (TextView)findViewById(R.id.btn_deactivate);
         btnDeactivate.setOnClickListener(v -> {
-            if(isMyServiceRunning()){
-                Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
-                intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
-                stopService(intent);
-                toggleStatus(true);
-            }
+            onDeactivate();
         });
 
         //Drawer
@@ -195,7 +208,33 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         findViewById(R.id.parametreTextViewUniquementMesContacts).setOnClickListener(this::openContactSelection);
         findViewById(R.id.choisirContactsTab).setOnClickListener(this::openContactSelection);
 
+        checkPermissions(PERMISSIONS_REQUEST_RESUME,
+                Manifest.permission.READ_CONTACTS,
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.READ_SMS,
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_PHONE_STATE);
+
 	}
+
+    public void onActivate() {
+        if(!isMyServiceRunning()){
+            Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
+            intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
+            startService(intent);
+            toggleStatus(true);
+        }
+    }
+
+    public void onDeactivate() {
+        if(isMyServiceRunning()){
+            Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
+            intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
+            stopService(intent);
+            toggleStatus(true);
+        }
+    }
 
     private void launchTest() {
         if(isMyServiceRunning()) {
@@ -277,6 +316,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
     @Override
 	protected void onPause() {
 		super.onPause();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 
 		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
 		volumeSeek.setOnSeekBarChangeListener(null);

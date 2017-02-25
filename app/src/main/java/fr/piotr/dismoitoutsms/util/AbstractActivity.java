@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -16,8 +17,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import fr.piotr.dismoitoutsms.ContactSelectionActivity;
+import fr.piotr.dismoitoutsms.DisMoiToutSmsActivity;
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
 
@@ -27,9 +30,11 @@ import static fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean;
 
 /**
  * Created by piotr_000 on 28/02/2016.
+ *
  */
 public abstract class AbstractActivity extends Activity {
 
+    public static final int PERMISSIONS_REQUEST_RESUME = 0;
     public static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;
     public static final int PERMISSIONS_REQUEST_SMS = 2;
     public static final int PERMISSIONS_RECORD_AUDIO = 3;
@@ -82,22 +87,8 @@ public abstract class AbstractActivity extends Activity {
         for(String permission:permissions) {
             if (ContextCompat.checkSelfPermission(this, permission)
                     != PackageManager.PERMISSION_GRANTED) {
-
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-//                    Manifest.permission.READ_CONTACTS)) {
-//                // Show an expanation to the user *asynchronously* -- don't block
-//                // this thread waiting for the user's response! After the user
-//                // sees the explanation, try again to request the permission.
-//                Toast.makeText(this, "Sorry but you didn't give permission to read contacts, please grant it before.", Toast.LENGTH_LONG).show();
-//
-//            } else {
-                // No explanation needed, we can request the permission.
-
                 ActivityCompat.requestPermissions(this, permissions, permissionRequestID);
-//            }
-
                 return false;
-
             }
         }
         return true;
@@ -115,15 +106,15 @@ public abstract class AbstractActivity extends Activity {
     protected void onPermissionGranted(int requestCode){
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_CONTACTS:
-                setBoolean(getApplicationContext(), UNIQUEMENT_CONTACTS, true);
-                checkbox(R.id.uniquementContactesTab).setChecked(true);
-                go(ContactSelectionActivity.class);
+//                setBoolean(getApplicationContext(), UNIQUEMENT_CONTACTS, true);
+//                checkbox(R.id.uniquementContactesTab).setChecked(true);
+//                go(ContactSelectionActivity.class);
                 break;
             case PERMISSIONS_REQUEST_SMS:
                 break;
             case PERMISSIONS_RECORD_AUDIO:
-                setBoolean(getApplicationContext(), COMMANDE_VOCALE, true);
-                checkbox(R.id.commandeVocaleBtnTab).setChecked(true);
+//                setBoolean(getApplicationContext(), COMMANDE_VOCALE, true);
+//                checkbox(R.id.commandeVocaleBtnTab).setChecked(true);
                 break;
             case PERMISSIONS_READ_PHONE_STATE:
                 break;
@@ -145,5 +136,7 @@ public abstract class AbstractActivity extends Activity {
             case PERMISSIONS_READ_PHONE_STATE:
                 break;
         }
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(DisMoiToutSmsActivity.EVENT_DEACTIVATE));
+        Toast.makeText(this, R.string.toast_error_permission_denial, Toast.LENGTH_SHORT).show();
     }
 }

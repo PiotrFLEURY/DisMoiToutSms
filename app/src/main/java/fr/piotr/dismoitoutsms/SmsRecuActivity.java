@@ -25,6 +25,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -311,7 +312,8 @@ public class SmsRecuActivity extends AbstractActivity {
 	}
 
 	public void envoyer() {
-		if (numeroAQuiRepondre != null) {
+		//TODO gérer le cas du destinataire ou message vide
+		if (!TextUtils.isEmpty(numeroAQuiRepondre) && !TextUtils.isEmpty(reponse)) {
 			SmsManager.getDefault().sendTextMessage(numeroAQuiRepondre, null, reponse, null, null);
 			reponseMessage.setText(getString(R.string.messageenvoye));
 			boutonEnvoyer.setEnabled(false);

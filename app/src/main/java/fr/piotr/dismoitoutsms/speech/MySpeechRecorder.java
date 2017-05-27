@@ -100,8 +100,12 @@ public class MySpeechRecorder implements RecognitionListener {
 
     public void stop() {
         context.runOnUiThread(() -> {
-            speech.stopListening();
-            speech.destroy();
+            try {
+                speech.stopListening();
+                speech.destroy();
+            } catch (Exception e) {
+                Log.e(getClass().getSimpleName(), e.getMessage());
+            }
         });
 
     }

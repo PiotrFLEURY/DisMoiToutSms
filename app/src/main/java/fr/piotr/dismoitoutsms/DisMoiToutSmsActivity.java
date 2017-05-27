@@ -169,9 +169,10 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 CharSequence locale = ((TextView) arg1).getText();
-                ConfigurationManager.setLangueSelectionnee(getApplicationContext(),
-                        locale.toString());
-//                TextToSpeechHelper.changerLaLangue(getApplicationContext());
+                if(locale!=null) {
+                    ConfigurationManager.setLangueSelectionnee(getApplicationContext(),
+                            locale.toString());
+                }
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {

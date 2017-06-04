@@ -4,30 +4,23 @@
     android:exitFadeDuration="100">
 
     <item android:state_checked="false" android:state_pressed="false">
-        <layer-list>
-            <item android:left="16sp" android:right="16sp" android:top="8sp" android:bottom="8sp">
-                <shape android:shape="rectangle">
-                    <corners android:radius="4sp" />
-                    <solid android:color="@color/red500" />
-                </shape>
-            </item>
-            <item android:left="16sp" android:right="16sp" android:top="8sp" android:bottom="8sp">
-                <bitmap android:src="@drawable/ic_close_white_24dp" />
-            </item>
-        </layer-list>
+        <shape android:shape="rectangle">
+            <size android:width="16sp" android:height="16sp"/>
+            <corners android:radius="2sp" />
+            <stroke android:color="@color/grey400" android:width="1sp"/>
+        </shape>
     </item>
 
     <item android:state_checked="true" android:state_pressed="false">
         <layer-list>
-            <item android:left="16sp" android:right="16sp" android:top="8sp" android:bottom="8sp">
+            <item>
                 <shape android:shape="rectangle">
-                    <corners android:radius="4sp" />
+                    <size android:width="16sp" android:height="16sp"/>
+                    <corners android:radius="2sp" />
                     <solid android:color="@color/green500" />
                 </shape>
             </item>
-            <item android:left="16sp" android:right="16sp" android:top="8sp" android:bottom="8sp">
-                <bitmap android:src="@drawable/ic_done_white_24dp" />
-            </item>
+            <item android:drawable="@drawable/ic_done_16dp"/>
         </layer-list>
     </item>
 

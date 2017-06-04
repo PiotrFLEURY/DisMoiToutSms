@@ -2,7 +2,7 @@ package fr.piotr.dismoitoutsms.util;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+
 import fr.piotr.dismoitoutsms.R;
 
 public class MessageBox {

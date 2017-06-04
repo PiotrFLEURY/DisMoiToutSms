@@ -17,7 +17,7 @@ public class Sablier extends Thread {
 		void onProgress(int value);
 	}
 
-	public static final int	TIMEOUT	= 30;
+	public static final int	TIMEOUT	= 60;
 
 	private SmsRecuActivity	caller;
 	private int				step;

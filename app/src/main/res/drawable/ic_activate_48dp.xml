@@ -5,11 +5,11 @@
             android:shape="oval">
 
             <solid android:color="@color/green500" />
-            <size android:height="24sp" android:width="24sp" />
+            <size android:height="512sp" android:width="512sp" />
 
         </shape>
     </item>
-    <item android:drawable="@drawable/ic_volume_up_white_48dp"
-        android:left="16sp" android:right="16sp" android:top="8sp"
-        android:bottom="8sp"/>
+    <item android:drawable="@drawable/ic_volume_up_white_512dp"
+        android:left="64sp" android:right="64sp" android:top="64sp"
+        android:bottom="64sp"/>
 </layer-list>

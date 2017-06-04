@@ -21,7 +21,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/cardview_dark_background"
+                android:background="@color/blue900"
                 android:padding="8sp">
 
                 <ImageView
@@ -31,7 +31,7 @@
                     android:layout_margin="4sp"
                     android:background="@drawable/colorcircle"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_person_white_24dp"/>
+                    android:src="@drawable/ic_person_24dp"/>
 
                 <TextView
                     android:id="@+id/contactname"
@@ -142,7 +142,7 @@
                         android:layout_margin="8sp"
                         android:padding="16sp"
                         android:background="@drawable/button"
-                        android:src="@drawable/ic_repeat_white_24dp" />
+                        android:src="@drawable/ic_repeat_24dp" />
 
                     <ImageView
                         android:id="@+id/chut"
@@ -152,7 +152,7 @@
                         android:layout_margin="8sp"
                         android:padding="16sp"
                         android:background="@drawable/button"
-                        android:src="@drawable/ic_stop_white_24dp" />
+                        android:src="@drawable/ic_stop_24dp" />
 
                     <ImageView
                         android:id="@+id/repondre"
@@ -162,7 +162,7 @@
                         android:layout_margin="8sp"
                         android:padding="16sp"
                         android:background="@drawable/button"
-                        android:src="@drawable/ic_message_white_24dp" />
+                        android:src="@drawable/ic_message_24dp" />
 
                     <ImageView
                         android:id="@+id/envoyerBtn"
@@ -172,68 +172,71 @@
                         android:layout_margin="8sp"
                         android:padding="16sp"
                         android:background="@drawable/button"
-                        android:src="@drawable/ic_send_white_24dp" />
+                        android:src="@drawable/ic_send_24dp" />
                 </LinearLayout>
 
             </LinearLayout>
 
-
-        <FrameLayout
+        <include
             android:id="@+id/microphone"
-            android:visibility="gone"
-            tools:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            layout="@layout/microphone"
+            android:visibility="gone"/>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="@color/cardview_dark_background">
+        <!--<FrameLayout-->
+            <!--android:visibility="gone"-->
+            <!--tools:visibility="gone"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
 
-                <ImageView
-                    android:layout_width="64sp"
-                    android:layout_height="64sp"
-                    android:tint="@color/white"
-                    android:layout_margin="16sp"
-                    android:background="@drawable/circularbutton"
-                    android:padding="16sp"
-                    android:src="@android:drawable/ic_btn_speak_now"/>
+            <!--<FrameLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@color/cardview_dark_background">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <!--<ImageView-->
+                    <!--android:layout_width="64sp"-->
+                    <!--android:layout_height="64sp"-->
+                    <!--android:tint="@color/white"-->
+                    <!--android:layout_margin="16sp"-->
+                    <!--android:background="@drawable/circularbutton"-->
+                    <!--android:padding="16sp"-->
+                    <!--android:src="@android:drawable/ic_btn_speak_now"/>-->
 
-                    <TextView
-                        android:id="@+id/speech_instructions"
-                        android:layout_width="match_parent"
-                        android:layout_height="0sp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textAppearance="?android:textAppearanceLarge"
-                        tools:text="Dites Répondre ou Fermer"/>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:orientation="vertical">-->
 
-                    <TextView
-                        android:id="@+id/reponse_en_cours"
-                        android:layout_width="match_parent"
-                        android:layout_height="0sp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_marginBottom="24sp"
-                        android:layout_marginLeft="24sp"
-                        android:layout_marginRight="24sp"
-                        android:textColor="@color/white"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        tools:text="Je suis en train de parler et le texte s'affiche au fur et à mesure ce qui donne une notion de progression à l'utilisateur"/>
-                </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:id="@+id/speech_instructions"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="0sp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:gravity="center"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textAppearance="?android:textAppearanceLarge"-->
+                        <!--tools:text="Dites Répondre ou Fermer"/>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/reponse_en_cours"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="0sp"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:gravity="center"-->
+                        <!--android:layout_marginBottom="24sp"-->
+                        <!--android:layout_marginLeft="24sp"-->
+                        <!--android:layout_marginRight="24sp"-->
+                        <!--android:textColor="@color/white"-->
+                        <!--android:textAppearance="?android:textAppearanceMedium"-->
+                        <!--tools:text="Je suis en train de parler et le texte s'affiche au fur et à mesure ce qui donne une notion de progression à l'utilisateur"/>-->
+                <!--</LinearLayout>-->
 
 
-            </FrameLayout>
+            <!--</FrameLayout>-->
 
-        </FrameLayout>
+        <!--</FrameLayout>-->
 
     </FrameLayout>
 

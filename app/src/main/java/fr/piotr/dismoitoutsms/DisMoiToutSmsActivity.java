@@ -1,7 +1,6 @@
 package fr.piotr.dismoitoutsms;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,11 +14,13 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -27,8 +28,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,13 +82,16 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-
-		// Remove title bar
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.drawer_layout);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
+        }
+
+        setContentView(R.layout.drawer_layout);
 
 		verifierExistanceServiceSyntheseVocale();
 
@@ -111,32 +113,47 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
 	}
 
-	@SuppressLint("RtlHardcoded")
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                toggleDrawer();
+                break;
+            case R.id.main_menu_people:
+                openContactSelection(null);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
 	protected void onResume() {
 		super.onResume();
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
-        findViewById(R.id.menu).setOnClickListener(v -> {
-            DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawerLayout.openDrawer(Gravity.LEFT);
-        });
-
-		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
-		volumeSeek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-                audioManager.setStreamVolume(STREAM_MUSIC, progress, FLAG_PLAY_SOUND);
-            }
-        });
+//		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
+//		volumeSeek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+//
+//            public void onStopTrackingTouch(SeekBar seekBar) {
+//            }
+//
+//            public void onStartTrackingTouch(SeekBar seekBar) {
+//            }
+//
+//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+//                audioManager.setStreamVolume(STREAM_MUSIC, progress, FLAG_PLAY_SOUND);
+//            }
+//        });
 
         toggleStatus(false);
         ImageView statusIcon = (ImageView) findViewById(R.id.status_icon);
@@ -207,8 +224,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             checkBoxStepDetector().setOnCheckedChangeListener((buttonView, isChecked) -> setBoolean(getApplicationContext(), ARRET_STEP_DETECTOR, isChecked));
         }
 
-        findViewById(R.id.parametreTextViewUniquementMesContacts).setOnClickListener(this::openContactSelection);
-        findViewById(R.id.choisirContactsTab).setOnClickListener(this::openContactSelection);
+        findViewById(R.id.gererContacts).setOnClickListener(this::openContactSelection);
 
         checkPermissions(PERMISSIONS_REQUEST_RESUME,
                 Manifest.permission.READ_CONTACTS,
@@ -219,6 +235,15 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
                 Manifest.permission.READ_PHONE_STATE);
 
 	}
+
+    private void toggleDrawer() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
+        } else {
+            drawerLayout.openDrawer(Gravity.LEFT);
+        }
+    }
 
     public void onActivate() {
         if(!isMyServiceRunning()){
@@ -321,8 +346,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 
-		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
-		volumeSeek.setOnSeekBarChangeListener(null);
+//		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
+//		volumeSeek.setOnSeekBarChangeListener(null);
 
         ImageView statusIcon = (ImageView) findViewById(R.id.status_icon);
         statusIcon.setOnClickListener(null);
@@ -340,8 +365,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         checkBoxEmoticones().setOnCheckedChangeListener(null);
         checkBoxUniquementMesContacts().setOnCheckedChangeListener(null);
         checkBoxStepDetector().setOnCheckedChangeListener(null);
-        findViewById(R.id.parametreTextViewUniquementMesContacts).setOnClickListener(null);
-        findViewById(R.id.choisirContactsTab).setOnClickListener(null);
+        findViewById(R.id.gererContacts).setOnClickListener(null);
+        findViewById(R.id.gererContacts).setOnClickListener(null);
 	}
 
 	public void initVolumeControl() {
@@ -349,21 +374,21 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
 		setVolumeControlStream(STREAM_MUSIC);
 
-		final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
-		volumeSeek.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-		volumeSeek.setProgress(audioManager.getStreamVolume(STREAM_MUSIC));
+//		final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+//		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
+//		volumeSeek.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+//		volumeSeek.setProgress(audioManager.getStreamVolume(STREAM_MUSIC));
 	}
 
-	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-			SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
-			final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-			volumeSeek.setProgress(audioManager.getStreamVolume(STREAM_MUSIC));
-		}
-		return super.onKeyUp(keyCode, event);
-	}
+//	@Override
+//	public boolean onKeyUp(int keyCode, KeyEvent event) {
+//		if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+//			SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
+//			final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+//			volumeSeek.setProgress(audioManager.getStreamVolume(STREAM_MUSIC));
+//		}
+//		return super.onKeyUp(keyCode, event);
+//	}
 
     public void verifierExistanceServiceSyntheseVocale() {
         try {
@@ -457,7 +482,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         if(isKitKatWithStepCounter()) {
             checkBoxStepDetector().setChecked(getBoolean(this, ARRET_STEP_DETECTOR));
         } else {
-            findViewById(R.id.card_step_detector).setVisibility(View.GONE);
+            findViewById(R.id.stepDetectorCheckBox).setVisibility(View.GONE);
         }
     }
 
@@ -479,4 +504,5 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         intent.setData(Uri.parse("http://objectifandroid.blogspot.fr/2016/12/politique-de-confidentialite.html"));
         startActivity(intent);
     }
+
 }

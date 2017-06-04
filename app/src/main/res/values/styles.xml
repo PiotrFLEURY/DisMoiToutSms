@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/blue700</item>
+        <item name="colorPrimaryDark">@color/blue900</item>
+        <item name="colorAccent">@color/green500</item>
+        <item name="android:windowBackground">@color/grey200</item>
+        <item name="android:checkboxStyle">@style/CheckBox</item>
+    </style>
+
     <style name="CustomProgressBarHorizontal" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/custom_progress_bar_horizontal</item>
         <item name="android:thumb">@drawable/seek_thumb</item>
@@ -9,4 +17,42 @@
         <item name="android:maxHeight">4sp</item>
         <item name="android:layout_margin">8sp</item>
     </style>
+
+    <style name="MainButton" parent="android:Widget.Button">
+        <item name="android:background">@drawable/graybutton</item>
+        <item name="android:drawablePadding">8sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_margin">4sp</item>
+        <item name="android:padding">8sp</item>
+        <item name="android:textColor">@color/dark</item>
+    </style>
+
+    <style name="GreenButton" parent="MainButton">
+        <item name="android:background">@drawable/greenbutton</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="RedButton" parent="MainButton">
+        <item name="android:background">@drawable/redbutton</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/custom_checkbox</item>
+        <item name="android:layout_marginLeft">8sp</item>
+        <item name="android:layout_marginRight">8sp</item>
+        <item name="android:padding">8sp</item>
+        <item name="android:textColor">@color/dark</item>
+    </style>
+
+    <style name="TextMedium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextLight">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
 </resources>

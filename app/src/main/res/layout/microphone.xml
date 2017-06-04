@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/microphone"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/cardview_dark_background">
+
+        <ImageView
+            android:layout_width="48sp"
+            android:layout_height="48sp"
+            android:tint="@color/white"
+            android:layout_margin="16sp"
+            android:background="@drawable/circularbutton"
+            android:padding="8sp"
+            android:src="@android:drawable/ic_btn_speak_now"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/speech_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textAppearance="?android:textAppearanceLarge"
+                tools:text="Dites Répondre ou Fermer"/>
+
+            <TextView
+                android:id="@+id/reponse_en_cours"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginBottom="24sp"
+                android:layout_marginLeft="24sp"
+                android:layout_marginRight="24sp"
+                android:textColor="@color/white"
+                android:textAppearance="?android:textAppearanceMedium"
+                tools:text="Je suis en train de parler et le texte s'affiche au fur et à mesure ce qui donne une notion de progression à l'utilisateur"/>
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+</FrameLayout>

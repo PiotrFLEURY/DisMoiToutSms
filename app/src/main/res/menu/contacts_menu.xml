@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/contacts_menu_search"
+        android:icon="@drawable/ic_search_24dp"
+        app:showAsAction="never"
+        android:title="@string/recherchercontact"/>
+
+    <item
+        android:id="@+id/contacts_menu_add_all"
+        android:icon="@drawable/ic_add_24dp"
+        app:showAsAction="never"
+        android:title="@string/ajouterTousLesContacts"/>
+
+    <item
+        android:id="@+id/contacts_menu_remove_all"
+        android:icon="@drawable/ic_close_24dp"
+        app:showAsAction="never"
+        android:title="@string/supprimerTousLesContacts"/>
+
+</menu>

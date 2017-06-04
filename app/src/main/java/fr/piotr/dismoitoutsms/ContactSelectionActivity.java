@@ -3,14 +3,13 @@ package fr.piotr.dismoitoutsms;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -44,14 +43,17 @@ public class ContactSelectionActivity extends AbstractActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
-		// Remove title bar
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
 		super.onCreate(savedInstanceState);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayShowHomeEnabled(true);
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setTitle(R.string.selectioncontacttitle);
+        }
 		setContentView(R.layout.contacts);
 
         champRecherche = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        contacts = (ListView) findViewById(R.id.contacts);
 
         mesContacts = getAllContacts(this);
         initContactsSelectiones();
@@ -62,11 +64,8 @@ public class ContactSelectionActivity extends AbstractActivity {
 
     @Override
     public void onBackPressed() {
-        if(findViewById(R.id.contacts_menu_background).getVisibility()==View.VISIBLE){
-            toggleMenu(null);
-        } else if(findViewById(R.id.action_bar).getVisibility()!=View.VISIBLE) {
-            findViewById(R.id.action_bar).setVisibility(View.VISIBLE);
-            findViewById(R.id.autoCompleteTextView).setVisibility(View.INVISIBLE);
+       if(champRecherche.getVisibility()==View.VISIBLE) {
+            closeSearch();
         } else {
             super.onBackPressed();
         }
@@ -89,18 +88,7 @@ public class ContactSelectionActivity extends AbstractActivity {
                     break;
                 }
             }
-            findViewById(R.id.action_bar).setVisibility(View.VISIBLE);
-            findViewById(R.id.autoCompleteTextView).setVisibility(View.INVISIBLE);
-        });
-
-        ImageView icSearch = (ImageView)findViewById(R.id.ic_search);
-        icSearch.setOnClickListener(v -> {
-            findViewById(R.id.action_bar).setVisibility(View.INVISIBLE);
-            champRecherche.setVisibility(View.VISIBLE);
-            champRecherche.requestFocus();
-            champRecherche.performClick();
-            InputMethodManager inputMethod = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethod.showSoftInput(champRecherche, InputMethodManager.SHOW_IMPLICIT);
+            closeSearch();
         });
 
         if(contacts!=null) {
@@ -122,15 +110,58 @@ public class ContactSelectionActivity extends AbstractActivity {
 
     }
 
+    private void openSearch() {
+        contacts.setVisibility(View.INVISIBLE);
+        champRecherche.setVisibility(View.VISIBLE);
+        champRecherche.requestFocus();
+        champRecherche.performClick();
+        InputMethodManager inputMethod = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethod.showSoftInput(champRecherche, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    private void closeSearch() {
+        contacts.setVisibility(View.VISIBLE);
+        champRecherche.setVisibility(View.GONE);
+        InputMethodManager inputMethod = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethod.hideSoftInputFromWindow(champRecherche.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+    }
+
+    public void toggleSearch(View v) {
+        if(champRecherche.getVisibility()==View.VISIBLE){
+            closeSearch();
+        } else {
+            openSearch();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.contacts_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.contacts_menu_search:
+                toggleSearch(null);
+                return true;
+            case R.id.contacts_menu_add_all:
+                addAll(null);
+                return true;
+            case R.id.contacts_menu_remove_all:
+                deleteAll(null);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
 
         final AutoCompleteTextView champRecherche = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         champRecherche.setOnItemClickListener(null);
-
-        ImageView icSearch = (ImageView)findViewById(R.id.ic_search);
-        icSearch.setOnClickListener(null);
 
         if(contacts!=null) {
             contacts.setOnItemClickListener(null);
@@ -140,7 +171,7 @@ public class ContactSelectionActivity extends AbstractActivity {
 
     public void initListContacts() {
 		contactsAdapter = new ContactsAdapter(this, getContactsSelectionnes());
-		contacts = (ListView) findViewById(R.id.contacts);
+
 		contacts.setAdapter(contactsAdapter);
 	}
 
@@ -177,12 +208,12 @@ public class ContactSelectionActivity extends AbstractActivity {
 		champRecherche.setAdapter(dorpDownAdapter);
 	}
 
-	@Override
-	public Object onRetainNonConfigurationInstance() {
-		return contacts;
-	}
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return contacts;
+    }
 
-	Contacts getContactsSelectionnes() {
+    Contacts getContactsSelectionnes() {
 		if (contactsSelectionnes == null) {
 			contactsSelectionnes = new Contacts();
 		}
@@ -228,7 +259,6 @@ public class ContactSelectionActivity extends AbstractActivity {
             contactsAdapter.notifyDataSetChanged();
             dorpDownAdapter.notifyDataSetChanged();
             enregistrer();
-            toggleMenu(null);
         };
         MessageBox.confirm(ContactSelectionActivity.this, "",
                 getString(R.string.areYouSure), runnable, null);
@@ -243,60 +273,9 @@ public class ContactSelectionActivity extends AbstractActivity {
             contactsAdapter.notifyDataSetChanged();
             dorpDownAdapter.notifyDataSetChanged();
             enregistrer();
-            toggleMenu(null);
         };
         MessageBox.confirm(ContactSelectionActivity.this, "",
                 getString(R.string.areYouSure), runnable, null);
-    }
-
-    public void toggleMenu(View v) {
-        final View addAll = findViewById(R.id.btn_add_all);
-        final View deleteAll = findViewById(R.id.btn_delete_all);
-        final View backGround = findViewById(R.id.contacts_menu_background);
-        if(addAll.getVisibility()==View.GONE) {
-            Animation showContact = AnimationUtils.loadAnimation(this, R.anim.show_contact_menu);
-
-            addAll.setVisibility(View.VISIBLE);
-            deleteAll.setVisibility(View.VISIBLE);
-            backGround.setVisibility(View.VISIBLE);
-
-            addAll.startAnimation(showContact);
-            deleteAll.startAnimation(showContact);
-            backGround.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fadein));
-        } else {
-            Animation hideContact = AnimationUtils.loadAnimation(this, R.anim.hide_contact_menu);
-            hideContact.setAnimationListener(new Animation.AnimationListener() {
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                public void onAnimationEnd(Animation animation) {
-                    addAll.setVisibility(View.GONE);
-                    deleteAll.setVisibility(View.GONE);
-                }
-
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            addAll.startAnimation(hideContact);
-            deleteAll.startAnimation(hideContact);
-            Animation fadeout = AnimationUtils.loadAnimation(this, R.anim.fadeout);
-            fadeout.setAnimationListener(new Animation.AnimationListener() {
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                public void onAnimationEnd(Animation animation) {
-                    backGround.setVisibility(View.GONE);
-                }
-
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            backGround.startAnimation(fadeout);
-        }
     }
 
 }

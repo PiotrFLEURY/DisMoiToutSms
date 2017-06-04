@@ -1,7 +1,6 @@
 package fr.piotr.dismoitoutsms.util;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +32,7 @@ import static fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean;
  * Created by piotr_000 on 28/02/2016.
  *
  */
-public abstract class AbstractActivity extends Activity {
+public abstract class AbstractActivity extends AppCompatActivity {
 
     public static final int PERMISSIONS_REQUEST_RESUME = 0;
     public static final int PERMISSIONS_REQUEST_READ_CONTACTS = 1;

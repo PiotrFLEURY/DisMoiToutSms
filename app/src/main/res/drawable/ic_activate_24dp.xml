@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:right="8sp" android:left="8sp">
+    <item>
         <shape
             android:shape="oval">
 
@@ -10,6 +10,6 @@
         </shape>
     </item>
     <item android:drawable="@drawable/ic_volume_up_white_24dp"
-        android:left="16sp" android:right="16sp" android:top="8sp"
-        android:bottom="8sp"/>
+        android:left="4sp" android:right="4sp" android:top="4sp"
+        android:bottom="4sp"/>
 </layer-list>

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="20sp"
-        android:textColor="@color/red500"
+        android:textColor="@color/grey500"
         android:text="@string/deactivated"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/status_icon"/>
@@ -38,20 +38,18 @@
 
         <Button
             android:id="@+id/btn_activate"
-            android:layout_width="0sp"
-            android:layout_weight="1"
-            android:layout_height="56dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_volume_up_white_24dp"
             style="@style/GreenButton"
             android:text="@string/activate" />
 
         <Button
             android:id="@+id/btn_deactivate"
-            android:layout_width="0sp"
-            android:layout_weight="1"
-            android:layout_height="56dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_volume_off_white_24dp"
-            style="@style/RedButton"
+            style="@style/GrayButton"
             android:text="@string/deactivate" />
 
     </LinearLayout>

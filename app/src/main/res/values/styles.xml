@@ -32,6 +32,11 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="GrayButton" parent="MainButton">
+        <item name="android:background">@drawable/graybutton</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="RedButton" parent="MainButton">
         <item name="android:background">@drawable/redbutton</item>
         <item name="android:textColor">@color/white</item>

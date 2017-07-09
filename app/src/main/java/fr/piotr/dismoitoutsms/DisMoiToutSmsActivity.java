@@ -304,7 +304,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
                 } else {
                     statusIcon.setImageResource(R.drawable.ic_deactivate_48dp);
                     statusText.setText(getString(R.string.deactivated));
-                    statusText.setTextColor(getResolvedColor(R.color.red500));
+                    statusText.setTextColor(getResolvedColor(R.color.grey500));
                 }
                 Animation agrandissement = AnimationUtils.loadAnimation(DisMoiToutSmsActivity.this, R.anim.agrandissement);
                 statusIcon.startAnimation(agrandissement);
@@ -327,7 +327,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         } else {
             statusIcon.setImageResource(R.drawable.ic_deactivate_48dp);
             statusText.setText(getString(R.string.deactivated));
-            statusText.setTextColor(getResolvedColor(R.color.red500));
+            statusText.setTextColor(getResolvedColor(R.color.grey500));
         }
     }
 

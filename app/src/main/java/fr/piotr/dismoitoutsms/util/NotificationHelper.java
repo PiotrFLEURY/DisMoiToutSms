@@ -12,11 +12,13 @@ import fr.piotr.dismoitoutsms.R;
 
 /**
  * Created by piotr_000 on 05/03/2016.
+ *
  */
 public class NotificationHelper {
 
     public static final int SERVICE_STARTED_ID = 1;
     public static final int STOPPED_BY_STEP_COUNTER = 2;
+    public static final int HEADSET_PLUGGED_IN = 3;
 
     public static void open(Context context, int id) {
         String title = null;
@@ -32,6 +34,11 @@ public class NotificationHelper {
                 title = context.getResources().getString(R.string.service_notif_titre);
                 text = context.getResources().getString(R.string.stoppedByStepText);
                 icon = R.drawable.ic_directions_run_white_24dp;
+                break;
+            case HEADSET_PLUGGED_IN:
+                title = context.getResources().getString(R.string.service_notif_titre);
+                text = "HEADSET_PLUGGED_IN";//FIXME
+                icon = R.drawable.ic_headset_white_24dp;
                 break;
             default:
                 break;

@@ -42,6 +42,7 @@
             android:windowSoftInputMode="adjustPan"/>
 
         <service android:name="fr.piotr.dismoitoutsms.reception.ServiceCommunicator"/>
+
     </application>
 
 </manifest>

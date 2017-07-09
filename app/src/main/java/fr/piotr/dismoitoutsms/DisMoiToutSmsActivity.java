@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.piotr.dismoitoutsms.contacts.Contact;
+import fr.piotr.dismoitoutsms.headset.HeadSetReceiver;
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
 import fr.piotr.dismoitoutsms.util.AbstractActivity;
 import fr.piotr.dismoitoutsms.util.ConfigurationManager;
@@ -79,6 +80,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         addAction(EVENT_DEACTIVATE);
     }};
 
+    private HeadSetReceiver headSetReceiver;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
         initStepDetectorOption();
 
+        headSetReceiver = new HeadSetReceiver();
+
 	}
 
     @Override
@@ -139,6 +144,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 		super.onResume();
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
+
+        getApplicationContext().registerReceiver(headSetReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
 
 //		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
 //		volumeSeek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -345,6 +352,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 		super.onPause();
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+
+        getApplicationContext().unregisterReceiver(headSetReceiver);
 
 //		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
 //		volumeSeek.setOnSeekBarChangeListener(null);

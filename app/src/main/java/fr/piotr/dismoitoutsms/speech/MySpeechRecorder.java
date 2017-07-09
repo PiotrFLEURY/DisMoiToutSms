@@ -84,7 +84,7 @@ public class MySpeechRecorder implements RecognitionListener {
 
     public void onError(int error) {
         Log.d(TAG, "Error was thrown by SpeechRecognizer "+error);
-        end(Collections.<String>emptyList(), Activity.RESULT_CANCELED);
+        end(Collections.emptyList(), Activity.RESULT_CANCELED);
     }
 
     public void onResults(Bundle results) {

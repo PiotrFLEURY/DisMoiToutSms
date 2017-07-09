@@ -11,6 +11,7 @@
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- required=false pour rester compatible avec les version inférieures à 4.4-->
     <uses-feature android:name="android.hardware.sensor.stepdetector" android:required="false" />
@@ -41,7 +42,14 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan"/>
 
+        <receiver android:name=".bootreceiver.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
         <service android:name="fr.piotr.dismoitoutsms.reception.ServiceCommunicator"/>
+        <service android:name=".service.DisMoiToutSmsService"/>
 
     </application>
 

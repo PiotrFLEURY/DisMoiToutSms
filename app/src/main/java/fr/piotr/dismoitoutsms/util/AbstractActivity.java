@@ -2,6 +2,7 @@ package fr.piotr.dismoitoutsms.util;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -45,9 +46,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
     }
 
     public boolean isMyServiceRunning() {
+        return isMyServiceRunning(ServiceCommunicator.class);
+    }
+
+    public boolean isMyServiceRunning(Class<? extends Service> clazz) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (ServiceCommunicator.class.getName().equals(service.service.getClassName())) {
+            if (clazz.getName().equals(service.service.getClassName())) {
                 return true;
             }
         }

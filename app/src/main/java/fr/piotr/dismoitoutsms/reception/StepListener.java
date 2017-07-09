@@ -47,19 +47,20 @@ public class StepListener implements SensorEventListener {
         steps.add(time);
         if(steps.size()==STEP_LIMIT){
             stopService();
-        } else {
-            notifyStep();
         }
+//        else {
+//            notifyStep();
+//        }
     }
-
-    void notifyStep() {
-        if(BuildConfig.DEBUG) {
-            NotificationHelper.open(context, NotificationHelper.STOPPED_BY_STEP_COUNTER,
-                    R.drawable.ic_directions_run_white_24dp,
-                    context.getResources().getString(R.string.service_notif_titre),
-                    steps.size() + " pas sur " + STEP_LIMIT);
-        }
-    }
+//
+//    void notifyStep() {
+//        if(BuildConfig.DEBUG) {
+//            NotificationHelper.open(context, NotificationHelper.STOPPED_BY_STEP_COUNTER,
+//                    R.drawable.ic_directions_run_24dp,
+//                    context.getResources().getString(R.string.service_notif_titre),
+//                    steps.size() + " pas sur " + STEP_LIMIT);
+//        }
+//    }
 
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor.getType()==Sensor.TYPE_STEP_DETECTOR) {

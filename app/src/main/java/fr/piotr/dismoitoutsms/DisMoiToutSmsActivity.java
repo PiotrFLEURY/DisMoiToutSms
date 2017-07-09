@@ -41,6 +41,7 @@ import java.util.Locale;
 import fr.piotr.dismoitoutsms.contacts.Contact;
 import fr.piotr.dismoitoutsms.headset.HeadSetReceiver;
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
+import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
 import fr.piotr.dismoitoutsms.util.AbstractActivity;
 import fr.piotr.dismoitoutsms.util.ConfigurationManager;
 
@@ -80,8 +81,6 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         addAction(EVENT_DEACTIVATE);
     }};
 
-    private HeadSetReceiver headSetReceiver;
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +94,10 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         }
 
         setContentView(R.layout.drawer_layout);
+
+        if(!isMyServiceRunning(DisMoiToutSmsService.class)){
+            startService(new Intent(this, DisMoiToutSmsService.class));
+        }
 
 		verifierExistanceServiceSyntheseVocale();
 
@@ -113,8 +116,6 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         initBoutonReponseVocale();
 
         initStepDetectorOption();
-
-        headSetReceiver = new HeadSetReceiver();
 
 	}
 
@@ -144,23 +145,6 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 		super.onResume();
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
-
-        getApplicationContext().registerReceiver(headSetReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
-
-//		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
-//		volumeSeek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-//
-//            public void onStopTrackingTouch(SeekBar seekBar) {
-//            }
-//
-//            public void onStartTrackingTouch(SeekBar seekBar) {
-//            }
-//
-//            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-//                audioManager.setStreamVolume(STREAM_MUSIC, progress, FLAG_PLAY_SOUND);
-//            }
-//        });
 
         toggleStatus(false);
         ImageView statusIcon = (ImageView) findViewById(R.id.status_icon);
@@ -352,8 +336,6 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 		super.onPause();
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-
-        getApplicationContext().unregisterReceiver(headSetReceiver);
 
 //		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
 //		volumeSeek.setOnSeekBarChangeListener(null);

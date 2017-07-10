@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ import static android.media.AudioManager.STREAM_MUSIC;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.ARRET_STEP_DETECTOR;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.COMMANDE_VOCALE;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.EMOTICONES;
+import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.HEADSET_MODE;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.UNIQUEMENT_CONTACTS;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.getBoolean;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean;
@@ -215,6 +217,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             checkBoxStepDetector().setOnCheckedChangeListener((buttonView, isChecked) -> setBoolean(getApplicationContext(), ARRET_STEP_DETECTOR, isChecked));
         }
 
+        checkBoxHeadSetMode().setOnCheckedChangeListener((buttonView, isChecked) -> setBoolean(getApplicationContext(), HEADSET_MODE, isChecked));
+
         findViewById(R.id.gererContacts).setOnClickListener(this::openContactSelection);
 
         checkPermissions(PERMISSIONS_REQUEST_RESUME,
@@ -223,6 +227,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
                 Manifest.permission.READ_SMS,
                 Manifest.permission.SEND_SMS,
                 Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.RECEIVE_BOOT_COMPLETED,
                 Manifest.permission.READ_PHONE_STATE);
 
 	}
@@ -488,6 +493,10 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
     private CheckBox checkBoxStepDetector() {
         return checkbox(R.id.stepDetectorCheckBox);
+    }
+
+    private CheckBox checkBoxHeadSetMode() {
+        return checkbox(R.id.headSetModeCheckBox);
     }
 
     public void openPrivacyPolicy(View view) {

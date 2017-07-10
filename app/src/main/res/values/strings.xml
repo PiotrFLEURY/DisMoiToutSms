@@ -71,6 +71,7 @@
     <string name="toast.error.permission.denial">L\'application ne peut pas fonctionner sans votre autorisation</string>
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="headset_notification_text">Ecouteurs détectés, souhaitez-vous activer DisMoiTout ?</string>
+    <string name="heaset_mode_option">Mode écouteurs (activation auto)</string>
 
 
 </resources>

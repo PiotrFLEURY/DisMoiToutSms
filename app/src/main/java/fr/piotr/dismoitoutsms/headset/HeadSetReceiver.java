@@ -9,6 +9,7 @@ import android.content.Intent;
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
+import fr.piotr.dismoitoutsms.util.ConfigurationManager;
 import fr.piotr.dismoitoutsms.util.NotificationHelper;
 
 import static android.media.AudioManager.ACTION_HEADSET_PLUG;
@@ -33,15 +34,27 @@ public class HeadSetReceiver extends BroadcastReceiver {
     }
 
     private void onHeadSetPluggedOut(Context context) {
-        NotificationHelper.close(context, NotificationHelper.HEADSET_PLUGGED_IN);
+        if(isMyServiceRunning(context)) {
+            Intent service = new Intent(context, ServiceCommunicator.class);
+            service.addFlags(Intent.FLAG_FROM_BACKGROUND);
+            context.stopService(service);
+        } else {
+            NotificationHelper.close(context, NotificationHelper.HEADSET_PLUGGED_IN);
+        }
     }
 
     private void onHeadSetPluggedIn(Context context) {
         if(!isMyServiceRunning(context)) {
-            Intent intent = new Intent(DisMoiToutSmsService.INTENT_ACTIVATE_FROM_NOTIFICATION);
-            intent.putExtra(NotificationHelper.EXTRA_ACTION_ICON, R.drawable.ic_headset_white_24dp);
-            intent.putExtra(NotificationHelper.EXTRA_ACTION_TEXT, context.getString(R.string.activate));
-            NotificationHelper.open(context, NotificationHelper.HEADSET_PLUGGED_IN, intent);
+            if(ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.HEADSET_MODE)){
+                Intent service = new Intent(context, ServiceCommunicator.class);
+                service.addFlags(Intent.FLAG_FROM_BACKGROUND);
+                context.startService(service);
+            } else {
+                Intent intent = new Intent(DisMoiToutSmsService.INTENT_ACTIVATE_FROM_NOTIFICATION);
+                intent.putExtra(NotificationHelper.EXTRA_ACTION_ICON, R.drawable.ic_headset_white_24dp);
+                intent.putExtra(NotificationHelper.EXTRA_ACTION_TEXT, context.getString(R.string.activate));
+                NotificationHelper.open(context, NotificationHelper.HEADSET_PLUGGED_IN, intent);
+            }
         }
     }
 

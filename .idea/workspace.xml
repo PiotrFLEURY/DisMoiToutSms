@@ -4,8 +4,8 @@
     <shared>
       <config>
         <devices>
-          <device id="Nexus 4" />
           <device id="Nexus 5" />
+          <device id="Nexus 4" />
         </devices>
         <target>android-24</target>
       </config>
@@ -18,10 +18,10 @@
     <list default="true" id="cc817879-e6e5-48de-bed1-95b0f2d9f30f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/DisMoiToutSmsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/DisMoiToutSmsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/graybutton.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/graybutton.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_deactivate_48dp.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_deactivate_48dp.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/headset/HeadSetReceiver.java" afterPath="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/headset/HeadSetReceiver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/util/ConfigurationManager.java" afterPath="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/util/ConfigurationManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/parametres.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/parametres.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
     </list>
     <ignored path="DisMoiToutSms.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,10 +68,52 @@
       <file leaf-file-name="content_main.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_main.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="713">
+            <state relative-caret-position="781">
               <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="drawer_layout.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/drawer_layout.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="595">
+              <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="parametres.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/parametres.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="429">
+              <caret line="156" column="52" selection-start-line="156" selection-start-column="33" selection-end-line="156" selection-end-column="52" />
               <folding>
-                <element signature="e#1648#1666#0" expanded="true" />
+                <element signature="e#383#1565#0" expanded="false" />
+                <element signature="e#1850#3008#0" expanded="false" />
+                <element signature="e#2524#2540#0" expanded="true" />
+                <element signature="e#3022#3177#0" expanded="false" />
+                <element signature="e#3191#3571#0" expanded="false" />
+                <element signature="e#3501#3529#0" expanded="true" />
+                <element signature="e#3585#4185#0" expanded="false" />
+                <element signature="e#4199#4354#0" expanded="false" />
+                <element signature="e#4368#4799#0" expanded="false" />
+                <element signature="e#4690#4720#0" expanded="true" />
+                <element signature="e#4813#4968#0" expanded="false" />
+                <element signature="e#4982#5367#0" expanded="false" />
+                <element signature="e#5300#5325#0" expanded="true" />
+                <element signature="e#5381#5536#0" expanded="false" />
+                <element signature="e#5906#5934#0" expanded="true" />
+                <element signature="e#6560#6588#0" expanded="true" />
+                <element signature="e#7215#7243#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -80,54 +122,47 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ic_deactivate_48dp.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_deactivate_48dp.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="graybutton.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/graybutton.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="greenbutton.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/greenbutton.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DisMoiToutSmsActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DisMoiToutSmsActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/DisMoiToutSmsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="329" column="68" selection-start-line="329" selection-start-column="68" selection-end-line="329" selection-end-column="68" />
+            <state relative-caret-position="271">
+              <caret line="256" column="32" selection-start-line="256" selection-start-column="32" selection-end-line="256" selection-end-column="32" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#18458#18459#0" expanded="true" />
+                <element signature="e#18516#18517#0" expanded="true" />
+                <element signature="e#18562#18563#0" expanded="true" />
+                <element signature="e#18619#18620#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HeadSetReceiver.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/headset/HeadSetReceiver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="453">
+              <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DisMoiToutSmsService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/service/DisMoiToutSmsService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="298">
+              <caret line="39" column="8" selection-start-line="39" selection-start-column="8" selection-end-line="41" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConfigurationManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/util/ConfigurationManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="281">
+              <caret line="41" column="23" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1886,7 +1921,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/ic_deactivate_24dp.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/ic_activate_24dp.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/ic_activate_48dp.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/ic_close_24dp.xml" />
@@ -1917,7 +1951,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/menu/contacts_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/contact.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/smsrecudialog.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/parametres.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/ic_people_24dp.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/ContactSelectionActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/util/Sablier.java" />
@@ -1928,7 +1961,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/reception/StepListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/service/DisMoiToutSmsService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/util/NotificationHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/headset/HeadSetReceiver.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/bootreceiver/BootReceiver.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/activation_button_icon.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/activation_button_bg.xml" />
@@ -1936,7 +1968,10 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/ic_deactivate_48dp.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/parametres.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/util/ConfigurationManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/DisMoiToutSmsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/headset/HeadSetReceiver.java" />
       </list>
     </option>
   </component>
@@ -1971,6 +2006,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1979,52 +2015,8 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DisMoiToutSms" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DisMoiToutSms" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="drawable" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DisMoiToutSms" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -2038,6 +2030,7 @@
       <pane id="ProjectPane">
         <subPane />
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2055,7 +2048,7 @@
     <property name="ExportApk.ApkPath" value="D:\Informatique\Android\androidSignature\Dis moi tout" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="release" />
-    <property name="SearchEverywhereHistoryKey" value="content_main&#9;FILE&#9;file://C:/Users/piotr/StudioProjects/DisMoiToutSms/app/src/main/res/layout/content_main.xml&#10;build.grad&#9;FILE&#9;file://C:/Users/piotr/StudioProjects/DisMoiToutSms/app/build.gradle&#10;heads&#9;FILE&#9;file://C:/Users/piotr/StudioProjects/DisMoiToutSms/app/src/main/res/drawable/ic_headset_white_24dp.xml&#10;contac&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/layout/contacts.xml&#10;colors&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/values/colors.xml&#10;chevr&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/drawable/ic_chevron_right_24dp.xml&#10;sty&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/values/styles.xml&#10;close&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/drawable/ic_close_24dp.xml&#10;chec&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/drawable/custom_checkbox.xml&#10;param&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/layout/parametres.xml&#10;manifest&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/AndroidManifest.xml&#10;custom_che&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/drawable/custom_checkbox.xml&#10;drawer&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/layout/drawer_layout.xml&#10;colors.xml&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/values/colors.xml&#10;style&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/values/styles.xml&#10;build&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/build.gradle&#10;para&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/layout/parametres.xml" />
+    <property name="SearchEverywhereHistoryKey" value="drawer&#9;FILE&#9;file://C:/Users/piotr/StudioProjects/DisMoiToutSms/app/src/main/res/layout/drawer_layout.xml&#10;content_main&#9;FILE&#9;file://C:/Users/piotr/StudioProjects/DisMoiToutSms/app/src/main/res/layout/content_main.xml&#10;build.grad&#9;FILE&#9;file://C:/Users/piotr/StudioProjects/DisMoiToutSms/app/build.gradle&#10;heads&#9;FILE&#9;file://C:/Users/piotr/StudioProjects/DisMoiToutSms/app/src/main/res/drawable/ic_headset_white_24dp.xml&#10;contac&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/layout/contacts.xml&#10;colors&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/values/colors.xml&#10;chevr&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/drawable/ic_chevron_right_24dp.xml&#10;sty&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/values/styles.xml&#10;close&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/drawable/ic_close_24dp.xml&#10;chec&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/drawable/custom_checkbox.xml&#10;param&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/layout/parametres.xml&#10;manifest&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/AndroidManifest.xml&#10;custom_che&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/drawable/custom_checkbox.xml&#10;colors.xml&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/values/colors.xml&#10;style&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/values/styles.xml&#10;build&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/build.gradle&#10;para&#9;FILE&#9;file://D:/workspace/DisMoiToutSms/app/src/main/res/layout/parametres.xml" />
     <property name="ExportApk.SignV2" value="true" />
     <property name="ExportApk.SignV1" value="true" />
   </component>
@@ -2504,7 +2497,14 @@
       <option name="project" value="LOCAL" />
       <updated>1499626104763</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="style fix">
+      <created>1499627435567</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1499627435567</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2526,7 +2526,6 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3317647" sideWeight="0.5021482" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2489339" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -2544,6 +2543,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -2585,14 +2585,15 @@
     <MESSAGE value="update workspace" />
     <MESSAGE value="add headset receiver" />
     <MESSAGE value="add service and headset receiver" />
-    <option name="LAST_COMMIT_MESSAGE" value="add service and headset receiver" />
+    <MESSAGE value="style fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="style fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/headset/HeadSetReceiver.java</url>
-          <line>24</line>
+          <line>25</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
@@ -2602,26 +2603,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/drawer_layout.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/microphone.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/chart.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -2723,21 +2704,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/parametres.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="87" column="30" selection-start-line="87" selection-start-column="30" selection-end-line="87" selection-end-column="30" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/contacts_menu.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
           <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
       <provider editor-type-id="android-designer2">
@@ -2791,7 +2761,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="52" selection-start-line="8" selection-start-column="52" selection-end-line="8" selection-end-column="52" />
-          <folding />
         </state>
       </provider>
       <provider editor-type-id="android-designer2">
@@ -2810,36 +2779,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4148">
           <caret line="294" column="31" selection-start-line="294" selection-start-column="31" selection-end-line="294" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#168267#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#29144#29145#0" expanded="false" />
-            <element signature="e#29182#29183#0" expanded="false" />
-            <element signature="e#60455#60456#0" expanded="false" />
-            <element signature="e#60509#60510#0" expanded="false" />
-            <element signature="e#66398#66399#0" expanded="false" />
-            <element signature="e#66423#66424#0" expanded="false" />
-            <element signature="e#66579#66580#0" expanded="false" />
-            <element signature="e#66645#66646#0" expanded="false" />
-            <element signature="e#69898#69899#0" expanded="false" />
-            <element signature="e#69942#69943#0" expanded="false" />
-            <element signature="e#70210#70211#0" expanded="false" />
-            <element signature="e#70266#70267#0" expanded="false" />
-            <element signature="e#70547#70548#0" expanded="false" />
-            <element signature="e#70601#70602#0" expanded="false" />
-            <element signature="e#84345#84346#0" expanded="false" />
-            <element signature="e#84384#84385#0" expanded="false" />
-            <element signature="e#137170#137171#0" expanded="false" />
-            <element signature="e#137233#137234#0" expanded="false" />
-            <element signature="e#157351#157352#0" expanded="false" />
-            <element signature="e#157397#157398#0" expanded="false" />
-            <element signature="e#165589#165590#0" expanded="false" />
-            <element signature="e#165644#165645#0" expanded="false" />
-            <element signature="e#166083#166084#0" expanded="false" />
-            <element signature="e#166138#166139#0" expanded="false" />
-            <element signature="e#168218#168219#0" expanded="false" />
-            <element signature="e#168257#168258#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2847,15 +2786,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_directions_run_white_24dp.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_directions_run_white_24dp.png" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/reception/ServiceCommunicator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -2868,9 +2802,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="50" column="18" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#1981#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2897,7 +2828,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
           <caret line="542" column="32" selection-start-line="542" selection-start-column="32" selection-end-line="542" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2905,7 +2835,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2584">
           <caret line="58" column="21" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2913,9 +2842,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="302">
           <caret line="63" column="0" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding>
-            <marker date="1499624862294" expanded="false" signature="1474:1536" ph="&quot;Dis moi tout Sms&quot;" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2923,7 +2849,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
           <caret line="618" column="13" selection-start-line="618" selection-start-column="13" selection-end-line="618" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2931,7 +2856,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
           <caret line="1052" column="23" selection-start-line="1052" selection-start-column="23" selection-end-line="1052" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2939,7 +2863,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="1632" column="0" selection-start-line="1632" selection-start-column="0" selection-end-line="1632" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2948,10 +2871,10 @@
         <state relative-caret-position="419">
           <caret line="71" column="25" selection-start-line="71" selection-start-column="25" selection-end-line="71" selection-end-column="25" />
           <folding>
-            <element signature="e#1455#1517#0" expanded="true" />
-            <element signature="e#1542#1602#0" expanded="true" />
-            <element signature="e#1746#1808#0" expanded="true" />
-            <element signature="e#1833#1901#0" expanded="true" />
+            <element signature="e#1455#1517#0" expanded="false" />
+            <element signature="e#1542#1602#0" expanded="false" />
+            <element signature="e#1746#1808#0" expanded="false" />
+            <element signature="e#1833#1901#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2961,31 +2884,8 @@
         <state relative-caret-position="213">
           <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="59" selection-end-column="5" />
           <folding>
-            <element signature="e#1757#1758#0" expanded="true" />
-            <element signature="e#1825#1826#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/service/DisMoiToutSmsService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="40" column="54" selection-start-line="40" selection-start-column="54" selection-end-line="40" selection-end-column="54" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2040#2041#0" expanded="true" />
-            <element signature="e#2067#2068#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/headset/HeadSetReceiver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1485#1521#0" expanded="true" />
+            <element signature="e#1757#1758#0" expanded="false" />
+            <element signature="e#1825#1826#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2994,7 +2894,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3017,22 +2916,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/activation_button_bg.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="45" selection-start-line="11" selection-start-column="45" selection-end-line="11" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/activation_button_icon.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="92" selection-start-line="3" selection-start-column="92" selection-end-line="3" selection-end-column="92" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/activation_button_bg.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/activation_button_icon.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/greenbutton.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -3051,7 +2936,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="612">
           <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
           <folding />
         </state>
@@ -3067,10 +2952,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="713">
+        <state relative-caret-position="781">
           <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/drawer_layout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/parametres.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="156" column="52" selection-start-line="156" selection-start-column="33" selection-end-line="156" selection-end-column="52" />
           <folding>
-            <element signature="e#1648#1666#0" expanded="true" />
+            <element signature="e#383#1565#0" expanded="false" />
+            <element signature="e#1850#3008#0" expanded="false" />
+            <element signature="e#2524#2540#0" expanded="true" />
+            <element signature="e#3022#3177#0" expanded="false" />
+            <element signature="e#3191#3571#0" expanded="false" />
+            <element signature="e#3501#3529#0" expanded="true" />
+            <element signature="e#3585#4185#0" expanded="false" />
+            <element signature="e#4199#4354#0" expanded="false" />
+            <element signature="e#4368#4799#0" expanded="false" />
+            <element signature="e#4690#4720#0" expanded="true" />
+            <element signature="e#4813#4968#0" expanded="false" />
+            <element signature="e#4982#5367#0" expanded="false" />
+            <element signature="e#5300#5325#0" expanded="true" />
+            <element signature="e#5381#5536#0" expanded="false" />
+            <element signature="e#5906#5934#0" expanded="true" />
+            <element signature="e#6560#6588#0" expanded="true" />
+            <element signature="e#7215#7243#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3078,13 +3001,40 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/service/DisMoiToutSmsService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="39" column="8" selection-start-line="39" selection-start-column="8" selection-end-line="41" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/util/ConfigurationManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="41" column="23" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/DisMoiToutSmsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="329" column="68" selection-start-line="329" selection-start-column="68" selection-end-line="329" selection-end-column="68" />
+        <state relative-caret-position="271">
+          <caret line="256" column="32" selection-start-line="256" selection-start-column="32" selection-end-line="256" selection-end-column="32" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#18458#18459#0" expanded="true" />
+            <element signature="e#18516#18517#0" expanded="true" />
+            <element signature="e#18562#18563#0" expanded="true" />
+            <element signature="e#18619#18620#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/fr/piotr/dismoitoutsms/headset/HeadSetReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="453">
+          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>

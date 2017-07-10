@@ -119,6 +119,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
         initStepDetectorOption();
 
+        initHeadSetOption();
+
 	}
 
     @Override
@@ -361,6 +363,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         checkBoxEmoticones().setOnCheckedChangeListener(null);
         checkBoxUniquementMesContacts().setOnCheckedChangeListener(null);
         checkBoxStepDetector().setOnCheckedChangeListener(null);
+        checkBoxHeadSetMode().setOnCheckedChangeListener(null);
         findViewById(R.id.gererContacts).setOnClickListener(null);
         findViewById(R.id.gererContacts).setOnClickListener(null);
 	}
@@ -480,6 +483,10 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         } else {
             findViewById(R.id.stepDetectorCheckBox).setVisibility(View.GONE);
         }
+    }
+
+    private void initHeadSetOption() {
+        checkBoxHeadSetMode().setChecked(getBoolean(this, HEADSET_MODE));
     }
 
     public boolean isKitKatWithStepCounter() {

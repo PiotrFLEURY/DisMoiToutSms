@@ -12,6 +12,7 @@
     <color name="black">#000000</color>
 
     <color name="blueandroid">#35B5E5</color>
+    <color name="blue100">#BBDEFB</color>
     <color name="blue500">#03A9F4</color>
     <color name="blue700">#0288D1</color>
     <color name="blue800">#0277bd</color>
@@ -20,6 +21,7 @@
     <color name="indigo900">#1a237e</color>
 
     <color name="grey200">#EEEEEE</color>
+    <color name="grey300">#E0E0E0</color>
     <color name="grey400">#bdbdbd</color>
     <color name="grey500">#9E9E9E</color>
     <color name="grey600">#757575</color>
@@ -27,5 +29,12 @@
     <color name="grey800">#424242</color>
 
     <color name="dark">#212121</color>
+    
+    <color name="blueGrey200">#B0BEC5</color>
+
+    <color name="cyan700">#0097A7</color>
+    <color name="cyanA200">#18FFFF</color>
+
+    <color name="lightBlueA200">#40C4FF</color>
 
 </resources>

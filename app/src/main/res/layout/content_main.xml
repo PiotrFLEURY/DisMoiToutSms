@@ -1,57 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".DisMoiToutSmsActivity">
 
     <ImageView
         android:id="@+id/status_icon"
-        android:layout_width="200sp"
-        android:layout_height="200sp"
-        android:src="@drawable/ic_deactivate_48dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="96sp"
-        android:layout_marginBottom="96sp"/>
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="0.8"
+        android:paddingStart="96sp"
+        android:paddingEnd="96sp"
+        android:src="@drawable/ic_deactivate_48dp"/>
 
     <TextView
         android:id="@+id/status_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="0.2"
+        style="@style/TextMedium"
         android:gravity="center"
-        android:textSize="20sp"
         android:textColor="@color/grey500"
-        android:text="@string/deactivated"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/status_icon"/>
+        android:text="@string/deactivated"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="96sp"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:padding="8sp"
-        android:background="@color/grey200">
+        android:background="@color/grey300">
 
-        <Button
-            android:id="@+id/btn_activate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_volume_up_white_24dp"
-            style="@style/GreenButton"
-            android:text="@string/activate" />
+        <FrameLayout
+            android:layout_width="0sp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btn_deactivate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_volume_off_white_24dp"
-            style="@style/GrayButton"
-            android:text="@string/deactivate" />
+            <Button
+                android:id="@+id/btn_activate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16sp"
+                android:gravity="center"
+                style="@style/GreenButton"
+                android:text="@string/activate"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0sp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_deactivate"
+                style="@style/RedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="16sp"
+                android:text="@string/deactivate" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

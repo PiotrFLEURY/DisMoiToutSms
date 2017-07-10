@@ -69,4 +69,6 @@
     <string name="emoticone_circonflex"> </string>
     <string name="toast.error.permission.denial">Die Anwendung kann nicht funktionieren ohne Ihre Zustimmung</string>
     <string name="privacy_policy">Privacy policy</string>
+    <string name="headset_notification_text">Headset erkannt wird, tun Sie DisMoiTout aktivieren?</string>
+    <string name="heaset_mode_option">Kopfhörer (auto-Aktivierung)</string>
 </resources>

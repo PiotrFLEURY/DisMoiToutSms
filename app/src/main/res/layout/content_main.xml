@@ -22,15 +22,29 @@
         android:layout_width="match_parent"
         android:layout_height="0sp"
         android:layout_weight="0.2"
-        style="@style/TextMedium"
+        style="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
         android:textColor="@color/grey500"
         android:text="@string/deactivated"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="@color/grey400"/>
+
+    <Switch
+        android:id="@+id/switch_activation"
+        android:layout_width="match_parent"
+        android:layout_height="64sp"
+        android:padding="16sp"
+        android:background="@color/blue900"
+        android:text="@string/activate"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="96sp"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:background="@color/grey300">
 
         <FrameLayout

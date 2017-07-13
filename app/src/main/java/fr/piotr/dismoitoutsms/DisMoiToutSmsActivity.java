@@ -30,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -174,6 +175,15 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         TextView btnDeactivate = (TextView)findViewById(R.id.btn_deactivate);
         btnDeactivate.setOnClickListener(v -> {
             onDeactivate();
+        });
+
+        Switch switchActivation = (Switch) findViewById(R.id.switch_activation);
+        switchActivation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                onActivate();
+            } else {
+                onDeactivate();
+            }
         });
 
         //Drawer

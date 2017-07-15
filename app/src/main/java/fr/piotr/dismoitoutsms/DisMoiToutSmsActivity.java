@@ -183,10 +183,12 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         languageChooser().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                CharSequence locale = ((TextView) arg1).getText();
-                if(locale!=null) {
-                    ConfigurationManager.setLangueSelectionnee(getApplicationContext(),
-                            locale.toString());
+                if(arg1!=null) {
+                    CharSequence locale = ((TextView) arg1).getText();
+                    if(locale!=null) {
+                        ConfigurationManager.setLangueSelectionnee(getApplicationContext(),
+                                locale.toString());
+                    }
                 }
             }
 

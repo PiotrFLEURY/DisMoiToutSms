@@ -59,6 +59,7 @@ public class SmsRecuActivity extends AbstractActivity {
 
 	public static final String EVENT_START_SPEECH_RECOGNIZER = "EVENT_START_SPEECH_RECOGNIZER";
 	public static final String EVENT_FINISH = "EVENT_FINISH";
+	public static final String EVENT_BACK = "EVENT_BACK";
 
 	public static final String EXTRA_INSTRUCTION = "EXTRA_INSTRUCTION";
 	public static final String EXTRA_PROMPT = "EXTRA_PROMPT";
@@ -93,11 +94,15 @@ public class SmsRecuActivity extends AbstractActivity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			switch(intent.getAction()){
+				case EVENT_BACK:
+					onBackPressed();
+					break;
 				case EVENT_FINISH:
 					finish();
 					break;
 				case EVENT_START_SPEECH_RECOGNIZER:
 					startSpeechRecognizer((Instruction) intent.getSerializableExtra(EXTRA_INSTRUCTION), intent.getStringExtra(EXTRA_PROMPT));
+					break;
 			}
 		}
 	};
@@ -197,6 +202,7 @@ public class SmsRecuActivity extends AbstractActivity {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(EVENT_FINISH);
 		filter.addAction(EVENT_START_SPEECH_RECOGNIZER);
+		filter.addAction(EVENT_BACK);
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
 //        instance = this;
@@ -408,7 +414,7 @@ public class SmsRecuActivity extends AbstractActivity {
 				envoyer();
 				speech.parler(getString(R.string.messageenvoye), MESSAGE_ENVOYE);
 			} else if (instructionIs(words, getString(R.string.fermer))) {
-				onBackPressed();
+				LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(EVENT_BACK));
 			}
 
 		} else if (instruction.is(REPONSE) && resultCode == RESULT_OK) {

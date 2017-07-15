@@ -72,5 +72,6 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="headset_notification_text">Auricular detectado, hacer que desea activar DisMoiTout?</string>
     <string name="heaset_mode_option">Auriculares (activación automático)</string>
+    <string name="diction_des_sms">Dicción SMS</string>
 
 </resources>

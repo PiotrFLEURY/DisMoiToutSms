@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -28,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -152,7 +154,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
         toggleStatus(false);
-        ImageView statusIcon = (ImageView) findViewById(R.id.status_icon);
+        ImageButton statusIcon = (ImageButton) findViewById(R.id.status_icon);
         statusIcon.setOnClickListener(v -> {
             Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
             intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
@@ -167,19 +169,10 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             toggleStatus(true);
         });
 
-        TextView btnActivate = (TextView)findViewById(R.id.btn_activate);
-        btnActivate.setOnClickListener(v -> {
-            onActivate();
-        });
-
-        TextView btnDeactivate = (TextView)findViewById(R.id.btn_deactivate);
-        btnDeactivate.setOnClickListener(v -> {
-            onDeactivate();
-        });
-
         Switch switchActivation = (Switch) findViewById(R.id.switch_activation);
-        switchActivation.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked){
+        switchActivation.setChecked(isMyServiceRunning());
+        switchActivation.setOnClickListener(v -> {
+            if(((Switch)v).isChecked()){
                 onActivate();
             } else {
                 onDeactivate();
@@ -289,10 +282,12 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
     }
 
     private void toggleStatus(boolean animate) {
-        if(animate){
-            toggleStatusAnimated();
+        ImageButton statusIcon = (ImageButton) findViewById(R.id.status_icon);
+        Switch switchActivation = (Switch) findViewById(R.id.switch_activation);
+        if(animate) {
+            toggleStatusAnimated(statusIcon, switchActivation);
         } else {
-            toggleStatusSimple();
+            toggleStatusSimple(statusIcon, switchActivation);
         }
     }
 
@@ -304,47 +299,26 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             return getResources().getColor(resId);
     }
 
-    private void toggleStatusAnimated() {
-        final ImageView statusIcon = (ImageView) findViewById(R.id.status_icon);
-        Animation retrecissement = AnimationUtils.loadAnimation(this, R.anim.retrecissement);
-        retrecissement.setAnimationListener(new Animation.AnimationListener() {
-            public void onAnimationStart(Animation animation) {
+    private void toggleStatusAnimated(ImageButton statusIcon, Switch switchActivation) {
 
-            }
-
-            public void onAnimationEnd(Animation animation) {
-                TextView statusText = (TextView) findViewById(R.id.status_text);
-                if(isMyServiceRunning()) {
-                    statusIcon.setImageResource(R.drawable.ic_activate_48dp);
-                    statusText.setText(getString(R.string.activated));
-                    statusText.setTextColor(getResolvedColor(R.color.green500));
-                } else {
-                    statusIcon.setImageResource(R.drawable.ic_deactivate_48dp);
-                    statusText.setText(getString(R.string.deactivated));
-                    statusText.setTextColor(getResolvedColor(R.color.grey500));
-                }
-                Animation agrandissement = AnimationUtils.loadAnimation(DisMoiToutSmsActivity.this, R.anim.agrandissement);
-                statusIcon.startAnimation(agrandissement);
-            }
-
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-        statusIcon.startAnimation(retrecissement);
+        toggleStatusSimple(statusIcon, switchActivation);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ViewAnimationUtils.createCircularReveal(statusIcon,
+                    statusIcon.getWidth(),
+                    statusIcon.getHeight(),
+                    0,
+                    statusIcon.getHeight() * 2).start();
+        }
     }
 
-    private void toggleStatusSimple() {
-        ImageView statusIcon = (ImageView) findViewById(R.id.status_icon);
-        TextView statusText = (TextView) findViewById(R.id.status_text);
-        if(isMyServiceRunning()) {
-            statusIcon.setImageResource(R.drawable.ic_activate_48dp);
-            statusText.setText(getString(R.string.activated));
-            statusText.setTextColor(getResolvedColor(R.color.green500));
+    private void toggleStatusSimple(ImageButton statusIcon, Switch switchActivation) {
+        boolean myServiceRunning = isMyServiceRunning();
+        statusIcon.setSelected(myServiceRunning);
+        switchActivation.setChecked(myServiceRunning);
+        if(isMyServiceRunning()){
+            statusIcon.setImageResource(R.drawable.ic_volume_up_white_512dp);
         } else {
-            statusIcon.setImageResource(R.drawable.ic_deactivate_48dp);
-            statusText.setText(getString(R.string.deactivated));
-            statusText.setTextColor(getResolvedColor(R.color.grey500));
+            statusIcon.setImageResource(R.drawable.ic_volume_off_white_512dp);
         }
     }
 
@@ -354,17 +328,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 
-//		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
-//		volumeSeek.setOnSeekBarChangeListener(null);
-
-        ImageView statusIcon = (ImageView) findViewById(R.id.status_icon);
+        ImageButton statusIcon = (ImageButton) findViewById(R.id.status_icon);
         statusIcon.setOnClickListener(null);
-
-        TextView btnActivate = (TextView)findViewById(R.id.btn_activate);
-        btnActivate.setOnClickListener(null);
-
-        TextView btnDeactivate = (TextView)findViewById(R.id.btn_deactivate);
-        btnDeactivate.setOnClickListener(null);
 
         //Drawer
         languageChooser().setOnItemSelectedListener(null);
@@ -383,21 +348,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
 		setVolumeControlStream(STREAM_MUSIC);
 
-//		final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-//		SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
-//		volumeSeek.setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-//		volumeSeek.setProgress(audioManager.getStreamVolume(STREAM_MUSIC));
 	}
-
-//	@Override
-//	public boolean onKeyUp(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-//			SeekBar volumeSeek = (SeekBar) findViewById(R.id.volumeSeekTab);
-//			final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-//			volumeSeek.setProgress(audioManager.getStreamVolume(STREAM_MUSIC));
-//		}
-//		return super.onKeyUp(keyCode, event);
-//	}
 
     public void verifierExistanceServiceSyntheseVocale() {
         try {
@@ -464,8 +415,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             i++;
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.layout.custom_spinner_item, list);
+        dataAdapter.setDropDownViewResource(R.layout.custom_spinner_item);
         languageChooser.setAdapter(dataAdapter);
         languageChooser.setSelection(selectedPosition);
 

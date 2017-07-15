@@ -53,7 +53,7 @@
                 android:layout_height="64sp">
 
                 <TextView
-                    android:layout_marginLeft="8sp"
+                    android:layout_marginStart="8sp"
                     android:drawableStart="@drawable/ic_language_24dp"
                     android:drawableTint="@color/grey400"
                     android:drawablePadding="8sp"
@@ -68,7 +68,8 @@
 
                 <Spinner
                     android:id="@+id/languageChooserTab"
-                    android:layout_marginLeft="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="16sp"
                     android:layout_gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="48sp"/>

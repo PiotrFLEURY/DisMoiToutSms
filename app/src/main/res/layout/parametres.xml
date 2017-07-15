@@ -41,7 +41,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0sp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -176,9 +177,9 @@
     <Button
         android:id="@+id/testerDictionBtnTab"
         android:layout_width="match_parent"
-        android:layout_height="48sp"
+        android:layout_height="54sp"
         android:layout_gravity="bottom"
-        android:layout_margin="8sp"
+        android:layout_margin="4sp"
         android:background="@drawable/button"
         android:textColor="@color/white"
         android:text="@string/tester_dictiontext" />

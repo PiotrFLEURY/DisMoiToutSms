@@ -19,7 +19,7 @@ import static android.media.AudioManager.ACTION_HEADSET_PLUG;
  *
  */
 
-public class HeadSetReceiver extends BroadcastReceiver {
+public class HeadSetReceiver extends AbstractHeadSetReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -33,38 +33,5 @@ public class HeadSetReceiver extends BroadcastReceiver {
         }
     }
 
-    private void onHeadSetPluggedOut(Context context) {
-        if(isMyServiceRunning(context)) {
-            Intent service = new Intent(context, ServiceCommunicator.class);
-            service.addFlags(Intent.FLAG_FROM_BACKGROUND);
-            context.stopService(service);
-        } else {
-            NotificationHelper.close(context, NotificationHelper.HEADSET_PLUGGED_IN);
-        }
-    }
 
-    private void onHeadSetPluggedIn(Context context) {
-        if(!isMyServiceRunning(context)) {
-            if(ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.HEADSET_MODE)){
-                Intent service = new Intent(context, ServiceCommunicator.class);
-                service.addFlags(Intent.FLAG_FROM_BACKGROUND);
-                context.startService(service);
-            } else {
-                Intent intent = new Intent(DisMoiToutSmsService.INTENT_ACTIVATE_FROM_NOTIFICATION);
-                intent.putExtra(NotificationHelper.EXTRA_ACTION_ICON, R.drawable.ic_headset_white_24dp);
-                intent.putExtra(NotificationHelper.EXTRA_ACTION_TEXT, context.getString(R.string.activate));
-                NotificationHelper.open(context, NotificationHelper.HEADSET_PLUGGED_IN, intent);
-            }
-        }
-    }
-
-    public boolean isMyServiceRunning(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (ServiceCommunicator.class.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

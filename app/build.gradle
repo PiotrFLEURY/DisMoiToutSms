@@ -25,8 +25,8 @@ android {
 
     defaultConfig {
         applicationId "fr.piotr.dismoitoutsms"
-        versionCode 29
-        versionName "3.8"
+        versionCode 30
+        versionName "3.9"
         minSdkVersion 17
         targetSdkVersion 26
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -161,9 +161,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             if (isMyServiceRunning()) {
                 stopService(intent);
             } else {
-                // Volume à 100% à l'activation
-                final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-                audioManager.setStreamVolume(STREAM_MUSIC, 100, FLAG_PLAY_SOUND | FLAG_SHOW_UI);
+                setupVolume();
                 startService(intent);
             }
             toggleStatus(true);
@@ -239,6 +237,17 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
 	}
 
+    private void setupVolume() {
+        // Volume à 100% à l'activation
+        final AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int halfVolume = maxVolume / 2;
+        if(currentVolume < halfVolume){
+            audioManager.setStreamVolume(STREAM_MUSIC, halfVolume, FLAG_PLAY_SOUND | FLAG_SHOW_UI);
+        }
+    }
+
     private void toggleDrawer() {
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         if(drawerLayout.isDrawerOpen(Gravity.LEFT)) {
@@ -252,6 +261,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         if(!isMyServiceRunning()){
             Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
             intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
+            setupVolume();
             startService(intent);
             toggleStatus(true);
         }

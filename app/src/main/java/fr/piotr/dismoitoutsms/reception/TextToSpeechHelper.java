@@ -1,8 +1,12 @@
 package fr.piotr.dismoitoutsms.reception;
 
 import android.content.Context;
+import android.media.AudioAttributes;
+import android.media.AudioFocusRequest;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
@@ -10,6 +14,7 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.piotr.dismoitoutsms.BuildConfig;
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.reception.utterances.MessageEnvoyeListener;
 import fr.piotr.dismoitoutsms.reception.utterances.MessageRecuUtteranceListener;
@@ -43,6 +48,9 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
 
     private StartedListener listener;
 
+    private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
+    private AudioFocusRequest audioFocusRequest;
+    private Handler handler;
 
     public TextToSpeechHelper(Context context, StartedListener listener) {
         this.context=context;
@@ -60,6 +68,37 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         listeners.put(Diction.VOUS_AVEZ_REPONDU, new VousAvezReponduListener(context, this));
         listeners.put(Diction.MODIFIER_ENVOYER_OU_FERMER, new ModifierEnvoyerFermerListener(context, this));
         listeners.put(Diction.MESSAGE_ENVOYE, new MessageEnvoyeListener(context, this));
+
+        this.handler = new Handler();
+
+        this.audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int i) {
+                if(BuildConfig.DEBUG){
+                    switch (i){
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                            Log.d(getClass().getSimpleName(), "AUDIOFOCUS_GAIN");
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                            Log.d(getClass().getSimpleName(), "AUDIOFOCUS_LOSS");
+                            break;
+                    }
+                }
+            }
+        };
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AudioAttributes mPlaybackAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build();
+            this.audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
+                    .setAudioAttributes(mPlaybackAttributes)
+                    .setAcceptsDelayedFocusGain(true)
+                    .setWillPauseWhenDucked(true)
+                    .setOnAudioFocusChangeListener(this.audioFocusChangeListener, handler)
+                    .build();
+        }
     }
 
     public void onInit(int status) {
@@ -84,6 +123,9 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
     }
 
     public void parler(String text, Diction type) {
+
+        requestAudioFocus();
+
         if (ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.EMOTICONES)) {
             text = EmoticonesManager.getInstance().remplacer(context, text);
         }
@@ -91,6 +133,17 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         registerUtteranceListener(type);
 
         speak(text, type);
+    }
+
+    private void requestAudioFocus() {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            audioManager.requestAudioFocus(audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK);
+        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            audioManager.requestAudioFocus(audioFocusRequest);
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -110,31 +163,28 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
     @SuppressWarnings("deprecation")
     private void registerUtteranceListener(Diction type) {
         final UtteranceListener utteranceListener = listeners.get(type);
-        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            mTts.setOnUtteranceCompletedListener(utteranceListener);
-        } else {
-            mTts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                @Override
-                public void onStart(String utteranceId) {
-                    //Nothing to do here
-                }
+        mTts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
+                //Nothing to do here
+            }
 
-                @Override
-                public void onDone(String utteranceId) {
-                    if (utteranceListener != null) {
-                        utteranceListener.onDone(utteranceId);
-                    }
+            @Override
+            public void onDone(String utteranceId) {
+                if (utteranceListener != null) {
+                    utteranceListener.onDone(utteranceId);
                 }
+            }
 
-                @Override
-                public void onError(String utteranceId) {
-                    Log.e(getClass().getName(), String.format("ERROR utteranceId=%s", utteranceId));
-                }
-            });
-        }
+            @Override
+            public void onError(String utteranceId) {
+                Log.e(getClass().getName(), String.format("ERROR utteranceId=%s", utteranceId));
+            }
+        });
     }
 
     public void stopLecture() {
+        abandonAudioFocus();
         mTts.stop();
     }
 
@@ -148,5 +198,20 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
 
     public String getString(int resId) {
         return context.getString(resId);
+    }
+
+    public void abandonAudioFocus() {
+        if(BuildConfig.DEBUG){
+            Log.d(getClass().getSimpleName(), "abandonAudioFocus()");
+        }
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && Build.VERSION.SDK_INT < Build.VERSION_CODES.O ) {
+            Log.d(getClass().getSimpleName(), "abandonAudioFocus().audioFocusChangeListener");
+            audioManager.abandonAudioFocus(audioFocusChangeListener);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            audioManager.abandonAudioFocusRequest(audioFocusRequest);
+            Log.d(getClass().getSimpleName(), "abandonAudioFocus().audioFocusRequest");
+        }
     }
 }

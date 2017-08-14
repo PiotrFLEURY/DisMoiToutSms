@@ -1,7 +1,9 @@
 package fr.piotr.dismoitoutsms.speech;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -38,6 +40,8 @@ public class MySpeechRecorder implements RecognitionListener {
 
     private SpeechRecognizer speech;
 
+    private int previousVolumeIndex;
+
     public MySpeechRecorder(SmsRecuActivity context){
         this.context=context;
         speech = SpeechRecognizer.createSpeechRecognizer(context);
@@ -45,6 +49,11 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     public void startListening(Instruction instruction, String extraPrompt){
+
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        previousVolumeIndex = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, -1);
+
         this.instruction = instruction;
         this.extraPrompt = extraPrompt;
         startListening();
@@ -99,6 +108,10 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     public void stop() {
+
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolumeIndex, -1);
+
         context.runOnUiThread(() -> {
             try {
                 speech.stopListening();

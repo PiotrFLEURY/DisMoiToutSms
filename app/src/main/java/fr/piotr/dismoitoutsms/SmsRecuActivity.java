@@ -362,15 +362,6 @@ public class SmsRecuActivity extends AbstractActivity {
 		reconnaissanceInstallee = activities.size() > 0;
 	}
 
-//	/**
-//	 * Fire an intent to start the voice recognition activity.
-//	 */
-//	public static void startVoiceRecognition(final Instruction instruction, final String extraPrompt) {
-//        if(SmsReceiver.getInstance().isDictating()) {
-//            startSpeechRecognizer(instruction, extraPrompt);
-//        }
-//	}
-
     private void startSpeechRecognizer(final Instruction instruction, final String extraPrompt) {
         sablier.reset();
 

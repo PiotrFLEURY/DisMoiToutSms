@@ -23,7 +23,7 @@ public abstract class UtteranceListener implements TextToSpeech.OnUtteranceCompl
     TextToSpeechHelper speech;
     Context context;
 
-    public UtteranceListener(Context context, TextToSpeechHelper speech){
+    UtteranceListener(Context context, TextToSpeechHelper speech){
         this.context = context;
         this.speech = speech;
     }
@@ -35,9 +35,11 @@ public abstract class UtteranceListener implements TextToSpeech.OnUtteranceCompl
         }
     }
 
-    public abstract void onDone(String utteranceId);
+    public void onDone(String utteranceId){
+        speech.abandonAudioFocus();
+    }
 
-    public boolean isReconnaissanceVocaleInstallee() {
+    private boolean isReconnaissanceVocaleInstallee() {
         PackageManager packageManager = context.getPackageManager();
         final List<ResolveInfo> activities = packageManager.queryIntentActivities(new Intent(
                 RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);

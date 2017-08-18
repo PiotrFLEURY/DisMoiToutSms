@@ -40,7 +40,7 @@ public class MySpeechRecorder implements RecognitionListener {
 
     private SpeechRecognizer speech;
 
-    private int previousVolumeIndex;
+    //private int previousVolumeIndex;
 
     public MySpeechRecorder(SmsRecuActivity context){
         this.context=context;
@@ -50,9 +50,9 @@ public class MySpeechRecorder implements RecognitionListener {
 
     public void startListening(Instruction instruction, String extraPrompt){
 
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        previousVolumeIndex = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, -1);
+        //AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        //previousVolumeIndex = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        //audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, -1);
 
         this.instruction = instruction;
         this.extraPrompt = extraPrompt;
@@ -109,8 +109,8 @@ public class MySpeechRecorder implements RecognitionListener {
 
     public void stop() {
 
-        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolumeIndex, -1);
+        //AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        //audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolumeIndex, -1);
 
         context.runOnUiThread(() -> {
             try {

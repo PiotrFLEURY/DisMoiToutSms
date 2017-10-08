@@ -1,15 +1,5 @@
 package fr.piotr.dismoitoutsms;
 
-import static android.telephony.PhoneStateListener.LISTEN_CALL_STATE;
-import static android.view.View.*;
-import static fr.piotr.dismoitoutsms.util.Diction.*;
-import static fr.piotr.dismoitoutsms.util.Instruction.MODIFIER_ENVOYER_FERMER;
-import static fr.piotr.dismoitoutsms.util.Instruction.REPONDRE_FERMER;
-import static fr.piotr.dismoitoutsms.util.Instruction.REPONSE;
-
-import java.util.Date;
-import java.util.List;
-
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -28,6 +18,9 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -35,6 +28,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Date;
+import java.util.List;
 
 import fr.piotr.dismoitoutsms.contacts.Contact;
 import fr.piotr.dismoitoutsms.messages.Message;
@@ -48,6 +44,17 @@ import fr.piotr.dismoitoutsms.util.ContactHelper;
 import fr.piotr.dismoitoutsms.util.Instruction;
 import fr.piotr.dismoitoutsms.util.Sablier;
 import fr.piotr.dismoitoutsms.util.WakeLockManager;
+
+import static android.telephony.PhoneStateListener.LISTEN_CALL_STATE;
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+import static fr.piotr.dismoitoutsms.util.Diction.MESSAGE_ENVOYE;
+import static fr.piotr.dismoitoutsms.util.Diction.MESSAGE_RECU;
+import static fr.piotr.dismoitoutsms.util.Diction.VOUS_AVEZ_REPONDU;
+import static fr.piotr.dismoitoutsms.util.Instruction.MODIFIER_ENVOYER_FERMER;
+import static fr.piotr.dismoitoutsms.util.Instruction.REPONDRE_FERMER;
+import static fr.piotr.dismoitoutsms.util.Instruction.REPONSE;
 
 /**
  * @author Piotr
@@ -67,9 +74,6 @@ public class SmsRecuActivity extends AbstractActivity {
 	private static final String		TELEPHON_NUMBER_FIELD_NAME	= "address";
 	private static final String		MESSAGE_BODY_FIELD_NAME		= "body";
 	private static final Uri		SENT_MSGS_CONTET_PROVIDER	= Uri.parse("content://sms/sent");
-	private ImageView boutonRepeter;
-	private ImageView boutonChut;
-	private ImageView boutonRepondre;
 
 	public enum Parameters {
 		DATE, CONTACT_NAME, CONTACT, MESSAGE, NUMERO_A_QUI_REPONDRE
@@ -83,7 +87,6 @@ public class SmsRecuActivity extends AbstractActivity {
 	private String							reponse;
 	private TextView						reponseMessage;
 	private String							numeroAQuiRepondre;
-	private ImageView						boutonEnvoyer;
 	private LinearLayout					reponseLayout;
 	private Sablier							sablier;
     private TextToSpeechHelper              speech;
@@ -137,7 +140,6 @@ public class SmsRecuActivity extends AbstractActivity {
 
 		initExpediteur();
 		initMessage();
-		initBoutons();
 		initReponse();
 
 		sablier = new Sablier(this);
@@ -159,27 +161,10 @@ public class SmsRecuActivity extends AbstractActivity {
 				super.onCallStateChanged(state, incomingNumber);
 				switch (state) {
 					case TelephonyManager.CALL_STATE_IDLE:
-//                        // Téléphone inactif
-//                        if(lastState==TelephonyManager.CALL_STATE_RINGING
-//                                || lastState==TelephonyManager.CALL_STATE_OFFHOOK){
-//
-//                            new Timer().schedule(new TimerTask() {
-//                                @Override
-//                                public void run() {
-//                                    sablier.unFreez();
-//                                    sablier.reset();
-//                                    speech.parler(message, MESSAGE_RECU);
-//                                }
-//                            }, 2000);
-//
-//                        }
 						break;
 					case TelephonyManager.CALL_STATE_RINGING:
                         // Le téléphone sonne
                     case TelephonyManager.CALL_STATE_OFFHOOK:
-//                        // Conversation en cours
-//                        speech.stopLecture();
-//                        sablier.freez();
                         SmsReceiver.getInstance().standBy(new Message(date, contact, message));
                         finish();
                         break;
@@ -198,41 +183,32 @@ public class SmsRecuActivity extends AbstractActivity {
 	protected void onResume() {
 		super.onResume();
 
-//		EventAnnotationManager.registerReceiver(this);
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(EVENT_FINISH);
 		filter.addAction(EVENT_START_SPEECH_RECOGNIZER);
 		filter.addAction(EVENT_BACK);
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
-//        instance = this;
 		SmsReceiver.getInstance().setDictating(true);
-
-		boutonRepeter.setOnClickListener(v -> {
-            speech.parler(message, MESSAGE_RECU);
-            sablier.reset();
-        });
-
-		boutonChut.setOnClickListener(v -> {
-            speech.stopLecture();
-            sablier.reset();
-        });
-
-		boutonRepondre.setEnabled(isReconnaissanceInstallee()
-                && ConfigurationManager.getBoolean(SmsRecuActivity.this,
-                Configuration.COMMANDE_VOCALE));
-		boutonRepondre.setOnClickListener(v -> {
-            startSpeechRecognizer(REPONSE, getString(R.string.reponse));
-            sablier.reset();
-        });
-
-		boutonEnvoyer.setEnabled(reponse != null && !reponse.isEmpty()
-                && numeroAQuiRepondre != null && !numeroAQuiRepondre.isEmpty());
-		boutonEnvoyer.setOnClickListener(v -> envoyer());
 
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         telephonyManager.listen(phoneStateListener, LISTEN_CALL_STATE);
 
+	}
+
+	private void repondre() {
+		startSpeechRecognizer(REPONSE, getString(R.string.reponse));
+		sablier.reset();
+	}
+
+	private void stop() {
+		speech.stopLecture();
+		sablier.reset();
+	}
+
+	private void repeter() {
+		speech.parler(message, MESSAGE_RECU);
+		sablier.reset();
 	}
 
 	@Override
@@ -243,13 +219,6 @@ public class SmsRecuActivity extends AbstractActivity {
 		SmsReceiver.getInstance().setDictating(false);
 
 		LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-//		EventAnnotationManager.unregisterReceiver(this);
-
-		boutonRepeter.setOnClickListener(null);
-		boutonChut.setOnClickListener(null);
-		boutonRepondre.setOnClickListener(null);
-		boutonEnvoyer.setOnClickListener(null);
-
 
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
@@ -306,40 +275,17 @@ public class SmsRecuActivity extends AbstractActivity {
 		}
 	}
 
-	public void initBoutons() {
-		initBoutonRepeter();
-		initBoutonChut();
-		initBoutonRepondre();
-		initBoutonEnvoyer();
-	}
-
-	public void initBoutonEnvoyer() {
-		boutonEnvoyer = (ImageView) findViewById(R.id.envoyerBtn);
-	}
-
 	public void envoyer() {
 		//TODO gérer le cas du destinataire ou message vide
 		if (!TextUtils.isEmpty(numeroAQuiRepondre) && !TextUtils.isEmpty(reponse)) {
 			SmsManager.getDefault().sendTextMessage(numeroAQuiRepondre, null, reponse, null, null);
 			reponseMessage.setText(getString(R.string.messageenvoye));
-			boutonEnvoyer.setEnabled(false);
+			invalidateOptionsMenu();
 			Toast.makeText(SmsRecuActivity.this,
 					getString(R.string.vousavezrepondu) + " " + reponse, Toast.LENGTH_LONG).show();
 			addMessageToSent(numeroAQuiRepondre, reponse);
 		}
 		finish();
-	}
-
-	public void initBoutonRepondre() {
-		boutonRepondre = (ImageView) findViewById(R.id.repondre);
-	}
-
-	public void initBoutonChut() {
-		boutonChut = (ImageView) findViewById(R.id.chut);
-	}
-
-	public void initBoutonRepeter() {
-		boutonRepeter = (ImageView) findViewById(R.id.repeter);
 	}
 
 	/**
@@ -412,8 +358,7 @@ public class SmsRecuActivity extends AbstractActivity {
 			reponse = words.get(0);
 			reponseLayout.setVisibility(VISIBLE);
 			reponseMessage.setText(reponse);
-			boutonEnvoyer.setEnabled(reponse != null && !reponse.isEmpty()
-					&& numeroAQuiRepondre != null && !numeroAQuiRepondre.isEmpty());
+			invalidateOptionsMenu();
 			speech.parler(getString(R.string.votrereponseest) + reponse, VOUS_AVEZ_REPONDU);
 
 		}
@@ -431,7 +376,6 @@ public class SmsRecuActivity extends AbstractActivity {
     @Override
 	public void onBackPressed() {
 		super.onBackPressed();
-//		instance = null;
 		SmsReceiver.getInstance().setDictating(false);
 		sablier.finished();
 	}
@@ -445,10 +389,43 @@ public class SmsRecuActivity extends AbstractActivity {
 
 	@Override
 	protected void onDestroy() {
-//		instance = null;
 		SmsReceiver.getInstance().setDictating(false);
 		sablier.finished();
 		super.onDestroy();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.sms_recu_menu, menu);
+
+		menu.findItem(R.id.action_answer).setEnabled(isReconnaissanceInstallee()
+				&& ConfigurationManager.getBoolean(SmsRecuActivity.this,
+				Configuration.COMMANDE_VOCALE));
+
+		menu.findItem(R.id.action_send).setEnabled(reponse != null && !reponse.isEmpty()
+				&& numeroAQuiRepondre != null && !numeroAQuiRepondre.isEmpty());
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()){
+			case R.id.action_repeat:
+				repeter();
+				break;
+			case R.id.action_stop:
+				stop();
+				break;
+			case R.id.action_answer:
+				repondre();
+				break;
+			case R.id.action_send:
+				envoyer();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 }

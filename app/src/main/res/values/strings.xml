@@ -73,6 +73,10 @@
     <string name="headset_notification_text">Ecouteurs détectés, souhaitez-vous activer DisMoiTout ?</string>
     <string name="heaset_mode_option">Mode écouteurs (activation auto)</string>
     <string name="diction_des_sms">Diction des SMS</string>
+    <string name="repeat">Répéter</string>
+    <string name="stop">Arrêter</string>
+    <string name="answer">Répondre</string>
+    <string name="send">Envoyer</string>
 
 
 </resources>

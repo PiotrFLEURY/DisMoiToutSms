@@ -73,5 +73,9 @@
     <string name="headset_notification_text">Earphones detected, do you want to enable DisMoiTout?</string>
     <string name="heaset_mode_option">Earphone mode (auto-enable)</string>
     <string name="diction_des_sms">SMS diction</string>
+    <string name="repeat">repeat</string>
+    <string name="stop">Stop</string>
+    <string name="answer">Reply</string>
+    <string name="send">Send</string>
 
 </resources>

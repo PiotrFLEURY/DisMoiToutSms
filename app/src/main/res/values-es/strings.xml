@@ -73,5 +73,9 @@
     <string name="headset_notification_text">Auricular detectado, hacer que desea activar DisMoiTout?</string>
     <string name="heaset_mode_option">Auriculares (activación automático)</string>
     <string name="diction_des_sms">Dicción SMS</string>
+    <string name="repeat">repetición</string>
+    <string name="stop">Stop</string>
+    <string name="answer">Responder</string>
+    <string name="send">Mandar</string>
 
 </resources>

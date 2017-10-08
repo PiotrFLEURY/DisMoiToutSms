@@ -3,11 +3,11 @@ package fr.piotr.dismoitoutsms.speech;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -32,27 +32,30 @@ public class MySpeechRecorder implements RecognitionListener {
 
     private static final String TAG = "MySpeechRecorder";
 
-//    public static final int MIN_TIME = 30000;
+    private LocalBroadcastManager localBroadcastManager;
 
-    private SmsRecuActivity context;
     private Instruction instruction;
     private String extraPrompt;
 
     private SpeechRecognizer speech;
+    private String repondre;
+    private String fermer;
+    private String modifier;
+    private String envoyer;
 
-    //private int previousVolumeIndex;
+    public MySpeechRecorder(Context context){
+        this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
 
-    public MySpeechRecorder(SmsRecuActivity context){
-        this.context=context;
+        this.repondre = context.getString(R.string.repondre);
+        this.fermer = context.getString(R.string.fermer);
+        this.modifier = context.getString(R.string.modifier);
+        this.envoyer = context.getString(R.string.envoyer);
+
         speech = SpeechRecognizer.createSpeechRecognizer(context);
         speech.setRecognitionListener(this);
     }
 
     public void startListening(Instruction instruction, String extraPrompt){
-
-        //AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        //previousVolumeIndex = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        //audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, -1);
 
         this.instruction = instruction;
         this.extraPrompt = extraPrompt;
@@ -65,9 +68,6 @@ public class MySpeechRecorder implements RecognitionListener {
         intent.putExtra(EXTRA_PARTIAL_RESULTS, true);
         intent.putExtra(EXTRA_PROMPT, extraPrompt);
         intent.putExtra(EXTRA_LANGUAGE_MODEL, LANGUAGE_MODEL_FREE_FORM);
-//        intent.putExtra(EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, MIN_TIME);
-//        intent.putExtra(EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, MIN_TIME);
-//        intent.putExtra(EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, MIN_TIME);
         speech.startListening(intent);
     }
 
@@ -88,7 +88,7 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     public void onEndOfSpeech() {
-        context.hideMicrophone();
+        hideMicrophone();
     }
 
     public void onError(int error) {
@@ -102,25 +102,39 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     private void end(List<String> words, int returnCode) {
-        stop();
-        context.hideMicrophone();
-        context.onSpeechResult(instruction, returnCode, words);
+        sendDestroy();
+        hideMicrophone();
+        onSpeechResult(instruction, returnCode, words);
     }
 
-    public void stop() {
+    private void sendDestroy() {
+        localBroadcastManager.sendBroadcast(new Intent(SmsRecuActivity.EVENT_DESTROY_SPEECH_RECOGNIZER));
+    }
 
-        //AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-        //audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, previousVolumeIndex, -1);
+    private void onSpeechResult(Instruction instruction, int returnCode, List<String> words) {
+        Intent intent = new Intent(SmsRecuActivity.EVENT_SPEECH_RESULT);
+        intent.putExtra(SmsRecuActivity.EXTRA_SPEECH_INSTRUCTION, instruction);
+        intent.putExtra(SmsRecuActivity.EXTRA_SPEECH_RESULT_CODE, returnCode);
+        if(words instanceof ArrayList) {
+            intent.putStringArrayListExtra(SmsRecuActivity.EXTRA_SPEECH_WORDS, (ArrayList<String>) words);
+        } else {
+            intent.putStringArrayListExtra(SmsRecuActivity.EXTRA_SPEECH_WORDS, new ArrayList<>());
+        }
+        localBroadcastManager.sendBroadcast(intent);
+    }
 
-        context.runOnUiThread(() -> {
-            try {
-                speech.stopListening();
-                speech.destroy();
-            } catch (Exception e) {
-                Log.e(getClass().getSimpleName(), e.getMessage());
-            }
-        });
+    private void hideMicrophone(){
+        localBroadcastManager.sendBroadcast(new Intent(SmsRecuActivity.EVENT_HIDE_MICROPHONE));
+    }
 
+    public void destroy() {
+        try {
+            speech.setRecognitionListener(null);
+            speech.stopListening();
+            speech.destroy();
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), e.getMessage());
+        }
     }
 
     public void onPartialResults(Bundle partialResults) {
@@ -128,26 +142,32 @@ public class MySpeechRecorder implements RecognitionListener {
         if(results==null) {
             return;
         }
-        context.onPartialResult(results);
+        onPartialResult(results);
         String firstResult = results.get(0);
         switch (instruction) {
             case REPONDRE_FERMER:
-                if(firstResult.equalsIgnoreCase(context.getString(R.string.repondre))
-                        || firstResult.equalsIgnoreCase(context.getString(R.string.fermer))){
+                if(firstResult.equalsIgnoreCase(repondre)
+                        || firstResult.equalsIgnoreCase(fermer)){
                     Log.d(TAG, "Premature end of recognization on partial result");
                     onResults(partialResults);
                 }
                 break;
             case MODIFIER_ENVOYER_FERMER:
-                if(firstResult.equalsIgnoreCase(context.getString(R.string.modifier))
-                        || firstResult.equalsIgnoreCase(context.getString(R.string.envoyer))
-                        || firstResult.equalsIgnoreCase(context.getString(R.string.fermer))){
+                if(firstResult.equalsIgnoreCase(modifier)
+                        || firstResult.equalsIgnoreCase(envoyer)
+                        || firstResult.equalsIgnoreCase(fermer)){
                     Log.d(TAG, "Premature end of recognization on partial result");
                     onResults(partialResults);
                 }
                 break;
             default:break;
         }
+    }
+
+    private void onPartialResult(ArrayList<String> results) {
+        Intent intent = new Intent(SmsRecuActivity.EVENT_SPEECH_PARTIAL_RESULT);
+        intent.putExtra(SmsRecuActivity.EXTRA_SPEECH_WORDS, results);
+        localBroadcastManager.sendBroadcast(intent);
     }
 
     public void onEvent(int eventType, Bundle params) {

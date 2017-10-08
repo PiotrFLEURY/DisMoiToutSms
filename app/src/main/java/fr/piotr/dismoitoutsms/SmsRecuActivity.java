@@ -64,6 +64,17 @@ public class SmsRecuActivity extends AbstractActivity {
 
 	public static final String TAG = "SmsRecuActivity";
 
+	public static final String EXTRA_SPEECH_WORDS = "EXTRA_SPEECH_WORDS";
+	public static final String EXTRA_SPEECH_RESULT_CODE = "EXTRA_SPEECH_RESULT_CODE";
+	public static final String EXTRA_SPEECH_INSTRUCTION = "EXTRA_SPEECH_INSTRUCTION";
+	public static final String EVENT_SPEECH_RESULT = "EVENT_SPEECH_RESULT";
+
+	public static final String EVENT_SPEECH_PARTIAL_RESULT = "EVENT_SPEECH_PARTIAL_RESULT";
+
+	public static final String EVENT_DESTROY_SPEECH_RECOGNIZER = "EVENT_DESTROY_SPEECH_RECOGNIZER";
+
+	public static final String EVENT_HIDE_MICROPHONE = "EVENT_HIDE_MICROPHONE";
+
 	public static final String EVENT_START_SPEECH_RECOGNIZER = "EVENT_START_SPEECH_RECOGNIZER";
 	public static final String EVENT_FINISH = "EVENT_FINISH";
 	public static final String EVENT_BACK = "EVENT_BACK";
@@ -106,9 +117,25 @@ public class SmsRecuActivity extends AbstractActivity {
 				case EVENT_START_SPEECH_RECOGNIZER:
 					startSpeechRecognizer((Instruction) intent.getSerializableExtra(EXTRA_INSTRUCTION), intent.getStringExtra(EXTRA_PROMPT));
 					break;
+				case EVENT_HIDE_MICROPHONE:
+					hideMicrophone();
+					break;
+				case EVENT_SPEECH_RESULT:
+					onSpeechResult((Instruction) intent.getSerializableExtra(EXTRA_SPEECH_INSTRUCTION), intent.getIntExtra(EXTRA_SPEECH_RESULT_CODE, -1), intent.getStringArrayListExtra(EXTRA_SPEECH_WORDS));
+					break;
+				case EVENT_SPEECH_PARTIAL_RESULT:
+					onPartialResult(intent.getStringArrayListExtra(EXTRA_SPEECH_WORDS));
+					break;
+				case EVENT_DESTROY_SPEECH_RECOGNIZER:
+					destroySpeechRecognizer();
+					break;
 			}
 		}
 	};
+
+	private void destroySpeechRecognizer() {
+		runOnUiThread(() -> speechRecorder.destroy());
+	}
 
 	@Override
 	protected void onCreate(android.os.Bundle savedInstanceState) {
@@ -187,6 +214,10 @@ public class SmsRecuActivity extends AbstractActivity {
 		filter.addAction(EVENT_FINISH);
 		filter.addAction(EVENT_START_SPEECH_RECOGNIZER);
 		filter.addAction(EVENT_BACK);
+		filter.addAction(EVENT_HIDE_MICROPHONE);
+		filter.addAction(EVENT_SPEECH_RESULT);
+		filter.addAction(EVENT_SPEECH_PARTIAL_RESULT);
+		filter.addAction(EVENT_DESTROY_SPEECH_RECOGNIZER);
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
 		SmsReceiver.getInstance().setDictating(true);
@@ -253,7 +284,7 @@ public class SmsRecuActivity extends AbstractActivity {
         speech.shutdown();
         sablier.finished();
         if(speechRecorder!=null){
-            speechRecorder.stop();
+            destroySpeechRecognizer();
         }
         SmsReceiver.getInstance().nextMessage(this);
     }
@@ -334,14 +365,14 @@ public class SmsRecuActivity extends AbstractActivity {
 		return false;
 	}
 
-	public void onPartialResult(final List<String> words){
+	private void onPartialResult(final List<String> words){
         runOnUiThread(() -> {
             TextView reponseEnCours = (TextView) findViewById(R.id.reponse_en_cours);
             reponseEnCours.setText(words.get(0));
         });
 	}
 
-    public void onSpeechResult(Instruction instruction, int resultCode, List<String> words) {
+    private void onSpeechResult(Instruction instruction, int resultCode, List<String> words) {
         sablier.reset();
         if (instruction.is(REPONDRE_FERMER,MODIFIER_ENVOYER_FERMER) && resultCode == RESULT_OK) {
 
@@ -364,7 +395,7 @@ public class SmsRecuActivity extends AbstractActivity {
 		}
     }
 
-    public void hideMicrophone() {
+    private void hideMicrophone() {
         View micophone = findViewById(R.id.microphone);
         micophone.setVisibility(GONE);
     }

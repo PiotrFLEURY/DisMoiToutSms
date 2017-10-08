@@ -20,9 +20,11 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
 
     protected void onHeadSetPluggedOut(Context context) {
         if(isMyServiceRunning(context)) {
-            Intent service = new Intent(context, ServiceCommunicator.class);
-            service.addFlags(Intent.FLAG_FROM_BACKGROUND);
-            context.stopService(service);
+            if(onAutoStop()) {
+                Intent service = new Intent(context, ServiceCommunicator.class);
+                service.addFlags(Intent.FLAG_FROM_BACKGROUND);
+                context.stopService(service);
+            }
         } else {
             NotificationHelper.close(context, NotificationHelper.HEADSET_PLUGGED_IN);
         }
@@ -31,6 +33,7 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
     protected void onHeadSetPluggedIn(Context context) {
         if(!isMyServiceRunning(context)) {
             if(ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.HEADSET_MODE)){
+                onAutoStart();
                 Intent service = new Intent(context, ServiceCommunicator.class);
                 service.addFlags(Intent.FLAG_FROM_BACKGROUND);
                 context.startService(service);
@@ -52,4 +55,13 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
         }
         return false;
     }
+
+    protected void onAutoStart(){
+        //
+    }
+
+    protected boolean onAutoStop(){
+        return true;
+    }
+
 }

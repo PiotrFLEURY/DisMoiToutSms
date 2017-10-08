@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Created by piotr on 08/08/2017.
  *
@@ -16,6 +18,7 @@ import android.os.Handler;
 
 public class BluetoothReceiver extends AbstractHeadSetReceiver {
 
+    final AtomicBoolean autoStarted = new AtomicBoolean();
     final Handler handler = new Handler();
 
     @Override
@@ -123,4 +126,17 @@ public class BluetoothReceiver extends AbstractHeadSetReceiver {
         }
     }
 
+    @Override
+    protected void onAutoStart() {
+        autoStarted.set(true);
+    }
+
+    @Override
+    protected boolean onAutoStop() {
+        if(autoStarted.get()) {
+            autoStarted.set(false);
+            return true;
+        }
+        return false;
+    }
 }

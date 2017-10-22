@@ -1,16 +1,7 @@
 package fr.piotr.dismoitoutsms.headset;
 
-import android.app.ActivityManager;
-import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-
-import fr.piotr.dismoitoutsms.R;
-import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
-import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
-import fr.piotr.dismoitoutsms.util.ConfigurationManager;
-import fr.piotr.dismoitoutsms.util.NotificationHelper;
 
 import static android.media.AudioManager.ACTION_HEADSET_PLUG;
 

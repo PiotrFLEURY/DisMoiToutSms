@@ -3,6 +3,7 @@ package fr.piotr.dismoitoutsms.speech;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fr.piotr.dismoitoutsms.BuildConfig;
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.SmsRecuActivity;
 import fr.piotr.dismoitoutsms.util.Instruction;
@@ -22,6 +24,7 @@ import static android.speech.RecognizerIntent.EXTRA_CALLING_PACKAGE;
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL;
 import static android.speech.RecognizerIntent.EXTRA_PARTIAL_RESULTS;
 import static android.speech.RecognizerIntent.EXTRA_PROMPT;
+import static android.speech.RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS;
 import static android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM;
 
 /**
@@ -65,7 +68,9 @@ public class MySpeechRecorder implements RecognitionListener {
     private void startListening() {
         final Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());
-        intent.putExtra(EXTRA_PARTIAL_RESULTS, true);
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            intent.putExtra(EXTRA_PARTIAL_RESULTS, true);
+        }
         intent.putExtra(EXTRA_PROMPT, extraPrompt);
         intent.putExtra(EXTRA_LANGUAGE_MODEL, LANGUAGE_MODEL_FREE_FORM);
         speech.startListening(intent);

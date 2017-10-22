@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:layout_width="320sp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue700"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="48sp"
+            android:layout_height="48sp"
+            android:layout_margin="16sp"
+            android:src="@mipmap/ic_launcher_score_white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16sp"
+            android:background="@color/blue700"
+            android:gravity="center_vertical"
+            android:text="@string/app_name"
+            style="@style/TextMedium"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|end">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:onClick="openPrivacyPolicy"
+            android:padding="16sp"
+            android:textColor="@color/grey600"
+            android:text="@string/privacy_policy" />
+
+        <ImageView
+            android:layout_width="48sp"
+            android:layout_height="48sp"
+            android:padding="12sp"
+            android:tint="@color/grey800"
+            android:src="@drawable/ic_info_24dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

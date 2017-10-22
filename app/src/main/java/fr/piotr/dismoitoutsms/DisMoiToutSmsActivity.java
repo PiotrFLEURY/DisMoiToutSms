@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -92,7 +93,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
         }
 
-        setContentView(R.layout.drawer_layout);
+        setContentView(R.layout.drawer_layout_v4);
 
         if(!isMyServiceRunning(DisMoiToutSmsService.class)){
             startService(new Intent(this, DisMoiToutSmsService.class));
@@ -149,17 +150,19 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
         toggleStatus(false);
         ImageButton statusIcon = (ImageButton) findViewById(R.id.status_icon);
-        statusIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
-            intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
-            if (isMyServiceRunning()) {
-                stopService(intent);
-            } else {
-                setupVolume();
-                startService(intent);
-            }
-            toggleStatus(true);
-        });
+        if(statusIcon!=null) {
+            statusIcon.setOnClickListener(v -> {
+                Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
+                intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
+                if (isMyServiceRunning()) {
+                    stopService(intent);
+                } else {
+                    setupVolume();
+                    startService(intent);
+                }
+                toggleStatus(true);
+            });
+        }
 
         Switch switchActivation = (Switch) findViewById(R.id.switch_activation);
         switchActivation.setChecked(isMyServiceRunning());
@@ -300,7 +303,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
     private void toggleStatusAnimated(ImageButton statusIcon, Switch switchActivation) {
 
         toggleStatusSimple(statusIcon, switchActivation);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (statusIcon!=null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ViewAnimationUtils.createCircularReveal(statusIcon,
                     statusIcon.getWidth(),
                     statusIcon.getHeight(),
@@ -311,12 +314,14 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
     private void toggleStatusSimple(ImageButton statusIcon, Switch switchActivation) {
         boolean myServiceRunning = isMyServiceRunning();
-        statusIcon.setSelected(myServiceRunning);
         switchActivation.setChecked(myServiceRunning);
-        if(isMyServiceRunning()){
-            statusIcon.setImageResource(R.drawable.ic_volume_up_white_512dp);
-        } else {
-            statusIcon.setImageResource(R.drawable.ic_volume_off_white_512dp);
+        if(statusIcon!=null) {
+            statusIcon.setSelected(myServiceRunning);
+            if (isMyServiceRunning()) {
+                statusIcon.setImageResource(R.drawable.ic_volume_up_white_512dp);
+            } else {
+                statusIcon.setImageResource(R.drawable.ic_volume_off_white_512dp);
+            }
         }
     }
 
@@ -327,7 +332,9 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 
         ImageButton statusIcon = (ImageButton) findViewById(R.id.status_icon);
-        statusIcon.setOnClickListener(null);
+        if(statusIcon!=null) {
+            statusIcon.setOnClickListener(null);
+        }
 
         //Drawer
         languageChooser().setOnItemSelectedListener(null);
@@ -377,15 +384,15 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
     //Drawer
 
-    private CheckBox checkBoxUniquementMesContacts() {
+    private CompoundButton checkBoxUniquementMesContacts() {
         return checkbox(R.id.uniquementContactesTab);
     }
 
-    private CheckBox checkBoxEmoticones() {
+    private CompoundButton checkBoxEmoticones() {
         return checkbox(R.id.translateEmoticonesBtnTab);
     }
 
-    private CheckBox checkBoxReponseVocale() {
+    private CompoundButton checkBoxReponseVocale() {
         return checkbox(R.id.commandeVocaleBtnTab);
     }
 
@@ -457,11 +464,11 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         return false;
     }
 
-    private CheckBox checkBoxStepDetector() {
+    private CompoundButton checkBoxStepDetector() {
         return checkbox(R.id.stepDetectorCheckBox);
     }
 
-    private CheckBox checkBoxHeadSetMode() {
+    private CompoundButton checkBoxHeadSetMode() {
         return checkbox(R.id.headSetModeCheckBox);
     }
 

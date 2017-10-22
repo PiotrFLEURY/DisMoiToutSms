@@ -37,12 +37,12 @@ public class NotificationHelper {
     public static void open(Context context, int id, Intent ... intents) {
         String title = null;
         String text = null;
-        int icon = R.drawable.iconeprincipaleblanche;
+        int icon = R.mipmap.ic_launcher_score_white;
 
         switch (id) {
             case SERVICE_STARTED_COMPLEX_ID:
 //                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    openComplex(context, id, R.drawable.iconeprincipaleblanche);
+                    openComplex(context, id, icon);
                     return;
 //                } else {
 //                    title = context.getResources().getString(R.string.service_notif_titre);

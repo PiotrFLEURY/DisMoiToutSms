@@ -16,7 +16,7 @@
             android:id="@+id/complex_notification_icon"
             android:layout_width="48sp"
             android:layout_height="48sp"
-            android:src="@drawable/iconeprincipale"/>
+            android:src="@mipmap/ic_launcher_score"/>
 
         <LinearLayout
             android:id="@+id/complex_notification_content"

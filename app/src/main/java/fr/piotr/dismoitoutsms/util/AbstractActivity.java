@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,8 +77,8 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return (Button) findViewById(id);
     }
 
-    public CheckBox checkbox(int id) {
-        return (CheckBox) findViewById(id);
+    public CompoundButton checkbox(int id) {
+        return (CompoundButton) findViewById(id);
     }
 
     public Spinner spinner(int id) {

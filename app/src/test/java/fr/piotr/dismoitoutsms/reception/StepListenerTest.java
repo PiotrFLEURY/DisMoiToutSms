@@ -29,7 +29,7 @@ public class StepListenerTest {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        doNothing().when(stepListener).notifyStep();
+        //doNothing().when(stepListener).notifyStep();
     }
 
     @Test

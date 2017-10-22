@@ -6,6 +6,8 @@
     android:gravity="center_vertical"
     android:paddingStart="16sp"
     android:paddingEnd="16sp"
+    android:paddingTop="16sp"
+    android:paddingBottom="16sp"
     >
 
     <ImageView

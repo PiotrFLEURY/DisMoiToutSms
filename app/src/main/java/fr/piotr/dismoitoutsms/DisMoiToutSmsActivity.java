@@ -18,19 +18,14 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -43,7 +38,6 @@ import java.util.List;
 import java.util.Locale;
 
 import fr.piotr.dismoitoutsms.contacts.Contact;
-import fr.piotr.dismoitoutsms.headset.HeadSetReceiver;
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
 import fr.piotr.dismoitoutsms.util.AbstractActivity;
@@ -301,14 +295,6 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         } else {
             toggleStatusSimple(statusIcon, switchActivation);
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    private int getResolvedColor(int resId){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return getResources().getColor(resId, getTheme());
-        } else
-            return getResources().getColor(resId);
     }
 
     private void toggleStatusAnimated(ImageButton statusIcon, Switch switchActivation) {

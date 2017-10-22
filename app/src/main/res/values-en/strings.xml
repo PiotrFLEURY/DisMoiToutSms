@@ -77,5 +77,10 @@
     <string name="stop">Stop</string>
     <string name="answer">Reply</string>
     <string name="send">Send</string>
+    <string name="dictate_contact_name">Dictate the name of a contact</string>
+    <string name="found_contacts">contacts found:</string>
+    <string name="manage_contacts">Manage my contacts</string>
+    <string name="action_retry">Retry</string>
+    <string name="error_occured">An error has occurred</string>
 
 </resources>

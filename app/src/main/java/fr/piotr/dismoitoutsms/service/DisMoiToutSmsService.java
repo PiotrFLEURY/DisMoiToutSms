@@ -1,7 +1,6 @@
 package fr.piotr.dismoitoutsms.service;
 
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,6 +24,7 @@ public class DisMoiToutSmsService extends Service {
     public static final String TAG = "DisMoiToutSmsService";
 
     public static final String INTENT_ACTIVATE_FROM_NOTIFICATION = TAG + ".INTENT_ACTIVATE_FROM_NOTIFICATION";
+    public static final String INTENT_DEACTIVATE_FROM_NOTIFICATION = TAG + ".INTENT_DEACTIVATE_FROM_NOTIFICATION";
 
     private HeadSetReceiver headSetReceiver;
     private BluetoothReceiver bluetoothReceiver;
@@ -35,6 +35,9 @@ public class DisMoiToutSmsService extends Service {
             switch(intent.getAction()){
                 case INTENT_ACTIVATE_FROM_NOTIFICATION:
                     activateFromNotification();
+                    break;
+                case INTENT_DEACTIVATE_FROM_NOTIFICATION:
+                    deactivateFromNotification();
                     break;
             }
         }
@@ -47,6 +50,17 @@ public class DisMoiToutSmsService extends Service {
         NotificationHelper.close(this, NotificationHelper.HEADSET_PLUGGED_IN);
     }
 
+
+    private void deactivateFromNotification() {
+        Intent service = new Intent(this, ServiceCommunicator.class);
+        service.addFlags(Intent.FLAG_FROM_BACKGROUND);
+        getApplicationContext().stopService(service);
+        NotificationHelper.close(this, NotificationHelper.HEADSET_PLUGGED_IN);
+        //NotificationHelper.close(this, NotificationHelper.SERVICE_STARTED_ID);
+        NotificationHelper.close(this, NotificationHelper.SERVICE_STARTED_COMPLEX_ID);
+        NotificationHelper.close(this, NotificationHelper.STOPPED_BY_STEP_COUNTER);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -55,10 +69,12 @@ public class DisMoiToutSmsService extends Service {
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(INTENT_ACTIVATE_FROM_NOTIFICATION);
+        filter.addAction(INTENT_DEACTIVATE_FROM_NOTIFICATION);
         getApplicationContext().registerReceiver(receiver, filter);
         getApplicationContext().registerReceiver(headSetReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
 
@@ -67,6 +83,8 @@ public class DisMoiToutSmsService extends Service {
         bluetoothIntentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         //bluetoothIntentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         getApplicationContext().registerReceiver(bluetoothReceiver, bluetoothIntentFilter);
+
+        return START_STICKY;
     }
 
     @Nullable

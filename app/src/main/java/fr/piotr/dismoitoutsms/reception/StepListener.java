@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import fr.piotr.dismoitoutsms.BuildConfig;
-import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.util.NotificationHelper;
 
 /**

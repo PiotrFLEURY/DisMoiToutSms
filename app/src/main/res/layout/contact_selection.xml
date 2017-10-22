@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150sp"
+        android:padding="16sp"
+        android:background="@color/blue900"
+        android:src="@drawable/ic_group_white_512dp"/>
+
+    <TextView
+        android:id="@+id/contact_selection_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey200"
+        android:textColor="@color/grey600"
+        android:gravity="center"
+        android:padding="16sp"
+        style="@style/TextAppearance.AppCompat.Medium"
+        tools:text="3 contacts trouvés"/>
+
+    <ListView
+        android:id="@+id/contact_selection_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/contact"/>
+
+</LinearLayout>

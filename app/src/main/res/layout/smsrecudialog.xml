@@ -1,48 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/smsrecu_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
     tools:context=".SmsRecuActivity">
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/smsrecu_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/grey200"
-        android:layout_gravity="center">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/smsrecu_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/cardview_dark_background"
+            android:orientation="vertical"
             android:padding="16sp">
-
-            <ImageView
-                android:id="@+id/smsrecucontactphoto"
-                android:layout_width="48sp"
-                android:layout_height="48sp"
-                android:layout_margin="4sp"
-                android:background="@drawable/colorcircle"
-                android:padding="8sp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_person_24dp"/>
-
-            <TextView
-                android:id="@+id/contactname"
-                android:layout_width="0sp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:textColor="@color/white"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
-                tools:text="Stephane domortier"/>
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <ProgressBar
                     android:layout_width="match_parent"
@@ -60,84 +39,70 @@
 
             </FrameLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/contentLayout"
-            android:layout_below="@id/smsrecu_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
             <LinearLayout
-                android:id="@+id/messageLayout"
+                android:id="@+id/smsrecu_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8sp">
+                android:gravity="end"
+                android:padding="16sp">
 
-                <ScrollView
-                    android:id="@+id/scrollView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                <ImageView
+                    android:id="@+id/smsrecucontactphoto"
+                    android:layout_width="48sp"
+                    android:layout_height="48sp"
+                    android:layout_margin="4sp"
+                    android:background="@drawable/colorcircle"
+                    android:padding="8sp"
+                    android:src="@drawable/ic_person_24dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
                         tools:text="Coucou ça va ?"
                         android:padding="8sp"
                         android:background="@drawable/smsbackground"
-                        android:textColor="@color/white" />
-
-                </ScrollView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/reponseLayout"
-                android:layout_width="match_parent"
-                android:layout_height="0sp"
-                android:layout_weight="1"
-                android:padding="8sp"
-                android:orientation="vertical" >
-
-                <TextView
-                    android:id="@+id/reponsetxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8sp"
-                    android:text="@string/reponse"
-                    android:textColor="@color/black"
-                    android:visibility="gone"
-                    android:gravity="center"/>
-
-                <ScrollView
-                    android:id="@+id/scrollView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                        android:textColor="@color/grey800"
+                        android:textSize="20sp"
+                        />
 
                     <TextView
-                        android:id="@+id/reponsemessagetxt"
+                        android:id="@+id/contactname"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?"
-                        android:background="@drawable/smsbackground"
-                        android:textColor="@color/white"
-                        android:padding="8sp"/>
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textColor="@color/dark"
+                        tools:text="Stephane domortier"/>
 
-                </ScrollView>
+                </LinearLayout>
+
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/reponsemessagetxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?"
+                android:background="@drawable/smsbackground"
+                android:textColor="@color/grey800"
+                android:textSize="20sp"
+                android:layout_margin="16sp"
+                android:padding="8sp"/>
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </ScrollView>
 
     <include
         android:id="@+id/microphone"
         layout="@layout/microphone"
         android:visibility="gone"/>
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

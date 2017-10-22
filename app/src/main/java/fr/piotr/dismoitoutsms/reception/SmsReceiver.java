@@ -1,7 +1,16 @@
 package fr.piotr.dismoitoutsms.reception;
 
-import static fr.piotr.dismoitoutsms.util.ConfigurationManager.*;
-import static fr.piotr.dismoitoutsms.util.ContactHelper.getContact;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.LocalBroadcastManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.SmsMessage;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.util.Calendar;
 import java.util.SortedSet;
@@ -9,19 +18,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeSet;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.telephony.PhoneStateListener;
-import android.telephony.SmsMessage;
-import android.telephony.TelephonyManager;
-import android.util.Log;
-
 import fr.piotr.dismoitoutsms.SmsRecuActivity;
 import fr.piotr.dismoitoutsms.contacts.Contact;
 import fr.piotr.dismoitoutsms.messages.Message;
+
+import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration;
+import static fr.piotr.dismoitoutsms.util.ConfigurationManager.getBoolean;
+import static fr.piotr.dismoitoutsms.util.ConfigurationManager.leContactEstBannis;
+import static fr.piotr.dismoitoutsms.util.ContactHelper.getContact;
 
 /**
  * @author Piotr
@@ -68,24 +72,28 @@ public class SmsReceiver extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             Object[] pdus = (Object[]) bundle.get("pdus");
+            String format = bundle.getString("format");
             if(pdus!=null) {
                 final SmsMessage[] messages = new SmsMessage[pdus.length];
                 for (int i = 0; i < pdus.length; i++) {
-                    messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i], format );
+                    } else {
+                        messages[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
+                    }
                 }
                 if (messages.length > -1) {
-                    StringBuffer smsEntier = new StringBuffer();
+                    StringBuilder smsEntier = new StringBuilder();
                     for (SmsMessage sms : messages) {
                         smsEntier.append(sms.getMessageBody());
                     }
-                    onSmsReceived(context, messages[0], smsEntier);
+                    onSmsReceived(context, messages[0], smsEntier.toString());
                 }
             }
         }
     }
 
-    private void onSmsReceived(Context context, SmsMessage message, StringBuffer smsEntier) {
-        final String contenuDuMessage = smsEntier.toString();
+    private void onSmsReceived(Context context, SmsMessage message, String smsEntier) {
         String phoneNumber = message.getDisplayOriginatingAddress();
         Contact contact = getContact(context, phoneNumber);
         if (jePeuxDicterLeSmsDe(context, contact)) {
@@ -95,7 +103,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 contact = new Contact(-1, phoneNumber, phoneNumber, null);
             }
 
-            dicterLeSms(context, contenuDuMessage, contact);
+            dicterLeSms(context, smsEntier, contact);
         }
     }
 

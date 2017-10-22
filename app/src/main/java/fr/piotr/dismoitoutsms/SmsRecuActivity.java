@@ -1,5 +1,6 @@
 package fr.piotr.dismoitoutsms;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -11,6 +12,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsManager;
@@ -26,6 +28,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,8 @@ import java.util.Date;
 import java.util.List;
 
 import fr.piotr.dismoitoutsms.contacts.Contact;
+import fr.piotr.dismoitoutsms.contacts.Contacts;
+import fr.piotr.dismoitoutsms.dialogs.ContactSelectionDialog;
 import fr.piotr.dismoitoutsms.messages.Message;
 import fr.piotr.dismoitoutsms.reception.SmsReceiver;
 import fr.piotr.dismoitoutsms.reception.TextToSpeechHelper;
@@ -52,6 +57,7 @@ import static android.view.View.VISIBLE;
 import static fr.piotr.dismoitoutsms.util.Diction.MESSAGE_ENVOYE;
 import static fr.piotr.dismoitoutsms.util.Diction.MESSAGE_RECU;
 import static fr.piotr.dismoitoutsms.util.Diction.VOUS_AVEZ_REPONDU;
+import static fr.piotr.dismoitoutsms.util.Instruction.DICTER_CONTACT;
 import static fr.piotr.dismoitoutsms.util.Instruction.MODIFIER_ENVOYER_FERMER;
 import static fr.piotr.dismoitoutsms.util.Instruction.REPONDRE_FERMER;
 import static fr.piotr.dismoitoutsms.util.Instruction.REPONSE;
@@ -64,23 +70,23 @@ public class SmsRecuActivity extends AbstractActivity {
 
 	public static final String TAG = "SmsRecuActivity";
 
-	public static final String EXTRA_SPEECH_WORDS = "EXTRA_SPEECH_WORDS";
-	public static final String EXTRA_SPEECH_RESULT_CODE = "EXTRA_SPEECH_RESULT_CODE";
-	public static final String EXTRA_SPEECH_INSTRUCTION = "EXTRA_SPEECH_INSTRUCTION";
-	public static final String EVENT_SPEECH_RESULT = "EVENT_SPEECH_RESULT";
+	public static final String EXTRA_SPEECH_WORDS = TAG + ".EXTRA_SPEECH_WORDS";
+	public static final String EXTRA_SPEECH_RESULT_CODE = TAG + ".EXTRA_SPEECH_RESULT_CODE";
+	public static final String EXTRA_SPEECH_INSTRUCTION = TAG + ".EXTRA_SPEECH_INSTRUCTION";
+	public static final String EVENT_SPEECH_RESULT = TAG + ".EVENT_SPEECH_RESULT";
 
-	public static final String EVENT_SPEECH_PARTIAL_RESULT = "EVENT_SPEECH_PARTIAL_RESULT";
+	public static final String EVENT_SPEECH_PARTIAL_RESULT = TAG + ".EVENT_SPEECH_PARTIAL_RESULT";
 
-	public static final String EVENT_DESTROY_SPEECH_RECOGNIZER = "EVENT_DESTROY_SPEECH_RECOGNIZER";
+	public static final String EVENT_DESTROY_SPEECH_RECOGNIZER = TAG + ".EVENT_DESTROY_SPEECH_RECOGNIZER";
 
-	public static final String EVENT_HIDE_MICROPHONE = "EVENT_HIDE_MICROPHONE";
+	public static final String EVENT_HIDE_MICROPHONE = TAG + ".EVENT_HIDE_MICROPHONE";
 
-	public static final String EVENT_START_SPEECH_RECOGNIZER = "EVENT_START_SPEECH_RECOGNIZER";
-	public static final String EVENT_FINISH = "EVENT_FINISH";
-	public static final String EVENT_BACK = "EVENT_BACK";
+	public static final String EVENT_START_SPEECH_RECOGNIZER = TAG + ".EVENT_START_SPEECH_RECOGNIZER";
+	public static final String EVENT_FINISH = TAG + ".EVENT_FINISH";
+	public static final String EVENT_BACK = TAG + ".EVENT_BACK";
 
-	public static final String EXTRA_INSTRUCTION = "EXTRA_INSTRUCTION";
-	public static final String EXTRA_PROMPT = "EXTRA_PROMPT";
+	public static final String EXTRA_INSTRUCTION = TAG + ".EXTRA_INSTRUCTION";
+	public static final String EXTRA_PROMPT = TAG + ".EXTRA_PROMPT";
 
 	private static final String		TELEPHON_NUMBER_FIELD_NAME	= "address";
 	private static final String		MESSAGE_BODY_FIELD_NAME		= "body";
@@ -98,7 +104,6 @@ public class SmsRecuActivity extends AbstractActivity {
 	private String							reponse;
 	private TextView						reponseMessage;
 	private String							numeroAQuiRepondre;
-	private LinearLayout					reponseLayout;
 	private Sablier							sablier;
     private TextToSpeechHelper              speech;
     private MySpeechRecorder speechRecorder;
@@ -115,19 +120,26 @@ public class SmsRecuActivity extends AbstractActivity {
 					finish();
 					break;
 				case EVENT_START_SPEECH_RECOGNIZER:
-					startSpeechRecognizer((Instruction) intent.getSerializableExtra(EXTRA_INSTRUCTION), intent.getStringExtra(EXTRA_PROMPT));
+					startSpeechRecognizer((Instruction) intent.getSerializableExtra(EXTRA_INSTRUCTION),
+							intent.getStringExtra(EXTRA_PROMPT));
 					break;
 				case EVENT_HIDE_MICROPHONE:
 					hideMicrophone();
 					break;
 				case EVENT_SPEECH_RESULT:
-					onSpeechResult((Instruction) intent.getSerializableExtra(EXTRA_SPEECH_INSTRUCTION), intent.getIntExtra(EXTRA_SPEECH_RESULT_CODE, -1), intent.getStringArrayListExtra(EXTRA_SPEECH_WORDS));
+					onSpeechResult((Instruction) intent.getSerializableExtra(EXTRA_SPEECH_INSTRUCTION),
+							intent.getIntExtra(EXTRA_SPEECH_RESULT_CODE, -1),
+							intent.getStringArrayListExtra(EXTRA_SPEECH_WORDS));
 					break;
 				case EVENT_SPEECH_PARTIAL_RESULT:
 					onPartialResult(intent.getStringArrayListExtra(EXTRA_SPEECH_WORDS));
 					break;
 				case EVENT_DESTROY_SPEECH_RECOGNIZER:
 					destroySpeechRecognizer();
+					break;
+				case ContactSelectionDialog.EVENT_CONTACT_SELECTED:
+					Contact contact = (Contact) intent.getSerializableExtra(ContactSelectionDialog.EXTRA_CONTACT_SELECTED);
+					onContactSelected(contact);
 					break;
 			}
 		}
@@ -156,10 +168,7 @@ public class SmsRecuActivity extends AbstractActivity {
 		numeroAQuiRepondre = extras.getString(Parameters.NUMERO_A_QUI_REPONDRE.toString());
 		setContentView(R.layout.smsrecudialog);
 
-        ImageView photo = (ImageView) findViewById(R.id.smsrecucontactphoto);
-        if(contact!=null && contact.hasAPhoto()){
-            photo.setImageBitmap(ContactHelper.getPhotoContact(this, contact.getPhotoId()));
-        }
+		initPhoto();
 
         detecterSiReconnaissanceVocaleInstallee();
 
@@ -175,8 +184,12 @@ public class SmsRecuActivity extends AbstractActivity {
 		sablier.start();
 
         speech = new TextToSpeechHelper(this, () -> {
-            String text = contactName + " " + getString(R.string.dit) + " " + message;
-            speech.parler(text, MESSAGE_RECU);
+			if(message!=null) {
+				String text = contactName + " " + getString(R.string.dit) + " " + message;
+				speech.parler(text, MESSAGE_RECU);
+			} else {
+				askForContact();
+			}
         });
 
 		phoneStateListener = new PhoneStateListener() {
@@ -206,6 +219,17 @@ public class SmsRecuActivity extends AbstractActivity {
 
 	}
 
+	private void askForContact() {
+		startSpeechRecognizer(Instruction.DICTER_CONTACT, getString(R.string.dictate_contact_name));
+	}
+
+	private void initPhoto() {
+		ImageView photo = (ImageView) findViewById(R.id.smsrecucontactphoto);
+		if(contact!=null && contact.hasAPhoto()){
+            photo.setImageBitmap(ContactHelper.getPhotoContact(this, contact.getPhotoId()));
+        }
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -218,6 +242,7 @@ public class SmsRecuActivity extends AbstractActivity {
 		filter.addAction(EVENT_SPEECH_RESULT);
 		filter.addAction(EVENT_SPEECH_PARTIAL_RESULT);
 		filter.addAction(EVENT_DESTROY_SPEECH_RECOGNIZER);
+		filter.addAction(ContactSelectionDialog.EVENT_CONTACT_SELECTED);
 		LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
 		SmsReceiver.getInstance().setDictating(true);
@@ -238,8 +263,10 @@ public class SmsRecuActivity extends AbstractActivity {
 	}
 
 	private void repeter() {
-		speech.parler(message, MESSAGE_RECU);
-		sablier.reset();
+		if(message!=null) {
+			speech.parler(message, MESSAGE_RECU);
+			sablier.reset();
+		}
 	}
 
 	@Override
@@ -278,7 +305,6 @@ public class SmsRecuActivity extends AbstractActivity {
     }
 
     private void end() {
-//        instance = null;
 		SmsReceiver.getInstance().setDictating(false);
         speech.stopLecture();
         speech.shutdown();
@@ -290,18 +316,22 @@ public class SmsRecuActivity extends AbstractActivity {
     }
 
 	public void initMessage() {
-		text(R.id.message).setText(message);
+		TextView tvMessage = text(R.id.message);
+		if(message==null){
+			tvMessage.setVisibility(GONE);
+		} else {
+			tvMessage.setText(message);
+		}
 	}
 
 	public void initReponse() {
-		reponseLayout = (LinearLayout) findViewById(R.id.reponseLayout);
-		reponseLayout.setVisibility(INVISIBLE);
-		reponseMessage = (TextView) findViewById(R.id.reponsemessagetxt);
+		reponseMessage = findViewById(R.id.reponsemessagetxt);
+		reponseMessage.setVisibility(INVISIBLE);
 	}
 
 	public void initExpediteur() {
 		if (contact != null) {
-			TextView contactName = (TextView) findViewById(R.id.contactname);
+			TextView contactName = findViewById(R.id.contactname);
 			contactName.setText(contact.getName());
 		}
 	}
@@ -367,14 +397,18 @@ public class SmsRecuActivity extends AbstractActivity {
 
 	private void onPartialResult(final List<String> words){
         runOnUiThread(() -> {
-            TextView reponseEnCours = (TextView) findViewById(R.id.reponse_en_cours);
+            TextView reponseEnCours = findViewById(R.id.reponse_en_cours);
             reponseEnCours.setText(words.get(0));
         });
 	}
 
     private void onSpeechResult(Instruction instruction, int resultCode, List<String> words) {
         sablier.reset();
-        if (instruction.is(REPONDRE_FERMER,MODIFIER_ENVOYER_FERMER) && resultCode == RESULT_OK) {
+		if(Activity.RESULT_CANCELED == resultCode){
+			Snackbar.make(findViewById(R.id.smsrecu_coordinator), R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
+			.setAction(R.string.action_retry, v -> repondre())
+			.show();
+		} else if (instruction.is(REPONDRE_FERMER,MODIFIER_ENVOYER_FERMER) && resultCode == RESULT_OK) {
 
 			if (instructionIs(words, getString(R.string.repondre), getString(R.string.modifier))) {
 				startSpeechRecognizer(REPONSE, getString(R.string.reponse));
@@ -387,17 +421,52 @@ public class SmsRecuActivity extends AbstractActivity {
 
 		} else if (instruction.is(REPONSE) && resultCode == RESULT_OK) {
 			reponse = words.get(0);
-			reponseLayout.setVisibility(VISIBLE);
+			reponseMessage.setVisibility(VISIBLE);
 			reponseMessage.setText(reponse);
+			ScrollView scrollView = findViewById(R.id.smsrecu_scrollview);
+			scrollView.fullScroll(View.FOCUS_DOWN);
 			invalidateOptionsMenu();
 			speech.parler(getString(R.string.votrereponseest) + reponse, VOUS_AVEZ_REPONDU);
 
+		} else if(instruction.is(DICTER_CONTACT)){
+			if(resultCode == RESULT_OK) {
+				String result = words.get(0);
+				Contacts correspondances = getCorrespondance(result);
+				ContactSelectionDialog contactSelectionDialog = new ContactSelectionDialog(this);
+				contactSelectionDialog.setContacts(correspondances);
+				contactSelectionDialog.show();
+			} else {
+				onBackPressed();
+			}
 		}
     }
 
-    private void hideMicrophone() {
-        View micophone = findViewById(R.id.microphone);
-        micophone.setVisibility(GONE);
+    private void onContactSelected(Contact contact){
+		listenForNewMessage(contact);
+	}
+
+	private void listenForNewMessage(Contact contact) {
+		this.contact = contact;
+		contactName = this.contact.getName();
+		numeroAQuiRepondre = this.contact.getTelephone();
+		initPhoto();
+		setTitle(contactName);
+		initExpediteur();
+		startSpeechRecognizer(REPONSE, getString(R.string.reponse));
+	}
+
+	private Contacts getCorrespondance(String result) {
+		Contacts correspondances = new Contacts();
+		for (Contact aContact : ContactHelper.getAllContacts(this)) {
+			if(aContact.getName().contains(result)){
+				correspondances.add(aContact);
+			}
+		}
+		return correspondances;
+	}
+
+	private void hideMicrophone() {
+        findViewById(R.id.microphone).setVisibility(GONE);
     }
 
     private void showMicrophone() {

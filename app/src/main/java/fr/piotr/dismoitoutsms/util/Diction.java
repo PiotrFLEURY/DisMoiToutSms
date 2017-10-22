@@ -11,6 +11,8 @@ public enum Diction {
 	// Etape 4 -> Dites modifier, envoyer ou fermer
 	MODIFIER_ENVOYER_OU_FERMER,
 	// Etape 5 -> Message envoyé
-	MESSAGE_ENVOYE
+	MESSAGE_ENVOYE,
+
+	CONTACTS_TROUVES
 
 }

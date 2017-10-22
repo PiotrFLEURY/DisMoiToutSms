@@ -7,27 +7,27 @@
         android:enabled="true"
         android:icon="@drawable/ic_repeat_24dp"
         android:title="@string/repeat"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_stop"
         android:enabled="true"
         android:icon="@drawable/ic_stop_24dp"
         android:title="@string/stop"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_answer"
         android:enabled="true"
         android:icon="@drawable/ic_message_24dp"
         android:title="@string/answer"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_send"
         android:enabled="true"
         android:icon="@drawable/ic_send_24dp"
         android:title="@string/send"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
 </menu>

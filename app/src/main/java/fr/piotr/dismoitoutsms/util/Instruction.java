@@ -6,7 +6,7 @@ package fr.piotr.dismoitoutsms.util;
  */
 public enum Instruction {
 
-    REPONDRE_FERMER, REPONSE, MODIFIER_ENVOYER_FERMER;
+    REPONDRE_FERMER, REPONSE, MODIFIER_ENVOYER_FERMER, DICTER_CONTACT;
 
     public boolean is(Instruction ... instructions){
         for (Instruction instruction : instructions) {

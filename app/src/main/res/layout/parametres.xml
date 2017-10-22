@@ -102,7 +102,7 @@
                 android:layout_gravity="end"
                 android:gravity="center_vertical|end"
                 android:textColor="@color/grey600"
-                android:text="Gérer mes contacts"/>
+                android:text="@string/manage_contacts"/>
 
             <View
                 android:layout_width="match_parent"

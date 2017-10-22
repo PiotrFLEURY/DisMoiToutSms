@@ -84,11 +84,11 @@ public class ServiceCommunicator extends Service {
 	}
 
 	private void createNotification() {
-		NotificationHelper.open(this, NotificationHelper.SERVICE_STARTED_ID);
+		NotificationHelper.open(this, NotificationHelper.SERVICE_STARTED_COMPLEX_ID);
 	}
 
 	private void deleteNotification() {
-		NotificationHelper.close(this, NotificationHelper.SERVICE_STARTED_ID);
+		NotificationHelper.close(this, NotificationHelper.SERVICE_STARTED_COMPLEX_ID);
 	}
 
 	public boolean isKitKatWithStepCounter() {

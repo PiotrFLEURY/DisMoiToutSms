@@ -16,6 +16,7 @@ import java.util.Map;
 
 import fr.piotr.dismoitoutsms.BuildConfig;
 import fr.piotr.dismoitoutsms.R;
+import fr.piotr.dismoitoutsms.reception.utterances.ContactsTrouvesListener;
 import fr.piotr.dismoitoutsms.reception.utterances.MessageEnvoyeListener;
 import fr.piotr.dismoitoutsms.reception.utterances.MessageRecuUtteranceListener;
 import fr.piotr.dismoitoutsms.reception.utterances.ModifierEnvoyerFermerListener;
@@ -43,7 +44,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
 
     private Context context;
 
-    private final TextToSpeech	mTts;
+    private TextToSpeech	mTts;
     private Map<Diction, UtteranceListener> listeners = new HashMap<>();
 
     private StartedListener listener;
@@ -68,6 +69,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         listeners.put(Diction.VOUS_AVEZ_REPONDU, new VousAvezReponduListener(context, this));
         listeners.put(Diction.MODIFIER_ENVOYER_OU_FERMER, new ModifierEnvoyerFermerListener(context, this));
         listeners.put(Diction.MESSAGE_ENVOYE, new MessageEnvoyeListener(context, this));
+        listeners.put(Diction.CONTACTS_TROUVES, new ContactsTrouvesListener(context, this));
 
         this.handler = new Handler();
 
@@ -130,7 +132,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
             text = EmoticonesManager.getInstance().remplacer(context, text);
         }
 
-        registerUtteranceListener(type);
+        registerUtteranceListener(text, type);
 
         speak(text, type);
     }
@@ -161,7 +163,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
     }
 
     @SuppressWarnings("deprecation")
-    private void registerUtteranceListener(Diction type) {
+    private void registerUtteranceListener(String text, Diction type) {
         final UtteranceListener utteranceListener = listeners.get(type);
         mTts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
@@ -179,6 +181,12 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
             @Override
             public void onError(String utteranceId) {
                 Log.e(getClass().getName(), String.format("ERROR utteranceId=%s", utteranceId));
+            }
+
+            @Override
+            public void onError(String utteranceId, int errorCode) {
+                super.onError(utteranceId, errorCode);
+                Log.e(getClass().getName(), String.format("ERROR utteranceId=%s errorCode=%s", utteranceId, errorCode));
             }
         });
     }

@@ -456,7 +456,7 @@ public class SmsRecuActivity extends AbstractActivity {
 
 	private Contacts getCorrespondance(String result) {
 		Contacts correspondances = new Contacts();
-		for (Contact aContact : ContactHelper.getAllContacts(this)) {
+		for (Contact aContact : ContactHelper.getAllContacts()) {
 			if(aContact.getName().contains(result)){
 				correspondances.add(aContact);
 			}

@@ -1,9 +1,8 @@
 package fr.piotr.dismoitoutsms.util
 
 import android.app.AlertDialog
-import android.content.Context
 import android.util.Log
-
+import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication
 import fr.piotr.dismoitoutsms.R
 
 object EmptyRunnable : Runnable {
@@ -16,16 +15,13 @@ object EmptyRunnable : Runnable {
 
 object MessageBox {
 
-    fun confirm(context: Context, message: String, ok: Runnable){
-        confirm(context, message, ok)
-    }
-
-    fun confirm(context: Context, title: String = "", message: String,
+    fun confirm(title: String = "", message: String,
                 ok: Runnable = EmptyRunnable, ko: Runnable = EmptyRunnable) {
+        val context = DisMoiToutSmsApplication.INSTANCE.applicationContext
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)
-        builder.setPositiveButton(context.getString(R.string.oui)) { _, _ -> ok?.run() }
+        builder.setPositiveButton(context.getString(R.string.oui)) { _, _ -> ok.run() }
         builder.setNegativeButton(context.getString(R.string.non)) { _, _ -> ko.run() }
         val dialog = builder.create()
         dialog.show()

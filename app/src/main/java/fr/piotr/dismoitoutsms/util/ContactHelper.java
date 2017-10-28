@@ -11,6 +11,7 @@ import android.provider.ContactsContract;
 import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
+import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication;
 import fr.piotr.dismoitoutsms.contacts.Contact;
 import fr.piotr.dismoitoutsms.contacts.Contacts;
 
@@ -38,7 +39,11 @@ public class ContactHelper {
 		return null;
 	}
 
-	public static Contacts getAllContacts(Context context) {
+	public static  Contacts getAllContacts() {
+		return getAllContacts(DisMoiToutSmsApplication.INSTANCE.getApplicationContext());
+	}
+
+	private static Contacts getAllContacts(Context context) {
 		Contacts mesContacts = new Contacts();
 		ContentResolver cr = context.getContentResolver();
 		final Cursor contactCursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,

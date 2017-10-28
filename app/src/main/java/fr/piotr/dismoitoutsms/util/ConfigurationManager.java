@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication;
 import fr.piotr.dismoitoutsms.contacts.Contact;
 import fr.piotr.dismoitoutsms.contacts.Contacts;
 
@@ -136,7 +137,8 @@ public class ConfigurationManager {
 		return false;
 	}
 
-	public static List<String> getIdsContactsBannis(Context context) {
+	public static List<String> getIdsContactsBannis() {
+		Context context = DisMoiToutSmsApplication.INSTANCE.getApplicationContext();
 		String valeur = get(context, Configuration.CONTACTS_BANNIS);
 		if (valeur == null) {
 			valeur = "";

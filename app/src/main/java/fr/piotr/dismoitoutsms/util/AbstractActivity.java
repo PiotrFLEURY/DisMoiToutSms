@@ -59,10 +59,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return false;
     }
 
-    public void back(View v) {
-        onBackPressed();
-    }
-
     public void openContactSelection(View v) {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(Gravity.START);
@@ -111,15 +107,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected void onPermissionGranted(int requestCode){
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_CONTACTS:
-//                setBoolean(getApplicationContext(), UNIQUEMENT_CONTACTS, true);
-//                checkbox(R.id.uniquementContactesTab).setChecked(true);
-//                go(ContactSelectionActivity.class);
                 break;
             case PERMISSIONS_REQUEST_SMS:
                 break;
             case PERMISSIONS_RECORD_AUDIO:
-//                setBoolean(getApplicationContext(), COMMANDE_VOCALE, true);
-//                checkbox(R.id.commandeVocaleBtnTab).setChecked(true);
                 break;
             case PERMISSIONS_READ_PHONE_STATE:
                 break;

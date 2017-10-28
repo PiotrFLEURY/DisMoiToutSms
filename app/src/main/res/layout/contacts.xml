@@ -8,7 +8,7 @@
     tools:context=".ContactSelectionActivity">
 
     <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
+        android:id="@+id/champRecherche"
         android:visibility="gone"
         tools:visibility="visible"
         android:padding="16sp"

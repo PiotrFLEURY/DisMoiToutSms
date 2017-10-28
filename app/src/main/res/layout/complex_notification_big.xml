@@ -27,14 +27,14 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Notification.Title"
+                style="@style/TextAppearance.Compat.Notification.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/service_notif_titre"
                 android:textStyle="bold" />
 
             <TextView
-                style="@style/TextAppearance.AppCompat.Notification"
+                style="@style/TextAppearance.Compat.Notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/service_notif_texte" />

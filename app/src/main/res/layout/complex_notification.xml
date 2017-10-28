@@ -27,14 +27,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Notification.Title"
+            style="@style/TextAppearance.Compat.Notification.Title"
             android:textStyle="bold"
             android:text="@string/service_notif_titre"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Notification"
+            style="@style/TextAppearance.Compat.Notification"
             android:text="@string/service_notif_texte"/>
 
     </LinearLayout>

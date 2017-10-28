@@ -2,17 +2,13 @@ package fr.piotr.dismoitoutsms;
 
 import android.Manifest;
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
@@ -20,12 +16,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -56,31 +50,8 @@ import static fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean;
 
 public class DisMoiToutSmsActivity extends AbstractActivity {
 
-    public static final String EVENT_ACTIVATE = "EVENT_ACTIVATE";
-    public static final String EVENT_DEACTIVATE = "EVENT_DEACTIVATE";
-
     public static final String TAG = "DisMoiToutSmsActivity";
 
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            switch(intent.getAction()){
-                case EVENT_ACTIVATE:
-                    onActivate();
-                    break;
-                case EVENT_DEACTIVATE:
-                    onDeactivate();
-                    break;
-            }
-        }
-    };
-
-    private IntentFilter filter = new IntentFilter(){{
-        addAction(EVENT_ACTIVATE);
-        addAction(EVENT_DEACTIVATE);
-    }};
-
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,8 +72,6 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 		verifierExistanceServiceSyntheseVocale();
 
 		initVolumeControl();
-
-        //Drawer
 
         initLanguageChooser();
 
@@ -145,23 +114,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 	protected void onResume() {
 		super.onResume();
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
-
-        toggleStatus(false);
-        ImageButton statusIcon = findViewById(R.id.status_icon);
-        if(statusIcon!=null) {
-            statusIcon.setOnClickListener(v -> {
-                Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
-                intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
-                if (isMyServiceRunning()) {
-                    stopService(intent);
-                } else {
-                    setupVolume();
-                    startService(intent);
-                }
-                toggleStatus(true);
-            });
-        }
+        toggleStatus();
 
         Switch switchActivation = findViewById(R.id.switch_activation);
         switchActivation.setChecked(isMyServiceRunning());
@@ -259,7 +212,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
             setupVolume();
             startService(intent);
-            toggleStatus(true);
+            toggleStatus();
         }
     }
 
@@ -268,7 +221,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
             intent.addFlags(Intent.FLAG_FROM_BACKGROUND);
             stopService(intent);
-            toggleStatus(true);
+            toggleStatus();
         }
     }
 
@@ -277,7 +230,6 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             String contact = getString(R.string.app_name);
             String message = getString(R.string.test_diction);
 
-//            TextToSpeechHelper.parler(this, message, MESSAGE_RECU);
             Intent intent = new Intent(DisMoiToutSmsActivity.this, SmsRecuActivity.class);
             intent.putExtra(SmsRecuActivity.Parameters.DATE.name(), new Date().getTime());
             intent.putExtra(SmsRecuActivity.Parameters.CONTACT_NAME.toString(), contact);
@@ -289,53 +241,16 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         }
     }
 
-    private void toggleStatus(boolean animate) {
-        ImageButton statusIcon = findViewById(R.id.status_icon);
+    private void toggleStatus() {
         Switch switchActivation = findViewById(R.id.switch_activation);
-        if(animate) {
-            toggleStatusAnimated(statusIcon, switchActivation);
-        } else {
-            toggleStatusSimple(statusIcon, switchActivation);
-        }
-    }
-
-    private void toggleStatusAnimated(ImageButton statusIcon, Switch switchActivation) {
-
-        toggleStatusSimple(statusIcon, switchActivation);
-        if (statusIcon!=null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewAnimationUtils.createCircularReveal(statusIcon,
-                    statusIcon.getWidth(),
-                    statusIcon.getHeight(),
-                    0,
-                    statusIcon.getHeight() * 2).start();
-        }
-    }
-
-    private void toggleStatusSimple(ImageButton statusIcon, Switch switchActivation) {
         boolean myServiceRunning = isMyServiceRunning();
         switchActivation.setChecked(myServiceRunning);
-        if(statusIcon!=null) {
-            statusIcon.setSelected(myServiceRunning);
-            if (isMyServiceRunning()) {
-                statusIcon.setImageResource(R.drawable.ic_volume_up_white_512dp);
-            } else {
-                statusIcon.setImageResource(R.drawable.ic_volume_off_white_512dp);
-            }
-        }
     }
 
     @Override
 	protected void onPause() {
 		super.onPause();
 
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-
-        ImageButton statusIcon = findViewById(R.id.status_icon);
-        if(statusIcon!=null) {
-            statusIcon.setOnClickListener(null);
-        }
-
-        //Drawer
         languageChooser().setOnItemSelectedListener(null);
         btnTester().setOnClickListener(null);
         checkBoxReponseVocale().setOnCheckedChangeListener(null);

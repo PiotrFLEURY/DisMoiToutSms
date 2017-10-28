@@ -11,12 +11,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import static java.lang.System.currentTimeMillis;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 /**
  * Created by piotr_000 on 12/03/2016.
+ *
  */
 public class StepListenerTest {
 

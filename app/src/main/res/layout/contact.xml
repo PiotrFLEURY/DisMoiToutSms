@@ -48,7 +48,7 @@
             android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8sp"
+            android:layout_marginStart="8sp"
             android:text="@string/nom"
             tools:text="Jean marie du chateau sur la coline"
             android:textColor="@color/grey600"

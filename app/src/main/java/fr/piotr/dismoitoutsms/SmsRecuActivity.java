@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -179,7 +178,7 @@ public class SmsRecuActivity extends AbstractActivity {
 		initReponse();
 
 		sablier = new Sablier(this);
-        final TextView sablierIndicator = (TextView) findViewById(R.id.sablierIndicator);
+        final TextView sablierIndicator = findViewById(R.id.sablierIndicator);
         sablier.setOnProgressListener(value -> runOnUiThread(() -> sablierIndicator.setText(String.valueOf(value))));
 		sablier.start();
 
@@ -224,7 +223,7 @@ public class SmsRecuActivity extends AbstractActivity {
 	}
 
 	private void initPhoto() {
-		ImageView photo = (ImageView) findViewById(R.id.smsrecucontactphoto);
+		ImageView photo = findViewById(R.id.smsrecucontactphoto);
 		if(contact!=null && contact.hasAPhoto()){
             photo.setImageBitmap(ContactHelper.getPhotoContact(this, contact.getPhotoId()));
         }
@@ -374,9 +373,9 @@ public class SmsRecuActivity extends AbstractActivity {
 
         runOnUiThread(() -> {
             showMicrophone();
-            TextView speechInstructions = (TextView) findViewById(R.id.speech_instructions);
+            TextView speechInstructions = findViewById(R.id.speech_instructions);
             speechInstructions.setText(extraPrompt);
-            TextView reponseEnCours = (TextView) findViewById(R.id.reponse_en_cours);
+            TextView reponseEnCours = findViewById(R.id.reponse_en_cours);
             reponseEnCours.setText("");
             speechRecorder = new MySpeechRecorder(SmsRecuActivity.this);
             speechRecorder.startListening(instruction, extraPrompt);

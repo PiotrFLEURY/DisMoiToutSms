@@ -51,7 +51,6 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
 
     private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
     private AudioFocusRequest audioFocusRequest;
-    private Handler handler;
 
     public TextToSpeechHelper(Context context, StartedListener listener) {
         this.context=context;
@@ -70,8 +69,6 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         listeners.put(Diction.MODIFIER_ENVOYER_OU_FERMER, new ModifierEnvoyerFermerListener(context, this));
         listeners.put(Diction.MESSAGE_ENVOYE, new MessageEnvoyeListener(context, this));
         listeners.put(Diction.CONTACTS_TROUVES, new ContactsTrouvesListener(context, this));
-
-        this.handler = new Handler();
 
         this.audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
             @Override
@@ -98,7 +95,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
                     .setAudioAttributes(mPlaybackAttributes)
                     .setAcceptsDelayedFocusGain(true)
                     .setWillPauseWhenDucked(true)
-                    .setOnAudioFocusChangeListener(this.audioFocusChangeListener, handler)
+                    .setOnAudioFocusChangeListener(this.audioFocusChangeListener, new Handler())
                     .build();
         }
     }

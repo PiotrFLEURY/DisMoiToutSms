@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import fr.piotr.dismoitoutsms.BuildConfig;
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.SmsRecuActivity;
 import fr.piotr.dismoitoutsms.util.Instruction;
@@ -24,7 +23,6 @@ import static android.speech.RecognizerIntent.EXTRA_CALLING_PACKAGE;
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL;
 import static android.speech.RecognizerIntent.EXTRA_PARTIAL_RESULTS;
 import static android.speech.RecognizerIntent.EXTRA_PROMPT;
-import static android.speech.RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS;
 import static android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM;
 
 /**

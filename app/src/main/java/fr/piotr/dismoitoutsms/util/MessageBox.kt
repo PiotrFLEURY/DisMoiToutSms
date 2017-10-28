@@ -1,0 +1,34 @@
+package fr.piotr.dismoitoutsms.util
+
+import android.app.AlertDialog
+import android.content.Context
+import android.util.Log
+
+import fr.piotr.dismoitoutsms.R
+
+object EmptyRunnable : Runnable {
+
+    override fun run() {
+        Log.d("EmptyRunnable", "nothing to do")
+    }
+
+}
+
+object MessageBox {
+
+    fun confirm(context: Context, message: String, ok: Runnable){
+        confirm(context, message, ok)
+    }
+
+    fun confirm(context: Context, title: String = "", message: String,
+                ok: Runnable = EmptyRunnable, ko: Runnable = EmptyRunnable) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton(context.getString(R.string.oui)) { _, _ -> ok?.run() }
+        builder.setNegativeButton(context.getString(R.string.non)) { _, _ -> ko.run() }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+}

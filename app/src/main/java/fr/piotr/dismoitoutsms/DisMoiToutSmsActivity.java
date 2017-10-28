@@ -24,7 +24,6 @@ import android.view.ViewAnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -149,7 +148,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter);
 
         toggleStatus(false);
-        ImageButton statusIcon = (ImageButton) findViewById(R.id.status_icon);
+        ImageButton statusIcon = findViewById(R.id.status_icon);
         if(statusIcon!=null) {
             statusIcon.setOnClickListener(v -> {
                 Intent intent = new Intent(DisMoiToutSmsActivity.this, ServiceCommunicator.class);
@@ -164,7 +163,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             });
         }
 
-        Switch switchActivation = (Switch) findViewById(R.id.switch_activation);
+        Switch switchActivation = findViewById(R.id.switch_activation);
         switchActivation.setChecked(isMyServiceRunning());
         switchActivation.setOnClickListener(v -> {
             if(((Switch)v).isChecked()){
@@ -246,11 +245,11 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
     }
 
     private void toggleDrawer() {
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT)) {
-            drawerLayout.closeDrawer(Gravity.LEFT);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        if(drawerLayout.isDrawerOpen(Gravity.START)) {
+            drawerLayout.closeDrawer(Gravity.START);
         } else {
-            drawerLayout.openDrawer(Gravity.LEFT);
+            drawerLayout.openDrawer(Gravity.START);
         }
     }
 
@@ -283,7 +282,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
             intent.putExtra(SmsRecuActivity.Parameters.DATE.name(), new Date().getTime());
             intent.putExtra(SmsRecuActivity.Parameters.CONTACT_NAME.toString(), contact);
             intent.putExtra(SmsRecuActivity.Parameters.MESSAGE.toString(), message);
-            intent.putExtra(SmsRecuActivity.Parameters.CONTACT.name(), new Contact(-1, contact, "0000000000", null));
+            intent.putExtra(SmsRecuActivity.Parameters.CONTACT.name(), new Contact(-1, contact, "0000000000", 0));//FIXME named parameters
             startActivity(intent);
         } else {
             Toast.makeText(this, R.string.deactivated, Toast.LENGTH_SHORT).show();
@@ -291,8 +290,8 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
     }
 
     private void toggleStatus(boolean animate) {
-        ImageButton statusIcon = (ImageButton) findViewById(R.id.status_icon);
-        Switch switchActivation = (Switch) findViewById(R.id.switch_activation);
+        ImageButton statusIcon = findViewById(R.id.status_icon);
+        Switch switchActivation = findViewById(R.id.switch_activation);
         if(animate) {
             toggleStatusAnimated(statusIcon, switchActivation);
         } else {
@@ -331,7 +330,7 @@ public class DisMoiToutSmsActivity extends AbstractActivity {
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
 
-        ImageButton statusIcon = (ImageButton) findViewById(R.id.status_icon);
+        ImageButton statusIcon = findViewById(R.id.status_icon);
         if(statusIcon!=null) {
             statusIcon.setOnClickListener(null);
         }

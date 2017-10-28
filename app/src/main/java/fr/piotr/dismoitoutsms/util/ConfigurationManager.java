@@ -33,7 +33,7 @@ public class ConfigurationManager {
 
 	private static final String			FICHIER			= "DisMoisToutSms.properties";
 
-	public static void set(Context context, Configuration conf, String valeur) {
+	private static void set(Context context, Configuration conf, String valeur) {
 		charger(context);
 		configuration.put(conf.toString(), valeur);
 		sauvegarder(context);
@@ -109,7 +109,7 @@ public class ConfigurationManager {
 		}
 	}
 
-	public static String get(Context context, Configuration conf) {
+	private static String get(Context context, Configuration conf) {
 		charger(context);
 		String valeur = configuration.get(conf.toString());
 		if (valeur == null) {
@@ -136,14 +136,6 @@ public class ConfigurationManager {
 		return false;
 	}
 
-	public static void bannirContact(Context context, Integer id) {
-		if (!leContactEstBannis(context, id)) {
-			String valeur = get(context, Configuration.CONTACTS_BANNIS);
-			valeur = valeur + id + ";";
-			set(context, Configuration.CONTACTS_BANNIS, valeur);
-		}
-	}
-
 	public static List<String> getIdsContactsBannis(Context context) {
 		String valeur = get(context, Configuration.CONTACTS_BANNIS);
 		if (valeur == null) {
@@ -151,37 +143,6 @@ public class ConfigurationManager {
 		}
 		return new ArrayList<>(Arrays.asList(valeur.split(";")));
 	}
-
-//	public static void gratifierContact(Context context, Integer id) {
-//		if (leContactEstBannis(context, id)) {
-//			String valeur = get(context, Configuration.CONTACTS_BANNIS);
-//			List<String> bannis = new ArrayList<String>(Arrays.asList(valeur.split(";")));
-//			bannis.remove(id.toString());
-//			StringBuffer sb = new StringBuffer();
-//			for (String cle : bannis) {
-//				sb.append(cle);
-//				sb.append(";");
-//			}
-//			valeur = sb.toString();
-//			set(context, CONTACTS_BANNIS, valeur);
-//		}
-//	}
-//
-//	public static boolean aucunContactBanni(Context context) {
-//		String valeur = get(context, Configuration.CONTACTS_BANNIS);
-//		return valeur == null || valeur.isEmpty();
-//	}
-//
-//	public static void gratifierTousLesContacts(Context context) {
-//		set(context, CONTACTS_BANNIS, "");
-//	}
-//
-//	public static void bannirTousLesContacts(Context context) {
-//		Collection<Contact> allContacts = getAllContacts(context);
-//		for (Contact contact : allContacts) {
-//			bannirContact(context, contact.getId());
-//		}
-//	}
 
 	public static void bannirLesContacts(Context context, Contacts contactsABannir) {
 		StringBuilder valeur = new StringBuilder();

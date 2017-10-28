@@ -47,17 +47,4 @@ public enum Emoticone {
 		return remplacement;
 	}
 
-	public static String getCodesForTest(){
-		StringBuilder sb=new StringBuilder();
-		
-		for(final Emoticone emo:values()){
-			if(!sb.toString().isEmpty()){
-				sb.append(", ");
-			}
-			sb.append(emo.getCode());
-		}
-		
-		return sb.toString();
-	}
-
 }

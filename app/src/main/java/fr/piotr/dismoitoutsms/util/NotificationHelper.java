@@ -79,7 +79,7 @@ public class NotificationHelper {
         intentSmsActivity.putExtra(SmsRecuActivity.Parameters.DATE.name(), new Date().getTime());
         intentSmsActivity.putExtra(SmsRecuActivity.Parameters.CONTACT_NAME.toString(), contact);
         //intentSmsActivity.putExtra(SmsRecuActivity.Parameters.MESSAGE.toString(), message);
-        intentSmsActivity.putExtra(SmsRecuActivity.Parameters.CONTACT.name(), new Contact(-1, contact, "0000000000", null));
+        intentSmsActivity.putExtra(SmsRecuActivity.Parameters.CONTACT.name(), new Contact(-1, contact, "0000000000", 0));//FIXME named parameters
 
         notificationView.setOnClickPendingIntent(R.id.complex_notification_btn_new_message,
                 PendingIntent.getActivity(context, 0, intentSmsActivity, PendingIntent.FLAG_UPDATE_CURRENT));

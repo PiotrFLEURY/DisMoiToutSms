@@ -31,6 +31,39 @@ import static fr.piotr.dismoitoutsms.util.ContactHelper.getAllContacts;
  */
 public class ContactSelectionActivity extends AbstractActivity {
 
+    private class InitContactsTask extends AsyncTask<Context, Void, List<String>> {
+
+        @Override
+        protected List<String> doInBackground(Context... context) {
+            return ConfigurationManager.getIdsContactsBannis(context[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<String> idsContactsBannis) {
+            for (Contact contact : mesContacts) {
+                if (!idsContactsBannis.contains(String.valueOf(contact.getId()))) {
+                    getContactsSelectionnes().add(contact);
+                }
+            }
+            contactsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class BannirContactsTask extends AsyncTask<Contacts, Void, Void>{
+
+        private Context context;
+
+        BannirContactsTask(Context context){
+            this.context = context;
+        }
+
+        @Override
+        protected final Void doInBackground(Contacts... contacts) {
+            bannirLesContacts(context, contacts[0]);
+            return null;
+        }
+    }
+
     AutoCompleteTextView champRecherche;
 
 	ContactsAdapter		contactsAdapter;
@@ -52,8 +85,8 @@ public class ContactSelectionActivity extends AbstractActivity {
         }
 		setContentView(R.layout.contacts);
 
-        champRecherche = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
-        contacts = (ListView) findViewById(R.id.contacts);
+        champRecherche = findViewById(R.id.autoCompleteTextView);
+        contacts = findViewById(R.id.contacts);
 
         mesContacts = getAllContacts(this);
         initContactsSelectiones();
@@ -101,7 +134,7 @@ public class ContactSelectionActivity extends AbstractActivity {
 
                 private void confirmerSuppression(final ContactViewHolder holder) {
                     Runnable runnable = () -> supprimerContact(holder.getNom().getText().toString());
-                    MessageBox.confirm(ContactSelectionActivity.this, getString(R.string.suppression),
+                    MessageBox.INSTANCE.confirm(ContactSelectionActivity.this, getString(R.string.suppression),
                             getString(R.string.confirmersuppression), runnable, null);
                 }
 
@@ -160,7 +193,7 @@ public class ContactSelectionActivity extends AbstractActivity {
     protected void onPause() {
         super.onPause();
 
-        final AutoCompleteTextView champRecherche = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        final AutoCompleteTextView champRecherche = findViewById(R.id.autoCompleteTextView);
         champRecherche.setOnItemClickListener(null);
 
         if(contacts!=null) {
@@ -176,23 +209,7 @@ public class ContactSelectionActivity extends AbstractActivity {
 	}
 
 	public void initContactsSelectiones() {
-        new AsyncTask<Context, Void, List<String>>() {
-
-            @Override
-            protected List<String> doInBackground(Context... context) {
-                return ConfigurationManager.getIdsContactsBannis(context[0]);
-            }
-
-            @Override
-            protected void onPostExecute(List<String> idsContactsBannis) {
-                for (Contact contact : mesContacts) {
-                    if (!idsContactsBannis.contains(String.valueOf(contact.getId()))) {
-                        getContactsSelectionnes().add(contact);
-                    }
-                }
-                contactsAdapter.notifyDataSetChanged();
-            }
-        }.execute(this);
+        new InitContactsTask().execute(this);
 	}
 
 	public void ajouterContact(Contact contact) {
@@ -203,7 +220,7 @@ public class ContactSelectionActivity extends AbstractActivity {
 	}
 
 	public void initChampRecherche() {
-		final AutoCompleteTextView champRecherche = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+		final AutoCompleteTextView champRecherche = findViewById(R.id.autoCompleteTextView);
 		dorpDownAdapter = new ContactsAdapter(this, mesContacts);
 		champRecherche.setAdapter(dorpDownAdapter);
 	}
@@ -242,26 +259,22 @@ public class ContactSelectionActivity extends AbstractActivity {
 			}
 		}
 
-        new AsyncTask<Contacts, Void, Void>(){
+        bannirContacts(contactsABannir);
 
-            @Override
-            protected final Void doInBackground(Contacts... contacts) {
-                bannirLesContacts(ContactSelectionActivity.this, contacts[0]);
-                return null;
-            }
-        }.execute(contactsABannir);
+    }
 
-	}
+    private void bannirContacts(Contacts contactsABannir) {
+        new BannirContactsTask(this).execute(contactsABannir);
+    }
 
-	public void deleteAll(View v) {
+    public void deleteAll(View v) {
         Runnable runnable = () -> {
             getContactsSelectionnes().clear();
             contactsAdapter.notifyDataSetChanged();
             dorpDownAdapter.notifyDataSetChanged();
             enregistrer();
         };
-        MessageBox.confirm(ContactSelectionActivity.this, "",
-                getString(R.string.areYouSure), runnable, null);
+        MessageBox.INSTANCE.confirm(ContactSelectionActivity.this, getString(R.string.areYouSure), runnable);
 
 	}
 
@@ -274,8 +287,7 @@ public class ContactSelectionActivity extends AbstractActivity {
             dorpDownAdapter.notifyDataSetChanged();
             enregistrer();
         };
-        MessageBox.confirm(ContactSelectionActivity.this, "",
-                getString(R.string.areYouSure), runnable, null);
+        MessageBox.INSTANCE.confirm(ContactSelectionActivity.this, getString(R.string.areYouSure), runnable);
     }
 
 }

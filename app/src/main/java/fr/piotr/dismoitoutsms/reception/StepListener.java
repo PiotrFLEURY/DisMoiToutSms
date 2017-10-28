@@ -16,6 +16,7 @@ import fr.piotr.dismoitoutsms.util.NotificationHelper;
  * Created by piotr_000 on 12/03/2016.
  *
  */
+@Deprecated
 public class StepListener implements SensorEventListener {
 
     private static final int STEP_LIMIT = 100;

@@ -64,9 +64,9 @@ public class ContactsAdapter extends ArrayAdapter<Contact> {
 		if (convertView == null) {
 
 			convertView = LayoutInflater.from(context).inflate(R.layout.contact, parent, false);
-			avatar = (ImageView) convertView.findViewById(R.id.avatar);
-			photo = (ImageView) convertView.findViewById(R.id.photoContact);
-			textViewNom = (TextView) convertView.findViewById(R.id.nom);
+			avatar = convertView.findViewById(R.id.avatar);
+			photo = convertView.findViewById(R.id.photoContact);
+			textViewNom = convertView.findViewById(R.id.nom);
 
 			convertView.setTag(new ContactViewHolder(avatar, photo, textViewNom));
 

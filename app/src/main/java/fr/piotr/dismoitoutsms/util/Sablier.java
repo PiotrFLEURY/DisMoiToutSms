@@ -10,21 +10,20 @@ import fr.piotr.dismoitoutsms.SmsRecuActivity;
  */
 public class Sablier extends Thread {
 
-    public static final String TAG = "Sablier";
+    private static final String TAG = "Sablier";
 
 	public interface OnProgressListener{
 
 		void onProgress(int value);
 	}
 
-	public static final int	TIMEOUT	= 60;
+	private static final int	TIMEOUT	= 60;
 
 	private SmsRecuActivity	caller;
 	private int				step;
 	private boolean			finished;
-	private boolean freezed;
 
-	OnProgressListener onProgressListener;
+	private OnProgressListener onProgressListener;
 
 	public Sablier(SmsRecuActivity caller) {
 		this.caller = caller;
@@ -41,11 +40,9 @@ public class Sablier extends Thread {
 			reset();
 			while (!finished && step < TIMEOUT) {
 				Thread.sleep(1000);
-				if(!freezed) {
-					step++;
-					if(onProgressListener!=null){
-						onProgressListener.onProgress(TIMEOUT-step);
-					}
+				step++;
+				if(onProgressListener!=null){
+					onProgressListener.onProgress(TIMEOUT-step);
 				}
 			}
 			if (!finished) {
@@ -63,14 +60,6 @@ public class Sablier extends Thread {
 
 	public void finished() {
 		finished = true;
-	}
-
-	public void freez(){
-		freezed=true;
-	}
-
-	public void unFreez(){
-		freezed=false;
 	}
 
 }

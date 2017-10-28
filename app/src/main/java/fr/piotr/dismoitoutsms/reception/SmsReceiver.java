@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsMessage;
@@ -100,7 +99,7 @@ public class SmsReceiver extends BroadcastReceiver {
             Log.i("DisMoiToutSms", "SmsReceiver can speak");
 
             if(contact==null) {
-                contact = new Contact(-1, phoneNumber, phoneNumber, null);
+                contact = new Contact(-1, phoneNumber, phoneNumber, 0);//FIXME named parameters
             }
 
             dicterLeSms(context, smsEntier, contact);

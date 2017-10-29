@@ -1,7 +1,10 @@
 package fr.piotr.dismoitoutsms.util;
 
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication;
 import fr.piotr.dismoitoutsms.SmsRecuActivity;
 
 /**
@@ -12,26 +15,13 @@ public class Sablier extends Thread {
 
     private static final String TAG = "Sablier";
 
-	public interface OnProgressListener{
-
-		void onProgress(int value);
-	}
-
 	private static final int	TIMEOUT	= 60;
 
-	private SmsRecuActivity	caller;
 	private int				step;
 	private boolean			finished;
 
-	private OnProgressListener onProgressListener;
-
-	public Sablier(SmsRecuActivity caller) {
-		this.caller = caller;
+	public Sablier() {
 		reset();
-	}
-
-	public void setOnProgressListener(OnProgressListener onProgressListener) {
-		this.onProgressListener = onProgressListener;
 	}
 
 	@Override
@@ -41,12 +31,10 @@ public class Sablier extends Thread {
 			while (!finished && step < TIMEOUT) {
 				Thread.sleep(1000);
 				step++;
-				if(onProgressListener!=null){
-					onProgressListener.onProgress(TIMEOUT-step);
-				}
 			}
 			if (!finished) {
-				caller.finish();
+				Intent intent = new Intent(SmsRecuActivity.Companion.getEVENT_FINISH());
+				LocalBroadcastManager.getInstance(DisMoiToutSmsApplication.INSTANCE.getApplicationContext()).sendBroadcast(intent);
 			}
 		} catch (InterruptedException e) {
             Log.e(TAG, e.getMessage());

@@ -11,6 +11,7 @@ import fr.piotr.dismoitoutsms.R
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.contacts.Contacts
 import fr.piotr.dismoitoutsms.contacts.ContactsAdapter
+import kotlinx.android.synthetic.main.contact_selection.view.*
 import java.util.*
 
 /**
@@ -33,8 +34,8 @@ class ContactSelectionDialog(context: Context) : AlertDialog(context) {
 
         val layout = LayoutInflater.from(context).inflate(R.layout.contact_selection, listView, false)
 
-        tvTitle = layout.findViewById(R.id.contact_selection_title)
-        lvContacts = layout.findViewById(R.id.contact_selection_list)
+        tvTitle = layout.contact_selection_title
+        lvContacts = layout.contact_selection_list
 
         setView(layout)
     }

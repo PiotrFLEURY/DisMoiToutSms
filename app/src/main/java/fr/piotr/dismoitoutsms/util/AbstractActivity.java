@@ -1,9 +1,6 @@
 package fr.piotr.dismoitoutsms.util;
 
 import android.Manifest;
-import android.app.ActivityManager;
-import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -13,15 +10,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import fr.piotr.dismoitoutsms.ContactSelectionActivity;
+import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication;
 import fr.piotr.dismoitoutsms.R;
-import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
 
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.COMMANDE_VOCALE;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.UNIQUEMENT_CONTACTS;
@@ -39,43 +34,21 @@ public abstract class AbstractActivity extends AppCompatActivity {
     public static final int PERMISSIONS_RECORD_AUDIO = 3;
     public static final int PERMISSIONS_READ_PHONE_STATE = 4;
 
-    public void go(Class clazz) {
-        startActivity(new Intent(this, clazz));
-    }
-
     public boolean isMyServiceRunning() {
-        return isMyServiceRunning(ServiceCommunicator.class);
-    }
-
-    public boolean isMyServiceRunning(Class<? extends Service> clazz) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (clazz.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
+        return DisMoiToutSmsApplication.INSTANCE.serviceCommunicatorRunning();
     }
 
     public void openContactSelection(View v) {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(Gravity.START);
         if(checkPermissions(PERMISSIONS_REQUEST_READ_CONTACTS, Manifest.permission.READ_CONTACTS)) {
-            go(ContactSelectionActivity.class);
+            startActivity(new Intent(this, ContactSelectionActivity.class));
         }
 
     }
 
-    public Button button(int id) {
-        return (Button) findViewById(id);
-    }
-
     public CompoundButton checkbox(int id) {
         return (CompoundButton) findViewById(id);
-    }
-
-    public Spinner spinner(int id) {
-        return (Spinner) findViewById(id);
     }
 
     public TextView text(int id) {
@@ -119,18 +92,17 @@ public abstract class AbstractActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_CONTACTS:
                 setBoolean(getApplicationContext(), UNIQUEMENT_CONTACTS, false);
-                checkbox(R.id.uniquementContactesTab).setChecked(false);
+                checkbox(R.id.switch_uniquement_mes_contacts).setChecked(false);
                 break;
             case PERMISSIONS_REQUEST_SMS:
                 break;
             case PERMISSIONS_RECORD_AUDIO:
                 setBoolean(getApplicationContext(), COMMANDE_VOCALE, false);
-                checkbox(R.id.commandeVocaleBtnTab).setChecked(false);
+                checkbox(R.id.switch_reponse_vocale).setChecked(false);
                 break;
             case PERMISSIONS_READ_PHONE_STATE:
                 break;
         }
-        //LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(DisMoiToutSmsActivity.EVENT_DEACTIVATE));
         Toast.makeText(this, R.string.toast_error_permission_denial, Toast.LENGTH_SHORT).show();
     }
 }

@@ -111,23 +111,23 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     private void sendDestroy() {
-        localBroadcastManager.sendBroadcast(new Intent(SmsRecuActivity.EVENT_DESTROY_SPEECH_RECOGNIZER));
+        localBroadcastManager.sendBroadcast(new Intent(SmsRecuActivity.Companion.getEVENT_DESTROY_SPEECH_RECOGNIZER()));
     }
 
     private void onSpeechResult(Instruction instruction, int returnCode, List<String> words) {
-        Intent intent = new Intent(SmsRecuActivity.EVENT_SPEECH_RESULT);
-        intent.putExtra(SmsRecuActivity.EXTRA_SPEECH_INSTRUCTION, instruction);
-        intent.putExtra(SmsRecuActivity.EXTRA_SPEECH_RESULT_CODE, returnCode);
+        Intent intent = new Intent(SmsRecuActivity.Companion.getEVENT_SPEECH_RESULT());
+        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_SPEECH_INSTRUCTION(), instruction);
+        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_SPEECH_RESULT_CODE(), returnCode);
         if(words instanceof ArrayList) {
-            intent.putStringArrayListExtra(SmsRecuActivity.EXTRA_SPEECH_WORDS, (ArrayList<String>) words);
+            intent.putStringArrayListExtra(SmsRecuActivity.Companion.getEXTRA_SPEECH_WORDS(), (ArrayList<String>) words);
         } else {
-            intent.putStringArrayListExtra(SmsRecuActivity.EXTRA_SPEECH_WORDS, new ArrayList<>());
+            intent.putStringArrayListExtra(SmsRecuActivity.Companion.getEXTRA_SPEECH_WORDS(), new ArrayList<>());
         }
         localBroadcastManager.sendBroadcast(intent);
     }
 
     private void hideMicrophone(){
-        localBroadcastManager.sendBroadcast(new Intent(SmsRecuActivity.EVENT_HIDE_MICROPHONE));
+        localBroadcastManager.sendBroadcast(new Intent(SmsRecuActivity.Companion.getEVENT_HIDE_MICROPHONE()));
     }
 
     public void destroy() {
@@ -168,8 +168,8 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     private void onPartialResult(ArrayList<String> results) {
-        Intent intent = new Intent(SmsRecuActivity.EVENT_SPEECH_PARTIAL_RESULT);
-        intent.putExtra(SmsRecuActivity.EXTRA_SPEECH_WORDS, results);
+        Intent intent = new Intent(SmsRecuActivity.Companion.getEVENT_SPEECH_PARTIAL_RESULT());
+        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_SPEECH_WORDS(), results);
         localBroadcastManager.sendBroadcast(intent);
     }
 

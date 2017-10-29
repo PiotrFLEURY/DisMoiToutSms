@@ -5,7 +5,7 @@ import java.io.Serializable
 /**
  * @author Piotr
  */
-data class Contact(val id: Int, val name: String, val telephone: String, val photoId: Int = 0) : Comparable<Contact>, Serializable {
+data class Contact(val id: Int = -1, val name: String, val telephone: String, val photoId: Int = 0) : Comparable<Contact>, Serializable {
 
     override fun compareTo(other: Contact): Int {
         return name.compareTo(other.name)

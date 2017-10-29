@@ -1,10 +1,10 @@
 package fr.piotr.dismoitoutsms.headset;
 
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication;
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
@@ -19,7 +19,7 @@ import fr.piotr.dismoitoutsms.util.NotificationHelper;
 public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
 
     protected void onHeadSetPluggedOut(Context context) {
-        if(isMyServiceRunning(context)) {
+        if(DisMoiToutSmsApplication.INSTANCE.serviceCommunicatorRunning()) {
             if(onAutoStop()) {
                 Intent service = new Intent(context, ServiceCommunicator.class);
                 service.addFlags(Intent.FLAG_FROM_BACKGROUND);
@@ -31,7 +31,7 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
     }
 
     protected void onHeadSetPluggedIn(Context context) {
-        if(!isMyServiceRunning(context)) {
+        if(!DisMoiToutSmsApplication.INSTANCE.serviceCommunicatorRunning()) {
             if(ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.HEADSET_MODE)){
                 onAutoStart();
                 Intent service = new Intent(context, ServiceCommunicator.class);
@@ -44,16 +44,6 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
                 NotificationHelper.open(context, NotificationHelper.HEADSET_PLUGGED_IN, intent);
             }
         }
-    }
-
-    protected boolean isMyServiceRunning(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (ServiceCommunicator.class.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     protected void onAutoStart(){

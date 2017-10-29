@@ -18,27 +18,6 @@
             android:orientation="vertical"
             android:padding="16sp">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-
-                <ProgressBar
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"/>
-
-                <TextView
-                    android:id="@+id/sablierIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    tools:text="30"/>
-
-            </FrameLayout>
-
             <LinearLayout
                 android:id="@+id/smsrecu_header"
                 android:layout_width="match_parent"
@@ -73,7 +52,7 @@
                         />
 
                     <TextView
-                        android:id="@+id/contactname"
+                        android:id="@+id/tv_contact_name"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
@@ -86,7 +65,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/reponsemessagetxt"
+                android:id="@+id/tv_reponse_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?"
@@ -101,7 +80,6 @@
     </ScrollView>
 
     <include
-        android:id="@+id/microphone"
         layout="@layout/microphone"
         android:visibility="gone"/>
 

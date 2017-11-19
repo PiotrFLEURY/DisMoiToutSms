@@ -26,6 +26,7 @@ import fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.*
 import fr.piotr.dismoitoutsms.util.ConfigurationManager.getBoolean
 import fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean
 import kotlinx.android.synthetic.main.drawer_layout_v4.*
+import kotlinx.android.synthetic.main.drawer_v4.*
 import kotlinx.android.synthetic.main.main_v4.*
 import java.util.*
 
@@ -73,6 +74,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         initStepDetectorOption()
 
         initHeadSetOption()
+
+        drawer_tv_version.text = BuildConfig.VERSION_NAME
 
     }
 
@@ -221,7 +224,13 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     private fun toggleStatus() {
-        switch_activation.isChecked = isMyServiceRunning
+        if (isMyServiceRunning) {
+            switch_activation.isChecked = true
+            tv_status_text.text = getString(R.string.activated)
+        } else {
+            switch_activation.isChecked = false
+            tv_status_text.text = getString(R.string.deactivated)
+        }
     }
 
     override fun onPause() {

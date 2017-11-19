@@ -14,7 +14,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        tools:text="Valider"
-        android:background="@drawable/button"/>
+        tools:text="Valider"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:checked="false"/>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:checked="true"/>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

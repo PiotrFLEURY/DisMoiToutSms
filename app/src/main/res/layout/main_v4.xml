@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    tools:menu="main_menu"
     tools:context=".DisMoiToutSmsActivity">
 
-    <Switch
-        android:id="@+id/switch_activation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:padding="16sp"
-        android:textOn="@string/service_notif_texte"
-        android:textOff="@string/diction_des_sms"
-        android:text="@string/diction_des_sms"/>
+        android:orientation="vertical"
+        android:padding="16sp">
 
-    <Button
-        android:id="@+id/btn_tester"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="?selectableItemBackground"
-        android:textColor="@color/blue700"
-        android:text="@string/tester_dictiontext" />
+        <Switch
+            android:id="@+id/switch_activation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/diction_des_sms"
+            style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+            tools:checked="false"/>
 
-    <View
+        <TextView
+            android:id="@+id/tv_status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/deactivated"
+            style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+        <Button
+            android:id="@+id/btn_tester"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:text="@string/tester_dictiontext" />
+
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="1sp"
-        android:layout_marginStart="16sp"
-        android:background="@color/blue700"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,37 +53,17 @@
             android:orientation="vertical"
             android:padding="8sp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:padding="8sp"
+                android:textColor="@color/primary"
+                android:text="@string/selectioncontacttitle"/>
 
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:src="@drawable/ic_language_24dp"
-                    android:tint="@color/grey600" />
-
-                <TextView
-                    android:id="@+id/tabwidgettext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:text="@string/langue"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/black" />
-
-                <Spinner
-                    android:id="@+id/sp_language"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="16sp"
-                    android:textColor="@color/black" />
-
-            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:background="@color/divider"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,8 +82,7 @@
                     android:id="@+id/switch_uniquement_mes_contacts"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/uniquementcontacts"
-                    android:textColor="@color/black" />
+                    android:text="@string/uniquementcontacts" />
 
             </LinearLayout>
 
@@ -107,27 +97,19 @@
                 android:background="?selectableItemBackground"
                 android:text="@string/manage_contacts"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:textColor="@color/primary"
+                android:padding="8sp"
+                android:text="@string/options"/>
 
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:tint="@color/grey600"
-                    android:src="@drawable/ic_insert_emoticon_24dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:background="@color/divider"/>
 
-                <Switch
-                    android:id="@+id/switch_emoticones"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/translate_emoticones"
-                    android:textColor="@color/black"/>
 
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,8 +127,7 @@
                 <Switch
                     android:id="@+id/switch_reponse_vocale"
                     android:layout_width="match_parent"
-                    android:layout_height="64sp"
-                    android:textColor="@color/black"
+                    android:layout_height="match_parent"
                     android:text="@string/commande_vocale"/>
 
             </LinearLayout>
@@ -168,9 +149,8 @@
                 <Switch
                     android:id="@+id/switch_step_detector"
                     android:layout_width="match_parent"
-                    android:layout_height="64sp"
-                    android:text="@string/stepDetectorOption"
-                    android:textColor="@color/black"/>
+                    android:layout_height="match_parent"
+                    android:text="@string/stepDetectorOption" />
 
             </LinearLayout>
 
@@ -190,14 +170,77 @@
                 <Switch
                     android:id="@+id/switch_headset_mode"
                     android:layout_width="match_parent"
-                    android:layout_height="64sp"
-                    android:text="@string/heaset_mode_option"
-                    android:textColor="@color/black" />
+                    android:layout_height="match_parent"
+                    android:text="@string/heaset_mode_option" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:padding="8sp"
+                android:text="@string/parametres"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:background="@color/divider"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="48sp"
+                    android:layout_height="48sp"
+                    android:padding="12sp"
+                    android:src="@drawable/ic_language_24dp"
+                    android:tint="@color/grey600" />
+
+                <TextView
+                    android:id="@+id/tabwidgettext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:text="@string/langue" />
+
+                <Spinner
+                    android:id="@+id/sp_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/custom_spinner_item"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="48sp"
+                    android:layout_height="48sp"
+                    android:padding="12sp"
+                    android:tint="@color/grey600"
+                    android:src="@drawable/ic_insert_emoticon_24dp"/>
+
+                <Switch
+                    android:id="@+id/switch_emoticones"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/translate_emoticones" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

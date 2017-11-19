@@ -3,11 +3,6 @@
     android:id="@android:id/text1"
     android:singleLine="true"
     android:layout_width="match_parent"
-    android:layout_height="48sp"
-    android:gravity="center_vertical"
-    android:paddingStart="16sp"
-    android:ellipsize="marquee"
-    android:textAlignment="inherit"
-    android:background="@color/white"
-    android:textColor="@color/grey600"
+    android:layout_height="wrap_content"
+    android:padding="16sp"
     tools:text="Sample"/>

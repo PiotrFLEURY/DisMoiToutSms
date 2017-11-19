@@ -82,5 +82,8 @@
     <string name="manage_contacts">Administrar mis contactos</string>
     <string name="action_retry">reintentar</string>
     <string name="error_occured">Se ha producido un error</string>
+    <string name="about">"Acerca de "</string>
+    <string name="app_version_name">Versión</string>
+    <string name="options">opciones</string>
 
 </resources>

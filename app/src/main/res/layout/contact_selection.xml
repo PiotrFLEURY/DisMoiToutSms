@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="150sp"
         android:padding="16sp"
-        android:background="@color/blue900"
+        android:background="?attr/colorPrimary"
         android:src="@drawable/ic_group_white_512dp"/>
 
     <TextView

@@ -14,7 +14,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:paddingTop="8sp"
         android:paddingRight="16sp"
         android:paddingLeft="16sp"
@@ -50,9 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8sp"
             android:text="@string/nom"
-            tools:text="Jean marie du chateau sur la coline"
-            android:textColor="@color/grey600"
-            style="@style/TextMedium"/>
+            tools:text="Jean marie du chateau sur la coline"/>
 
 
 

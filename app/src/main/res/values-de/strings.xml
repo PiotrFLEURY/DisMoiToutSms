@@ -81,4 +81,7 @@
     <string name="manage_contacts">Meine Kontakte verwalten</string>
     <string name="action_retry">wiederholen</string>
     <string name="error_occured">Ein Fehler ist aufgetreten</string>
+    <string name="about">Über</string>
+    <string name="app_version_name">"Ausführung "</string>
+    <string name="options">Optionen</string>
 </resources>

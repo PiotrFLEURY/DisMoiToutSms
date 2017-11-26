@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="uk.co.samuelwall:material-tap-target-prompt-2.0.1">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-tap-target-prompt-2.0.1.aar/269d73fe8efb330ee2c2797b3a992635/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-tap-target-prompt-2.0.1.aar/269d73fe8efb330ee2c2797b3a992635/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-tap-target-prompt-2.0.1.aar/ace57081afba758c8987cb2fac1b006d/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/material-tap-target-prompt-2.0.1.aar/ace57081afba758c8987cb2fac1b006d/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

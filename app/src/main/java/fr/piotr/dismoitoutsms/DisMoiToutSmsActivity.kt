@@ -80,17 +80,19 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         drawer_tv_version.text = BuildConfig.VERSION_NAME
 
-        tapTargetFor(switch_activation, "Activer Dis-moi tout", "Activer la diction ici", this::onTapTargetSwitchActivation)
+        if(!ConfigurationManager.getBoolean(this, ConfigurationManager.Configuration.TUTORIAL_DONE)) {
+            startTutorial();
+        }
 
     }
 
-    private fun tapTargetFor(view: Switch?, title: String, text: String, action: KFunction0<Unit>) {
+    private fun tapTargetFor(view: View?, title: String, text: String, action: KFunction0<Unit>) {
         MaterialTapTargetPrompt.Builder(this@DisMoiToutSmsActivity)
                 .setTarget(view)
                 .setPrimaryText(title)
                 .setSecondaryText(text)
                 .setPromptStateChangeListener({ _, state ->
-                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                    if (state == MaterialTapTargetPrompt.STATE_DISMISSED) {
                         // User has pressed the prompt target
                         action.call()
                     }
@@ -98,8 +100,29 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 .show()
     }
 
-    fun onTapTargetSwitchActivation(){
-        //TODO
+    fun startTutorial(v: View = tv_drawer_help) {
+        drawer_layout.closeDrawer(Gravity.START)
+        tapTargetFor(switch_activation, getString(R.string.tutorial_activation_title), getString(R.string.tutorial_activation_text), this::tapTargetOnlyContacts)
+    }
+
+    fun tapTargetOnlyContacts(){
+        tapTargetFor(switch_uniquement_mes_contacts, getString(R.string.tutorial_contacts_title), getString(R.string.tutorial_contacts_text), this::tapTargetManageContacts)
+    }
+
+    fun tapTargetManageContacts() {
+        tapTargetFor(tv_gerer_contacts, getString(R.string.tutorial_contact_selection_title), getString(R.string.tutorial_contact_selection_text), this::tapTargetVocalAnswer)
+    }
+
+    fun tapTargetVocalAnswer() {
+        tapTargetFor(switch_reponse_vocale, getString(R.string.tutorial_reponse_vocale_title), getString(R.string.tutorial_reponse_vocale_text), this::tapTargetHeadsetMode)
+    }
+
+    fun tapTargetHeadsetMode() {
+        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_headset_mode_title), getString(R.string.tutorial_headset_mode_text), this::endTutorial)
+    }
+
+    fun endTutorial() {
+        ConfigurationManager.setBoolean(this, TUTORIAL_DONE, true);
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -167,9 +190,9 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             if (checkPermissions(AbstractActivity.PERMISSIONS_REQUEST_READ_CONTACTS, Manifest.permission.READ_CONTACTS)) {
                 setBoolean(applicationContext, UNIQUEMENT_CONTACTS,
                         isChecked)
-                if (isChecked) {
-                    startActivity(Intent(this@DisMoiToutSmsActivity, ContactSelectionActivity::class.java))
-                }
+//                if (isChecked) {
+//                    startActivity(Intent(this@DisMoiToutSmsActivity, ContactSelectionActivity::class.java))
+//                }
             }
         }
 

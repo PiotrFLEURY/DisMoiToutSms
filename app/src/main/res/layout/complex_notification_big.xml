@@ -57,6 +57,7 @@
             android:tint="@color/grey600"
             android:focusable="true"
             android:clickable="true"
+            android:background="?android:selectableItemBackground"
             android:src="@drawable/ic_message_white_48dp"/>
 
         <ImageView
@@ -68,7 +69,8 @@
             android:tint="@color/grey600"
             android:focusable="true"
             android:clickable="true"
-            android:src="@drawable/ic_volume_off_white_48dp"/>
+            android:background="?android:selectableItemBackground"
+            android:src="@drawable/ic_close_24dp"/>
     </LinearLayout>
 
 </LinearLayout>

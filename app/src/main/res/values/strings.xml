@@ -9,7 +9,7 @@
     <string name="dit">dit:</string>
     <string name="fermer">Fermer</string>
     <string name="translate_emoticones">Traduire les émoticônes</string>
-    <string name="test_diction">Dis-moi tout lit les SMS pour vous. Si vous avez les mains occupées, activez Dis-moi tout pour continuer vos conversations sans avoir à toucher votre téléphone. Choisissez les contacts que vous souhaitez entendre et activez les commandes vocales. Vous pouvez même lui demander de s\'arrêter automatiquement dès que vous vous mettez à marcher.</string>
+    <string name="test_diction">Dis-moi tout lit les SMS pour vous. Si vous avez les mains occupées, activez Dis-moi tout pour continuer vos conversations sans avoir à toucher votre téléphone. Choisissez les contacts que vous souhaitez entendre et activez les commandes vocales.</string>
     <string name="tester_dictiontext">Essayer</string>
     <string name="commande_vocale">Réponse vocale</string>
     <string name="repondre">Répondre</string>
@@ -87,6 +87,19 @@
     <string name="about">À propos...</string>
     <string name="app_version_name">Version</string>
     <string name="options">Options</string>
+
+    <string name="tutorial_activation_title">Activer Dis-moi tout</string>
+    <string name="tutorial_activation_text">Activer la diction ici</string>
+    <string name="tutorial_contacts_title">Qui entendre ?</string>
+    <string name="tutorial_contacts_text">Si vous ne voulez entendre que vos contacts et pas les pubs, c\'est par ici</string>
+    <string name="tutorial_contact_selection_title">Sélection des contacts</string>
+    <string name="tutorial_contact_selection_text">Pour définir une liste restreinte de vos contacts choisissez Gérer mes contacts</string>
+    <string name="tutorial_reponse_vocale_title">Sans les mains</string>
+    <string name="tutorial_reponse_vocale_text">Si vous voulez pouvoir répondre aux SMS simplement avec votre voix activez l\'option Réponse vocale</string>
+    <string name="tutorial_headset_mode_title">Mode écouteurs</string>
+    <string name="tutorial_headset_mode_text">Activez le mode écouteurs pour que Dis-moi tout SMS s\'active automatiquement si des écouteurs filaires ou bluetooth sont connecté à votre téléphone</string>
+
+    <string name="help">Aide</string>
 
 
 </resources>

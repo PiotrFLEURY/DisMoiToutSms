@@ -102,7 +102,7 @@ public class NotificationHelper {
         String appName = context.getString(R.string.app_name);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, appName)
                 .setSmallIcon(icon)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent)
                 .setContent(getComplexNotificationView(context, R.layout.complex_notification))
@@ -129,7 +129,7 @@ public class NotificationHelper {
                         .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), icon))
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(text))
-                        .setDefaults(NotificationCompat.DEFAULT_ALL)
+                        .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
                         .setPriority(NotificationCompat.PRIORITY_MAX)
                 ;
         for (Intent intent : intents) {

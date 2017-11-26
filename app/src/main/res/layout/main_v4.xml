@@ -91,18 +91,26 @@
                     android:tint="@color/grey600"
                     android:src="@drawable/ic_people_24dp"/>
 
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/uniquementcontacts"/>
+
                 <Switch
                     android:id="@+id/switch_uniquement_mes_contacts"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/uniquementcontacts" />
+                    android:background="?android:selectableItemBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_gerer_contacts"
-                android:layout_width="match_parent"
-                android:layout_height="48sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8sp"
                 android:drawableEnd="@drawable/ic_chevron_right_24dp"
                 android:layout_gravity="end"
                 android:gravity="center_vertical|end"
@@ -137,11 +145,18 @@
                     android:tint="@color/grey600"
                     android:src="@android:drawable/ic_btn_speak_now"/>
 
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/commande_vocale"/>
+
                 <Switch
                     android:id="@+id/switch_reponse_vocale"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/commande_vocale"/>
+                    android:background="?android:selectableItemBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
 
             </LinearLayout>
 
@@ -159,11 +174,17 @@
                     android:tint="@color/grey600"
                     android:src="@drawable/ic_directions_run_24dp"/>
 
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stepDetectorOption"/>
+
                 <Switch
                     android:id="@+id/switch_step_detector"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/stepDetectorOption" />
+                    android:background="?android:selectableItemBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -180,11 +201,18 @@
                     android:tint="@color/grey600"
                     android:src="@drawable/ic_headset_white_24dp"/>
 
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heaset_mode_option"/>
+
                 <Switch
                     android:id="@+id/switch_headset_mode"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/heaset_mode_option" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:text="" />
 
             </LinearLayout>
 
@@ -218,7 +246,6 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
-                    android:textColor="?android:attr/textColorPrimary"
                     android:text="@string/langue" />
 
                 <Spinner
@@ -244,11 +271,18 @@
                     android:tint="@color/grey600"
                     android:src="@drawable/ic_insert_emoticon_24dp"/>
 
+                <TextView
+                    android:layout_width="0sp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/translate_emoticones"/>
+
                 <Switch
                     android:id="@+id/switch_emoticones"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/translate_emoticones" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:text="" />
 
             </LinearLayout>
 

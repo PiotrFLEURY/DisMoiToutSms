@@ -210,11 +210,6 @@ class SmsRecuActivity : AbstractActivity() {
         end()
     }
 
-    override fun moveTaskToBack(nonRoot: Boolean): Boolean {
-        finish()
-        return true
-    }
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KeyEvent.KEYCODE_HOME) {
             finish()
@@ -254,7 +249,6 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     private fun envoyer() {
-        //TODO gérer le cas du destinataire ou message vide
         if (!TextUtils.isEmpty(numeroAQuiRepondre) && !TextUtils.isEmpty(reponse)) {
             SmsManager.getDefault().sendTextMessage(numeroAQuiRepondre, null, reponse, null, null)
             tv_reponse_message.text = getString(R.string.messageenvoye)
@@ -264,6 +258,7 @@ class SmsRecuActivity : AbstractActivity() {
             addMessageToSent(numeroAQuiRepondre, reponse)
         }
         finish()
+        moveTaskToBack(true)
     }
 
     /**

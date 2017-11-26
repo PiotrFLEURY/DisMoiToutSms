@@ -29,6 +29,9 @@ import kotlinx.android.synthetic.main.drawer_layout_v4.*
 import kotlinx.android.synthetic.main.drawer_v4.*
 import kotlinx.android.synthetic.main.main_v4.*
 import java.util.*
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
+import kotlin.reflect.KFunction0
+
 
 class DisMoiToutSmsActivity : AbstractActivity() {
 
@@ -77,6 +80,26 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         drawer_tv_version.text = BuildConfig.VERSION_NAME
 
+        tapTargetFor(switch_activation, "Activer Dis-moi tout", "Activer la diction ici", this::onTapTargetSwitchActivation)
+
+    }
+
+    private fun tapTargetFor(view: Switch?, title: String, text: String, action: KFunction0<Unit>) {
+        MaterialTapTargetPrompt.Builder(this@DisMoiToutSmsActivity)
+                .setTarget(view)
+                .setPrimaryText(title)
+                .setSecondaryText(text)
+                .setPromptStateChangeListener({ _, state ->
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                        // User has pressed the prompt target
+                        action.call()
+                    }
+                })
+                .show()
+    }
+
+    fun onTapTargetSwitchActivation(){
+        //TODO
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

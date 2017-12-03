@@ -79,7 +79,7 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     private fun destroySpeechRecognizer() {
-        runOnUiThread { speechRecorder!!.destroy() }
+        runOnUiThread { speechRecorder?.destroy() }
     }
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {

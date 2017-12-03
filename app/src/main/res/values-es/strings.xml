@@ -85,5 +85,16 @@
     <string name="about">"Acerca de "</string>
     <string name="app_version_name">Versión</string>
     <string name="options">opciones</string>
+    <string name="tutorial_activation_title">Activate Dis-moi tout</string>
+    <string name="tutorial_activation_text">Activate the diction here</string>
+    <string name="tutorial_contacts_title">Who to hear?</string>
+    <string name="tutorial_contacts_text">If you only want to hear your contacts and not the ads, it\'s here</string>
+    <string name="tutorial_contact_selection_title">Selection of contacts</string>
+    <string name="tutorial_contact_selection_text">To define a restricted list of your contacts choose Manage my contacts</string>
+    <string name="tutorial_reponse_vocale_title">Without hands</string>
+    <string name="tutorial_reponse_vocale_text">If you want to be able to reply to SMS simply with your voice activate the option Voice Response</string>
+    <string name="tutorial_headset_mode_title">Earphone mode</string>
+    <string name="tutorial_headset_mode_text">Activate the earphone mode so that Tell me all SMS is activated automatically if wired or bluetooth headphones are connected to your phone</string>
+    <string name="help">Help</string>
 
 </resources>

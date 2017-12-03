@@ -92,7 +92,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 .setPrimaryText(title)
                 .setSecondaryText(text)
                 .setPromptStateChangeListener({ _, state ->
-                    if (state == MaterialTapTargetPrompt.STATE_DISMISSED) {
+                    if (state == MaterialTapTargetPrompt.STATE_DISMISSED
+                            || state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
                         // User has pressed the prompt target
                         action.call()
                     }
@@ -106,12 +107,12 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     fun tapTargetOnlyContacts(){
-        tapTargetFor(switch_uniquement_mes_contacts, getString(R.string.tutorial_contacts_title), getString(R.string.tutorial_contacts_text), this::tapTargetManageContacts)
+        tapTargetFor(switch_uniquement_mes_contacts, getString(R.string.tutorial_contacts_title), getString(R.string.tutorial_contacts_text), this::tapTargetVocalAnswer)
     }
 
-    fun tapTargetManageContacts() {
-        tapTargetFor(tv_gerer_contacts, getString(R.string.tutorial_contact_selection_title), getString(R.string.tutorial_contact_selection_text), this::tapTargetVocalAnswer)
-    }
+//    fun tapTargetManageContacts() {
+//        tapTargetFor(tv_gerer_contacts, getString(R.string.tutorial_contact_selection_title), getString(R.string.tutorial_contact_selection_text), this::tapTargetVocalAnswer)
+//    }
 
     fun tapTargetVocalAnswer() {
         tapTargetFor(switch_reponse_vocale, getString(R.string.tutorial_reponse_vocale_title), getString(R.string.tutorial_reponse_vocale_text), this::tapTargetHeadsetMode)

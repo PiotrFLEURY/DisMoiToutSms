@@ -17,7 +17,9 @@ import java.util.Map;
 import fr.piotr.dismoitoutsms.BuildConfig;
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.reception.utterances.ContactsTrouvesListener;
+import fr.piotr.dismoitoutsms.reception.utterances.LireOuFermerListener;
 import fr.piotr.dismoitoutsms.reception.utterances.MessageEnvoyeListener;
+import fr.piotr.dismoitoutsms.reception.utterances.MessageRecuModeViePriveeUtteranceListener;
 import fr.piotr.dismoitoutsms.reception.utterances.MessageRecuUtteranceListener;
 import fr.piotr.dismoitoutsms.reception.utterances.ModifierEnvoyerFermerListener;
 import fr.piotr.dismoitoutsms.reception.utterances.RepondreOuFermerListener;
@@ -39,6 +41,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         void onStarted();
     }
 
+    public static String DITES_LIRE_OU_FERMER;
     public static String DITES_REPONDRE_OU_FERMER;
     public static String DITES_MODIFIER_ENVOYER_OU_FERMER;
 
@@ -57,13 +60,17 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         this.listener=listener;
         this.mTts = new TextToSpeech(context, this);
 
+        DITES_LIRE_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.listen)
+                + " " + getString(R.string.ou) + " " + getString(R.string.fermer);
         DITES_REPONDRE_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.repondre)
                 + " " + getString(R.string.ou) + " " + getString(R.string.fermer);
         DITES_MODIFIER_ENVOYER_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.modifier)
                 + ", " + getString(R.string.envoyer) + " " + getString(R.string.ou) + " "
                 + getString(R.string.fermer);
 
+        listeners.put(Diction.MESSAGE_RECU_MODE_VIE_PRIVEE, new MessageRecuModeViePriveeUtteranceListener(context, this));
         listeners.put(Diction.MESSAGE_RECU, new MessageRecuUtteranceListener(context, this));
+        listeners.put(Diction.LIRE_OU_FERMER, new LireOuFermerListener(context, this));
         listeners.put(Diction.REPONDRE_OU_FERMER, new RepondreOuFermerListener(context, this));
         listeners.put(Diction.VOUS_AVEZ_REPONDU, new VousAvezReponduListener(context, this));
         listeners.put(Diction.MODIFIER_ENVOYER_OU_FERMER, new ModifierEnvoyerFermerListener(context, this));

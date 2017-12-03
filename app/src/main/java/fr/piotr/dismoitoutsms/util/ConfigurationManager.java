@@ -27,7 +27,7 @@ import fr.piotr.dismoitoutsms.contacts.Contacts;
 public class ConfigurationManager {
 
 	public enum Configuration {
-		TUTORIAL_DONE, EMOTICONES, COMMANDE_VOCALE, UNIQUEMENT_CONTACTS, CONTACTS_BANNIS, LANGUE_DICTION, ARRET_STEP_DETECTOR, HEADSET_MODE
+		TUTORIAL_DONE, EMOTICONES, COMMANDE_VOCALE, UNIQUEMENT_CONTACTS, CONTACTS_BANNIS, LANGUE_DICTION, ARRET_STEP_DETECTOR, HEADSET_MODE, PRIVATE_LIFE_MODE
 	}
 
 	private static Map<String, String>	configuration	= new HashMap<>();

@@ -100,6 +100,11 @@
     <string name="tutorial_headset_mode_text">Activez le mode écouteurs pour que Dis-moi tout SMS s\'active automatiquement si des écouteurs filaires ou bluetooth sont connecté à votre téléphone</string>
 
     <string name="help">Aide</string>
+    <string name="new_message_from">Nouveau message reçu de la part de %s.</string>
+    <string name="listen">Lire</string>
+    <string name="private_life_mode">Mode vie privée</string>
+    <string name="tutorial_private_life_mode_title">Mode vie privée</string>
+    <string name="tutorial_private_life_mode_text">Peur que tout le monde entende vos messages ? Le mode vie privée est fait pour vous ! Activez-le et Dis-moi tout vous demandera si vous souhaitez lire les nouveaux messages ou pas.</string>
 
 
 </resources>

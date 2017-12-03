@@ -78,6 +78,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         initHeadSetOption()
 
+        initPrivateLifeOption()
+
         drawer_tv_version.text = BuildConfig.VERSION_NAME
 
         if(!ConfigurationManager.getBoolean(this, ConfigurationManager.Configuration.TUTORIAL_DONE)) {
@@ -119,7 +121,11 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     fun tapTargetHeadsetMode() {
-        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_headset_mode_title), getString(R.string.tutorial_headset_mode_text), this::endTutorial)
+        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_headset_mode_title), getString(R.string.tutorial_headset_mode_text), this::tapTargetPrivateLifeMode)
+    }
+
+    fun tapTargetPrivateLifeMode() {
+        tapTargetFor(switch_private_life_mode, getString(R.string.tutorial_private_life_mode_title), getString(R.string.tutorial_private_life_mode_text), this::endTutorial)
     }
 
     fun endTutorial() {
@@ -202,6 +208,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         }
 
         switch_headset_mode.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, HEADSET_MODE, isChecked) }
+
+        switch_private_life_mode.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, PRIVATE_LIFE_MODE, isChecked) }
 
         tv_gerer_contacts.setOnClickListener({ this.openContactSelection(it) })
 
@@ -290,6 +298,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         switch_uniquement_mes_contacts.setOnCheckedChangeListener(null)
         switch_step_detector.setOnCheckedChangeListener(null)
         switch_headset_mode.setOnCheckedChangeListener(null)
+        switch_private_life_mode.setOnCheckedChangeListener(null)
         tv_gerer_contacts.setOnClickListener(null)
     }
 
@@ -375,6 +384,10 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     private fun initHeadSetOption() {
         switch_headset_mode.isChecked = getBoolean(this, HEADSET_MODE)
+    }
+
+    private fun initPrivateLifeOption() {
+        switch_private_life_mode.isChecked = getBoolean(this, PRIVATE_LIFE_MODE)
     }
 
     fun openPrivacyPolicy(view: View) {

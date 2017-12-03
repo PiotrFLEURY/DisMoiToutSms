@@ -113,8 +113,13 @@ class SmsRecuActivity : AbstractActivity() {
 
         speech = TextToSpeechHelper(this) {
             if (message != null) {
-                val text = contactName + " " + getString(R.string.dit) + " " + message
-                speech.parler(text, MESSAGE_RECU)
+
+                if(ConfigurationManager.getBoolean(this, Configuration.PRIVATE_LIFE_MODE)) {
+                    speech.parler(String.format(format = getString(R.string.new_message_from), args = contactName), MESSAGE_RECU_MODE_VIE_PRIVEE)
+                } else {
+                    onMessageRecu()
+                }
+
             } else {
                 askForContact()
             }
@@ -142,6 +147,11 @@ class SmsRecuActivity : AbstractActivity() {
         }
 
 
+    }
+
+    private fun onMessageRecu(){
+        val text = contactName + " " + getString(R.string.dit) + " " + message
+        speech.parler(text, MESSAGE_RECU)
     }
 
     private fun askForContact() {
@@ -310,7 +320,7 @@ class SmsRecuActivity : AbstractActivity() {
             Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.action_retry) { v -> repondre() }
                     .show()
-        } else if (instruction.`is`(REPONDRE_FERMER, MODIFIER_ENVOYER_FERMER) && resultCode == Activity.RESULT_OK) {
+        } else if (instruction.`is`(LIRE_FERMER, REPONDRE_FERMER, MODIFIER_ENVOYER_FERMER) && resultCode == Activity.RESULT_OK) {
 
             when {
                 instructionIs(words, getString(R.string.repondre), getString(R.string.modifier)) -> startSpeechRecognizer(REPONSE, getString(R.string.reponse))
@@ -319,6 +329,7 @@ class SmsRecuActivity : AbstractActivity() {
                     speech.parler(getString(R.string.messageenvoye), MESSAGE_ENVOYE)
                 }
                 instructionIs(words, getString(R.string.fermer)) -> LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(EVENT_BACK))
+                instructionIs(words, getString(R.string.listen)) -> onMessageRecu()
             }
 
         } else if (instruction.`is`(REPONSE) && resultCode == Activity.RESULT_OK) {

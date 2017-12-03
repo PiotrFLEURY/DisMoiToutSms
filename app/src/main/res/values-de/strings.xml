@@ -95,4 +95,9 @@
     <string name="tutorial_headset_mode_title">Earphone mode</string>
     <string name="tutorial_headset_mode_text">Activate the earphone mode so that Tell me all SMS is activated automatically if wired or bluetooth headphones are connected to your phone</string>
     <string name="help">Help</string>
+    <string name="new_message_from">neue Nachricht von %s.</string>
+    <string name="listen">Lesen</string>
+    <string name="private_life_mode">Privatleben-Modus</string>
+    <string name="tutorial_private_life_mode_title">Private life mode</string>
+    <string name="tutorial_private_life_mode_text">Afraid everyone hears your messages? The privacy mode is for you! Turn it on and Tell me everything will ask you if you want to read new messages or not.</string>
 </resources>

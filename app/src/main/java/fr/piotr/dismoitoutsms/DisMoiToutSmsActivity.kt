@@ -10,6 +10,8 @@ import android.media.AudioManager.*
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
+import android.provider.Settings
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.Gravity
@@ -28,8 +30,8 @@ import fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean
 import kotlinx.android.synthetic.main.drawer_layout_v4.*
 import kotlinx.android.synthetic.main.drawer_v4.*
 import kotlinx.android.synthetic.main.main_v4.*
-import java.util.*
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
+import java.util.*
 import kotlin.reflect.KFunction0
 
 
@@ -83,9 +85,21 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         drawer_tv_version.text = BuildConfig.VERSION_NAME
 
         if(!ConfigurationManager.getBoolean(this, ConfigurationManager.Configuration.TUTORIAL_DONE)) {
-            startTutorial();
+            startTutorial()
         }
 
+    }
+
+    private fun setupBatteryOptimization() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val intent = Intent()
+            val pm = getSystemService(POWER_SERVICE) as PowerManager
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                intent.data = Uri.parse("package:" + packageName)
+                startActivity(intent)
+            }
+        }
     }
 
     private fun tapTargetFor(view: View?, title: String, text: String, action: KFunction0<Unit>) {
@@ -207,7 +221,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             switch_step_detector.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, ARRET_STEP_DETECTOR, isChecked) }
         }
 
-        switch_headset_mode.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, HEADSET_MODE, isChecked) }
+        switch_headset_mode.setOnCheckedChangeListener { _, isChecked -> setHeadsetMode(isChecked) }
 
         switch_private_life_mode.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, PRIVATE_LIFE_MODE, isChecked) }
 
@@ -222,6 +236,13 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 Manifest.permission.RECEIVE_BOOT_COMPLETED,
                 Manifest.permission.READ_PHONE_STATE)
 
+    }
+
+    private fun setHeadsetMode(isChecked: Boolean){
+        setBoolean(applicationContext, HEADSET_MODE, isChecked)
+        if(isChecked) {
+            setupBatteryOptimization()
+        }
     }
 
     private fun setupVolume() {

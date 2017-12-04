@@ -81,7 +81,7 @@ class ContactSelectionActivity : AbstractActivity() {
             }
 
             private fun confirmerSuppression(holder: ContactViewHolder) {
-                MessageBox.confirm(title = getString(R.string.suppression),
+                MessageBox.confirm(context = this@ContactSelectionActivity, title = getString(R.string.suppression),
                         message = getString(R.string.confirmersuppression),
                         ok = Runnable({ supprimerContact(holder.nom.text.toString()) }))
             }
@@ -210,7 +210,7 @@ class ContactSelectionActivity : AbstractActivity() {
             dorpDownAdapter.notifyDataSetChanged()
             enregistrer()
         }
-        MessageBox.confirm(message = getString(R.string.areYouSure),
+        MessageBox.confirm(context = this, message = getString(R.string.areYouSure),
                 ok = runnable)
 
     }
@@ -224,7 +224,7 @@ class ContactSelectionActivity : AbstractActivity() {
             dorpDownAdapter.notifyDataSetChanged()
             enregistrer()
         }
-        MessageBox.confirm(message =  getString(R.string.areYouSure), ok = runnable)
+        MessageBox.confirm(context = this, message =  getString(R.string.areYouSure), ok = runnable)
     }
 
 }

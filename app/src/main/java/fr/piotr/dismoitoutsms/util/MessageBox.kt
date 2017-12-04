@@ -1,6 +1,7 @@
 package fr.piotr.dismoitoutsms.util
 
 import android.app.AlertDialog
+import android.content.Context
 import android.util.Log
 import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication
 import fr.piotr.dismoitoutsms.R
@@ -15,9 +16,9 @@ object EmptyRunnable : Runnable {
 
 object MessageBox {
 
-    fun confirm(title: String = "", message: String,
+    fun confirm(context:Context, title: String = "", message: String,
                 ok: Runnable = EmptyRunnable, ko: Runnable = EmptyRunnable) {
-        val context = DisMoiToutSmsApplication.INSTANCE.applicationContext
+        //val context = DisMoiToutSmsApplication.INSTANCE.applicationContext
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)

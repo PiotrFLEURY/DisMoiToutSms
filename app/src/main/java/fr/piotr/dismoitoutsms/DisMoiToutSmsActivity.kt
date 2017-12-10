@@ -150,7 +150,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     fun endTutorial() {
-        ConfigurationManager.setBoolean(this, TUTORIAL_DONE, true);
+        ConfigurationManager.setBoolean(this, TUTORIAL_DONE, true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -171,7 +171,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     override fun onResume() {
         super.onResume()
 
-        var intentFilter = IntentFilter()
+        val intentFilter = IntentFilter()
         intentFilter.addAction(EVENT_TAP_TARGET_ONLY_CCONTACTS)
         intentFilter.addAction(EVENT_TAP_TARGET_VOCAL_ANSWER)
         intentFilter.addAction(EVENT_TAP_TARGET_HEADSET_MODE)
@@ -326,7 +326,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     override fun onPause() {
         super.onPause()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadCastReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadCastReceiver)
 
         sp_language.onItemSelectedListener = null
         btn_tester.setOnClickListener(null)

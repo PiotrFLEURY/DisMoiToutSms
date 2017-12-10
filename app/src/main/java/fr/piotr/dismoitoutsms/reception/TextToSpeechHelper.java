@@ -136,7 +136,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
             text = EmoticonesManager.getInstance().remplacer(context, text);
         }
 
-        registerUtteranceListener(text, type);
+        registerUtteranceListener(type);
 
         speak(text, type);
     }
@@ -167,7 +167,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
     }
 
     @SuppressWarnings("deprecation")
-    private void registerUtteranceListener(String text, Diction type) {
+    private void registerUtteranceListener(Diction type) {
         final UtteranceListener utteranceListener = listeners.get(type);
         mTts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override

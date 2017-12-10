@@ -6,9 +6,7 @@ import android.telephony.TelephonyManager;
 import fr.piotr.dismoitoutsms.reception.TextToSpeechHelper;
 
 import static fr.piotr.dismoitoutsms.reception.TextToSpeechHelper.DITES_LIRE_OU_FERMER;
-import static fr.piotr.dismoitoutsms.reception.TextToSpeechHelper.DITES_REPONDRE_OU_FERMER;
 import static fr.piotr.dismoitoutsms.util.Diction.LIRE_OU_FERMER;
-import static fr.piotr.dismoitoutsms.util.Diction.REPONDRE_OU_FERMER;
 
 /**
  * Created by piotr_000 on 19/03/2016.

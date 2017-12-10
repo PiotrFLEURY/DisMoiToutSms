@@ -61,7 +61,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (intent.getAction().equals(ACTION_RECEIVE_SMS)) {
+		if (ACTION_RECEIVE_SMS.equals(intent.getAction())) {
             onSmsReceived(context, intent);
 		}
 	}

@@ -1,9 +1,7 @@
 package fr.piotr.dismoitoutsms
 
 import android.Manifest
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.media.AudioManager.*
@@ -13,6 +11,7 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import android.speech.tts.TextToSpeech
+import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import android.view.Gravity
 import android.view.Menu
@@ -32,10 +31,22 @@ import kotlinx.android.synthetic.main.drawer_v4.*
 import kotlinx.android.synthetic.main.main_v4.*
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import java.util.*
-import kotlin.reflect.KFunction0
 
 
 class DisMoiToutSmsActivity : AbstractActivity() {
+
+    private val broadCastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(contxt: Context?, intent: Intent?) {
+
+            when (intent?.action) {
+                EVENT_TAP_TARGET_ONLY_CCONTACTS -> tapTargetOnlyContacts()
+                EVENT_TAP_TARGET_VOCAL_ANSWER -> tapTargetVocalAnswer()
+                EVENT_TAP_TARGET_HEADSET_MODE -> tapTargetHeadsetMode()
+                EVENT_TAP_TARGET_PRIVATE_LIFE_MODE -> tapTargetPrivateLifeMode()
+                EVENT_END_TUTORIAL -> endTutorial()
+            }
+        }
+    }
 
     private val isKitKatWithStepCounter: Boolean
         get() {
@@ -102,7 +113,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         }
     }
 
-    private fun tapTargetFor(view: View?, title: String, text: String, action: KFunction0<Unit>) {
+    private fun tapTargetFor(view: View?, title: String, text: String, action: String) {
         MaterialTapTargetPrompt.Builder(this@DisMoiToutSmsActivity)
                 .setTarget(view)
                 .setPrimaryText(title)
@@ -111,7 +122,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                     if (state == MaterialTapTargetPrompt.STATE_DISMISSED
                             || state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
                         // User has pressed the prompt target
-                        action.call()
+                        LocalBroadcastManager.getInstance(this@DisMoiToutSmsActivity).sendBroadcastSync(Intent(action))
                     }
                 })
                 .show()
@@ -119,27 +130,23 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     fun startTutorial(v: View = tv_drawer_help) {
         drawer_layout.closeDrawer(Gravity.START)
-        tapTargetFor(switch_activation, getString(R.string.tutorial_activation_title), getString(R.string.tutorial_activation_text), this::tapTargetOnlyContacts)
+        tapTargetFor(switch_activation, getString(R.string.tutorial_activation_title), getString(R.string.tutorial_activation_text), EVENT_TAP_TARGET_ONLY_CCONTACTS)
     }
 
     fun tapTargetOnlyContacts(){
-        tapTargetFor(switch_uniquement_mes_contacts, getString(R.string.tutorial_contacts_title), getString(R.string.tutorial_contacts_text), this::tapTargetVocalAnswer)
+        tapTargetFor(switch_uniquement_mes_contacts, getString(R.string.tutorial_contacts_title), getString(R.string.tutorial_contacts_text), EVENT_TAP_TARGET_VOCAL_ANSWER)
     }
 
-//    fun tapTargetManageContacts() {
-//        tapTargetFor(tv_gerer_contacts, getString(R.string.tutorial_contact_selection_title), getString(R.string.tutorial_contact_selection_text), this::tapTargetVocalAnswer)
-//    }
-
     fun tapTargetVocalAnswer() {
-        tapTargetFor(switch_reponse_vocale, getString(R.string.tutorial_reponse_vocale_title), getString(R.string.tutorial_reponse_vocale_text), this::tapTargetHeadsetMode)
+        tapTargetFor(switch_reponse_vocale, getString(R.string.tutorial_reponse_vocale_title), getString(R.string.tutorial_reponse_vocale_text), EVENT_TAP_TARGET_HEADSET_MODE)
     }
 
     fun tapTargetHeadsetMode() {
-        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_headset_mode_title), getString(R.string.tutorial_headset_mode_text), this::tapTargetPrivateLifeMode)
+        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_headset_mode_title), getString(R.string.tutorial_headset_mode_text), EVENT_TAP_TARGET_PRIVATE_LIFE_MODE)
     }
 
     fun tapTargetPrivateLifeMode() {
-        tapTargetFor(switch_private_life_mode, getString(R.string.tutorial_private_life_mode_title), getString(R.string.tutorial_private_life_mode_text), this::endTutorial)
+        tapTargetFor(switch_private_life_mode, getString(R.string.tutorial_private_life_mode_title), getString(R.string.tutorial_private_life_mode_text), EVENT_END_TUTORIAL)
     }
 
     fun endTutorial() {
@@ -163,6 +170,14 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        var intentFilter = IntentFilter()
+        intentFilter.addAction(EVENT_TAP_TARGET_ONLY_CCONTACTS)
+        intentFilter.addAction(EVENT_TAP_TARGET_VOCAL_ANSWER)
+        intentFilter.addAction(EVENT_TAP_TARGET_HEADSET_MODE)
+        intentFilter.addAction(EVENT_TAP_TARGET_PRIVATE_LIFE_MODE)
+        intentFilter.addAction(EVENT_END_TUTORIAL)
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadCastReceiver, intentFilter)
 
         toggleStatus()
 
@@ -311,6 +326,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     override fun onPause() {
         super.onPause()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadCastReceiver);
 
         sp_language.onItemSelectedListener = null
         btn_tester.setOnClickListener(null)
@@ -341,7 +357,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 0x01) {
             if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // Echec, aucun moteur n'a été trouvé, on propose à
@@ -420,6 +436,11 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     companion object {
 
         val TAG = "DisMoiToutSmsActivity"
+        val EVENT_TAP_TARGET_ONLY_CCONTACTS = TAG + ".tapTargetOnlyContacts"
+        val EVENT_TAP_TARGET_VOCAL_ANSWER = TAG + ".tapTargetVocalAnswer"
+        val EVENT_TAP_TARGET_HEADSET_MODE = TAG + ".tapTargetHeadsetMode"
+        val EVENT_TAP_TARGET_PRIVATE_LIFE_MODE = TAG + ".tapTargetPrivateLifeMode"
+        val EVENT_END_TUTORIAL = TAG + ".endTutorial"
     }
 
 }

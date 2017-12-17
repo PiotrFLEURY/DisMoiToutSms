@@ -137,7 +137,9 @@ class SmsRecuActivity : AbstractActivity() {
                     TelephonyManager.CALL_STATE_RINGING,
                         // Le téléphone sonne
                     TelephonyManager.CALL_STATE_OFFHOOK -> {
-                        SmsReceiver.getInstance().standBy(Message(date, contact!!, message!!))
+                        if(contact!=null && message!=null) {
+                            SmsReceiver.getInstance().standBy(Message(date, contact!!, message!!))
+                        }
                         finish()
                     }
                     else -> Log.i(TAG, "UNKNOWN_STATE: " + state)

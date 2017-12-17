@@ -127,6 +127,11 @@ public class BluetoothReceiver extends AbstractHeadSetReceiver {
     }
 
     @Override
+    protected void notifyActivationPurpose(Context context) {
+        //DO NOT PURPOSE ACTIVATION EACH TIME A BLUETOOTH HEADSET IS PLUGGED IN TO NOT FLOOD THE USER
+    }
+
+    @Override
     protected void onAutoStart() {
         autoStarted.set(true);
     }

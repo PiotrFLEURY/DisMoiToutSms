@@ -38,12 +38,16 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
                 service.addFlags(Intent.FLAG_FROM_BACKGROUND);
                 context.startService(service);
             } else {
-                Intent intent = new Intent(DisMoiToutSmsService.INTENT_ACTIVATE_FROM_NOTIFICATION);
-                intent.putExtra(NotificationHelper.EXTRA_ACTION_ICON, R.drawable.ic_headset_white_24dp);
-                intent.putExtra(NotificationHelper.EXTRA_ACTION_TEXT, context.getString(R.string.activate));
-                NotificationHelper.open(context, NotificationHelper.HEADSET_PLUGGED_IN, intent);
+                notifyActivationPurpose(context);
             }
         }
+    }
+
+    protected void notifyActivationPurpose(Context context) {
+        Intent intent = new Intent(DisMoiToutSmsService.INTENT_ACTIVATE_FROM_NOTIFICATION);
+        intent.putExtra(NotificationHelper.EXTRA_ACTION_ICON, R.drawable.ic_headset_white_24dp);
+        intent.putExtra(NotificationHelper.EXTRA_ACTION_TEXT, context.getString(R.string.activate));
+        NotificationHelper.open(context, NotificationHelper.HEADSET_PLUGGED_IN, intent);
     }
 
     protected void onAutoStart(){

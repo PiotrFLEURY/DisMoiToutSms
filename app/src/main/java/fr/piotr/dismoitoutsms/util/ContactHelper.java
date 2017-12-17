@@ -59,7 +59,9 @@ public class ContactHelper {
 				id = contactCursor.getInt(ID_INDEX);
 				telephone = contactCursor.getString(NUMBER_INDEX);
 				photoId = contactCursor.getInt(PHOTO_ID_INDEX);
-				mesContacts.add(new Contact(id, name, telephone, photoId));
+				if(name!=null && telephone!=null) {
+					mesContacts.add(new Contact(id, name, telephone, photoId));
+				}
 			} while (contactCursor.moveToNext());
 		}
         contactCursor.close();

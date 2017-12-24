@@ -17,6 +17,7 @@ import java.util.List;
 
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.SmsRecuActivity;
+import fr.piotr.dismoitoutsms.fragments.MicrophoneFragment;
 import fr.piotr.dismoitoutsms.util.Instruction;
 
 import static android.speech.RecognizerIntent.EXTRA_CALLING_PACKAGE;
@@ -107,13 +108,9 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     private void end(List<String> words, int returnCode) {
-        sendDestroy();
+        destroy();
         hideMicrophone();
         onSpeechResult(instruction, returnCode, words);
-    }
-
-    private void sendDestroy() {
-        localBroadcastManager.sendBroadcast(new Intent(SmsRecuActivity.Companion.getEVENT_DESTROY_SPEECH_RECOGNIZER()));
     }
 
     private void onSpeechResult(Instruction instruction, int returnCode, List<String> words) {
@@ -177,8 +174,8 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     private void onPartialResult(ArrayList<String> results) {
-        Intent intent = new Intent(SmsRecuActivity.Companion.getEVENT_SPEECH_PARTIAL_RESULT());
-        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_SPEECH_WORDS(), results);
+        Intent intent = new Intent(MicrophoneFragment.Companion.getEVENT_SPEECH_PARTIAL_RESULT());
+        intent.putExtra(MicrophoneFragment.Companion.getEXTRA_SPEECH_WORDS(), results);
         localBroadcastManager.sendBroadcast(intent);
     }
 

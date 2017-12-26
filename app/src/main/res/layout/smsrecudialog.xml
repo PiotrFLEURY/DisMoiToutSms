@@ -65,11 +65,19 @@
 
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/progress_sending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+
             <TextView
                 android:id="@+id/tv_reponse_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?"
+                tools:text="Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?"
                 android:background="@drawable/smsbackground"
                 android:textColor="@color/grey800"
                 android:textSize="20sp"

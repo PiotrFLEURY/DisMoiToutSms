@@ -26,6 +26,7 @@
         android:name=".DisMoiToutSmsApplication">
         <activity
             android:name=".DisMoiToutSmsActivity"
+            android:label="@string/app_name"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">

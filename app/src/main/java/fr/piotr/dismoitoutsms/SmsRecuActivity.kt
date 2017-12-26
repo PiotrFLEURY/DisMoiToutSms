@@ -21,6 +21,7 @@ import fr.piotr.dismoitoutsms.contacts.Contacts
 import fr.piotr.dismoitoutsms.dialogs.ContactSelectionDialog
 import fr.piotr.dismoitoutsms.fragments.MicrophoneFragment
 import fr.piotr.dismoitoutsms.fragments.SmsSentFragment
+import fr.piotr.dismoitoutsms.intents.IntentProvider
 import fr.piotr.dismoitoutsms.messages.Message
 import fr.piotr.dismoitoutsms.reception.SmsReceiver
 import fr.piotr.dismoitoutsms.reception.TextToSpeechHelper
@@ -128,19 +129,7 @@ class SmsRecuActivity : AbstractActivity() {
         sablier = Sablier()
         sablier.start()
 
-        speech = TextToSpeechHelper(this) {
-            if (message != null) {
-
-                if(ConfigurationManager.getBoolean(this, Configuration.PRIVATE_LIFE_MODE)) {
-                    speech.parler(String.format(format = getString(R.string.new_message_from), args = contactName), MESSAGE_RECU_MODE_VIE_PRIVEE)
-                } else {
-                    onMessageRecu()
-                }
-
-            } else {
-                askForContact()
-            }
-        }
+        speech = TextToSpeechHelper(this) {onTtsInitialized()}
 
         phoneStateListener = object : PhoneStateListener() {
 
@@ -165,6 +154,18 @@ class SmsRecuActivity : AbstractActivity() {
             }
         }
 
+    }
+
+    private fun onTtsInitialized() {
+        if(IntentProvider.TARGET_NEW_MESSAGE == intent.extras?.getString(IntentProvider.INTENT_TARGET)){
+            askForContact()
+        } else {
+            if (ConfigurationManager.getBoolean(this, Configuration.PRIVATE_LIFE_MODE)) {
+                speech.parler(String.format(format = getString(R.string.new_message_from), args = contactName), MESSAGE_RECU_MODE_VIE_PRIVEE)
+            } else {
+                onMessageRecu()
+            }
+        }
     }
 
     private fun onMessageRecu(){
@@ -278,6 +279,7 @@ class SmsRecuActivity : AbstractActivity() {
 
     private fun envoyer() {
         if (!TextUtils.isEmpty(numeroAQuiRepondre) && !TextUtils.isEmpty(reponse)) {
+            progress_sending.visibility = View.VISIBLE
             val pendingIntent = PendingIntent.getBroadcast(this, SMS_SENT_REQUEST_CODE, Intent(EVENT_SMS_SENT), 0)
             SmsManager.getDefault().sendTextMessage(numeroAQuiRepondre, null, reponse, pendingIntent, null)
         }
@@ -451,6 +453,7 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     fun onSmsSent() {
+        progress_sending.visibility = View.INVISIBLE
         invalidateOptionsMenu()
 
         notifyMessageSent()
@@ -466,6 +469,7 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     fun onSmsNotSent() {
+        progress_sending.visibility = View.INVISIBLE
         Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_retry) { _ -> envoyer() }
                 .show()

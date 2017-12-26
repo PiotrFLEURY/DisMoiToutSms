@@ -19,6 +19,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import fr.piotr.dismoitoutsms.contacts.Contact
+import fr.piotr.dismoitoutsms.intents.IntentProvider
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService
 import fr.piotr.dismoitoutsms.util.AbstractActivity
@@ -250,6 +251,12 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.RECEIVE_BOOT_COMPLETED,
                 Manifest.permission.READ_PHONE_STATE)
+
+        if(intent.extras?.get("android.intent.extra.REFERRER_NAME")!=null){
+            onActivate()
+            startActivity(IntentProvider().provideNewSmsIntent(this))
+            finish()
+        }
 
     }
 

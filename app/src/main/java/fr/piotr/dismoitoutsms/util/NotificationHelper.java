@@ -10,12 +10,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
-import java.util.Date;
-
 import fr.piotr.dismoitoutsms.DisMoiToutSmsActivity;
 import fr.piotr.dismoitoutsms.R;
-import fr.piotr.dismoitoutsms.SmsRecuActivity;
-import fr.piotr.dismoitoutsms.contacts.Contact;
+import fr.piotr.dismoitoutsms.intents.IntentProvider;
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
 
 /**
@@ -73,13 +70,7 @@ public class NotificationHelper {
                 layout
         );
 
-        Intent intentSmsActivity = new Intent(context,
-                SmsRecuActivity.class);
-        String contact = context.getString(R.string.app_name);
-        intentSmsActivity.putExtra(SmsRecuActivity.Parameters.DATE.name(), new Date().getTime());
-        intentSmsActivity.putExtra(SmsRecuActivity.Parameters.CONTACT_NAME.toString(), contact);
-        //intentSmsActivity.putExtra(SmsRecuActivity.Parameters.MESSAGE.toString(), message);
-        intentSmsActivity.putExtra(SmsRecuActivity.Parameters.CONTACT.name(), new Contact(-1, contact, "0000000000", 0));//FIXME named parameters
+        Intent intentSmsActivity = new IntentProvider().provideNewSmsIntent(context);
 
         notificationView.setOnClickPendingIntent(R.id.complex_notification_btn_new_message,
                 PendingIntent.getActivity(context, 0, intentSmsActivity, PendingIntent.FLAG_UPDATE_CURRENT));

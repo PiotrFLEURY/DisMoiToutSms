@@ -72,6 +72,7 @@ class MicrophoneFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         LocalBroadcastManager.getInstance(activity!!).unregisterReceiver(receiver)
+        destroySpeechRecognizer()
     }
 
     private fun destroySpeechRecognizer() {

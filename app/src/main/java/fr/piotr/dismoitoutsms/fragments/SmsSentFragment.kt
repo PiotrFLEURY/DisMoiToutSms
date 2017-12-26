@@ -1,6 +1,5 @@
 package fr.piotr.dismoitoutsms.fragments
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -44,8 +43,15 @@ class SmsSentFragment: Fragment() {
         tvContent.post({start()})
     }
 
-    private fun start() {
+    override fun onPause() {
+        super.onPause()
+        tvContent.handler.removeCallbacksAndMessages(null)
+    }
 
+    private fun start() {
+        if(isDetached){
+            return
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AnimUtils.reveal(card)
         } else {
@@ -56,6 +62,9 @@ class SmsSentFragment: Fragment() {
     }
 
     fun end() {
+        if(isDetached){
+            return
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AnimUtils.unreveal(card, {dismiss()})
         } else {
@@ -63,7 +72,7 @@ class SmsSentFragment: Fragment() {
         }
     }
 
-    fun dismiss() {
+    private fun dismiss() {
         activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         activity?.moveTaskToBack(true)
         activity?.finish()

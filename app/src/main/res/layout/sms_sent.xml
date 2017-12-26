@@ -12,51 +12,44 @@
         android:id="@+id/sms_sent_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="4sp"
         android:layout_margin="48sp"
         android:layout_gravity="center"
         android:visibility="invisible"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        app:cardElevation="4sp"
+        app:cardCornerRadius="8sp"
+        app:cardBackgroundColor="@color/grey200">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16sp">
 
-            <!-- HEADER -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/primary">
+                android:tint="@color/accent"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_check_circle_white_48dp"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12sp"
-                    android:src="@drawable/ic_message_24dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/messageenvoye"
-                    android:textColor="@color/white"/>
-
-            </LinearLayout>
-
-            <!-- CONTENT -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="16sp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:text="@string/messageenvoye"
+                style="@style/TextAppearance.AppCompat.Medium"/>
 
             <TextView
                 android:id="@+id/sms_sent_tv_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="16sp"
-                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_gravity="end"
                 tools:text="Ok à tout à l'heure !"
-                android:visibility="invisible"
-                tools:visibility="visible"/>
+                android:background="@color/grey200"
+                android:textColor="@color/grey500"/>
 
         </LinearLayout>
 

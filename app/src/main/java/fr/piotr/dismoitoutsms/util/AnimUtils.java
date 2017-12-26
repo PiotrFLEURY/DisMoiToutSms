@@ -43,7 +43,9 @@ public class AnimUtils {
 
         // make the view visible and start the animation
         myView.setVisibility(View.VISIBLE);
-        anim.start();
+        if(myView.isAttachedToWindow()) {
+            anim.start();
+        }
 
     }
 
@@ -78,8 +80,11 @@ public class AnimUtils {
             }
         });
 
+        if(myView.isAttachedToWindow())
         // start the animation
-        anim.start();
+        {
+            anim.start();
+        }
     }
 
 }

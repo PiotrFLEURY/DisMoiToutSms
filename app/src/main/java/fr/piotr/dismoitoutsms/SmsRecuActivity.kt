@@ -331,6 +331,7 @@ class SmsRecuActivity : AbstractActivity() {
         } else if (instruction.`is`(LIRE_FERMER, REPONDRE_FERMER, MODIFIER_ENVOYER_FERMER) && resultCode == Activity.RESULT_OK) {
 
             when {
+                instructionIs(words, getString(R.string.ajouter)) -> startSpeechRecognizer(AJOUTER, getString(R.string.reponse) + " " + reponse)
                 instructionIs(words, getString(R.string.repondre), getString(R.string.modifier)) -> startSpeechRecognizer(REPONSE, getString(R.string.reponse))
                 instructionIs(words, getString(R.string.envoyer)) -> {
                     envoyer()
@@ -341,14 +342,19 @@ class SmsRecuActivity : AbstractActivity() {
                     startSpeechRecognizer(instruction, getInstructionText(instruction))
                 }
             }
-
+        } else if(instruction.`is`(AJOUTER) && resultCode == Activity.RESULT_OK) {
+            reponse += " " + words[0]
+            tv_reponse_message.text = reponse
+            smsrecu_scrollview.fullScroll(View.FOCUS_DOWN)
+            invalidateOptionsMenu()
+            speech.parler(getString(R.string.votrereponseest) + reponse, VOUS_AVEZ_REPONDU)
         } else if (instruction.`is`(REPONSE) && resultCode == Activity.RESULT_OK) {
             reponse = words[0]
             tv_reponse_message.visibility = VISIBLE
             tv_reponse_message.text = reponse
             smsrecu_scrollview.fullScroll(View.FOCUS_DOWN)
             invalidateOptionsMenu()
-            speech.parler(getString(R.string.votrereponseest) + reponse!!, VOUS_AVEZ_REPONDU)
+            speech.parler(getString(R.string.votrereponseest) + reponse, VOUS_AVEZ_REPONDU)
 
         } else if (instruction.`is`(DICTER_CONTACT)) {
             if (resultCode == Activity.RESULT_OK) {
@@ -374,9 +380,11 @@ class SmsRecuActivity : AbstractActivity() {
                 (getString(R.string.dites) + " " + getString(R.string.repondre)
                         + " " + getString(R.string.ou) + " " + getString(R.string.fermer))}
             MODIFIER_ENVOYER_FERMER -> {
-                (getString(R.string.dites) + " " + getString(R.string.modifier)
+                (getString(R.string.dites) + " " + getString(R.string.ajouter)
+                        + ", " + getString(R.string.modifier)
                         + ", " + getString(R.string.envoyer) + " " + getString(R.string.ou) + " "
                         + getString(R.string.fermer))}
+            AJOUTER -> getString(R.string.ajouter)
         }
     }
 

@@ -100,4 +100,5 @@
     <string name="private_life_mode">Privatleben-Modus</string>
     <string name="tutorial_private_life_mode_title">Private life mode</string>
     <string name="tutorial_private_life_mode_text">Afraid everyone hears your messages? The privacy mode is for you! Turn it on and Tell me everything will ask you if you want to read new messages or not.</string>
+    <string name="ajouter">"hinzufügen "</string>
 </resources>

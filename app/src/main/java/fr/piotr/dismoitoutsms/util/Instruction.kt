@@ -6,7 +6,7 @@ package fr.piotr.dismoitoutsms.util
  */
 enum class Instruction {
 
-    LIRE_FERMER, REPONDRE_FERMER, REPONSE, MODIFIER_ENVOYER_FERMER, DICTER_CONTACT;
+    LIRE_FERMER, REPONDRE_FERMER, REPONSE, AJOUTER, MODIFIER_ENVOYER_FERMER, DICTER_CONTACT;
 
     fun `is`(vararg instructions: Instruction): Boolean {
         return instructions.any { this == it }

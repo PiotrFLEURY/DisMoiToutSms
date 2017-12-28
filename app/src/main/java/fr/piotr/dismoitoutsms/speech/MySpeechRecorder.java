@@ -45,6 +45,9 @@ public class MySpeechRecorder implements RecognitionListener {
     private String fermer;
     private String modifier;
     private String envoyer;
+    private String ajouter;
+
+    private boolean cancelled;
 
     public MySpeechRecorder(Context context){
         this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
@@ -54,6 +57,7 @@ public class MySpeechRecorder implements RecognitionListener {
         this.fermer = context.getString(R.string.fermer);
         this.modifier = context.getString(R.string.modifier);
         this.envoyer = context.getString(R.string.envoyer);
+        this.ajouter = context.getString(R.string.ajouter);
 
         speech = SpeechRecognizer.createSpeechRecognizer(context);
         speech.setRecognitionListener(this);
@@ -93,21 +97,30 @@ public class MySpeechRecorder implements RecognitionListener {
 
     }
 
+    @Override
     public void onEndOfSpeech() {
-        hideMicrophone();
+        //
     }
 
+    @Override
     public void onError(int error) {
-        Log.d(TAG, "Error was thrown by SpeechRecognizer "+error);
-        end(Collections.emptyList(), Activity.RESULT_CANCELED);
+        Log.d(TAG, "Error was thrown by SpeechRecognizer "+error+toString());
+        if(!cancelled) {
+            end(Collections.emptyList(), Activity.RESULT_CANCELED);
+        }
     }
 
+    @Override
     public void onResults(Bundle results) {
-        Log.d(TAG, "onResults");
-        end(results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION), Activity.RESULT_OK);
+        Log.d(TAG, "onResults"+toString());
+        if(!cancelled) {
+            end(results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION), Activity.RESULT_OK);
+        }
     }
 
     private void end(List<String> words, int returnCode) {
+        Log.d(TAG, "end"+toString());
+        cancelled = true;
         destroy();
         hideMicrophone();
         onSpeechResult(instruction, returnCode, words);
@@ -139,12 +152,18 @@ public class MySpeechRecorder implements RecognitionListener {
         }
     }
 
+    @Override
     public void onPartialResults(Bundle partialResults) {
+        Log.d(TAG, "onPartialResults"+toString());
+        if(cancelled){
+            return;
+        }
         ArrayList<String> results = partialResults.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         if(results==null) {
             return;
         }
         onPartialResult(results);
+
         String firstResult = results.get(0);
         switch (instruction) {
             case LIRE_FERMER:
@@ -169,6 +188,11 @@ public class MySpeechRecorder implements RecognitionListener {
                     onResults(partialResults);
                 }
                 break;
+            case AJOUTER:
+                if(firstResult.equalsIgnoreCase(ajouter)){
+                    Log.d(TAG, "Premature end of recognization on partial result");
+                    onResults(partialResults);
+                }
             default:break;
         }
     }

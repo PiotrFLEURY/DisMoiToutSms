@@ -64,7 +64,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
                 + " " + getString(R.string.ou) + " " + getString(R.string.fermer);
         DITES_REPONDRE_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.repondre)
                 + " " + getString(R.string.ou) + " " + getString(R.string.fermer);
-        DITES_MODIFIER_ENVOYER_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.modifier)
+        DITES_MODIFIER_ENVOYER_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.ajouter) + ", " + getString(R.string.modifier)
                 + ", " + getString(R.string.envoyer) + " " + getString(R.string.ou) + " "
                 + getString(R.string.fermer);
 

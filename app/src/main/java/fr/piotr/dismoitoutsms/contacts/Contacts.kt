@@ -14,7 +14,9 @@ class Contacts : Serializable, Iterable<Contact> {
     internal var contacts: MutableList<Contact> = ArrayList()
 
     fun add(contact: Contact) {
-        this.contacts.add(contact)
+        if(!containsContact(contact)) {
+            this.contacts.add(contact)
+        }
     }
 
     override fun iterator(): Iterator<Contact> {
@@ -43,5 +45,9 @@ class Contacts : Serializable, Iterable<Contact> {
 
     fun addAll(contacts: Contacts) {
         this.contacts.addAll(contacts.asList())
+    }
+
+    private fun containsContact(candidate: Contact): Boolean {
+        return this.contacts.any { candidate.name == it.name && candidate.telephone == it.telephone }
     }
 }

@@ -360,9 +360,13 @@ class SmsRecuActivity : AbstractActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 val result = words[0]
                 val correspondances = getCorrespondance(result)
-                val contactSelectionDialog = ContactSelectionDialog(this)
-                contactSelectionDialog.setContacts(correspondances)
-                contactSelectionDialog.show()
+                if(correspondances.contacts.size == 1){
+                    onContactSelected(correspondances.contacts[0])
+                } else {
+                    val contactSelectionDialog = ContactSelectionDialog(this)
+                    contactSelectionDialog.setContacts(correspondances)
+                    contactSelectionDialog.show()
+                }
             } else {
                 onBackPressed()
             }

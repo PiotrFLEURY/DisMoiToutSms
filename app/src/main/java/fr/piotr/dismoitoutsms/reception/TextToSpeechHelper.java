@@ -158,10 +158,12 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP) {
             HashMap<String, String> parametres = new HashMap<>();
             parametres.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
+            parametres.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_VOICE_CALL));
             mTts.speak(text, TextToSpeech.QUEUE_FLUSH, parametres);
         } else {
             final Bundle params = new Bundle();
             params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
+            params.putString(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_VOICE_CALL));
             mTts.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId);
         }
     }

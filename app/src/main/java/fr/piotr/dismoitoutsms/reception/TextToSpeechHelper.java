@@ -180,7 +180,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
             @Override
             public void onDone(String utteranceId) {
                 if (utteranceListener != null) {
-                    utteranceListener.onDone(utteranceId);
+                    utteranceListener.onUtteranceCompleted(utteranceId);
                 }
             }
 

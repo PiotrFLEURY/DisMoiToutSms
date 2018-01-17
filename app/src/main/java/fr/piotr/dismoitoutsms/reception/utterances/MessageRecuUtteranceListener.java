@@ -4,8 +4,10 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 
 import fr.piotr.dismoitoutsms.reception.TextToSpeechHelper;
+import fr.piotr.dismoitoutsms.util.ConfigurationManager;
 
 import static fr.piotr.dismoitoutsms.reception.TextToSpeechHelper.DITES_REPONDRE_OU_FERMER;
+import static fr.piotr.dismoitoutsms.util.ConfigurationManager.getBoolean;
 import static fr.piotr.dismoitoutsms.util.Diction.REPONDRE_OU_FERMER;
 
 /**
@@ -16,6 +18,14 @@ public class MessageRecuUtteranceListener extends UtteranceListener {
 
     public MessageRecuUtteranceListener(Context context, TextToSpeechHelper speech) {
         super(context, speech);
+    }
+
+    @Override
+    public void onUtteranceCompleted(String utteranceId) {
+        boolean reponseActivee = getBoolean(context, ConfigurationManager.Configuration.COMMANDE_VOCALE);
+        if (reponseActivee) {
+            super.onUtteranceCompleted(utteranceId);
+        }
     }
 
     @Override

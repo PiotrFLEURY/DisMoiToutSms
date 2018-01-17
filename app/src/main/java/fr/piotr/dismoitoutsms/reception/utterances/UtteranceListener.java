@@ -28,9 +28,8 @@ public abstract class UtteranceListener implements TextToSpeech.OnUtteranceCompl
         this.speech = speech;
     }
 
-    public final void onUtteranceCompleted(String utteranceId) {
-        boolean reponseActivee = getBoolean(context, ConfigurationManager.Configuration.COMMANDE_VOCALE);
-        if (reponseActivee && isReconnaissanceVocaleInstallee()) {
+    public void onUtteranceCompleted(String utteranceId) {
+        if (isReconnaissanceVocaleInstallee()) {
             onDone(utteranceId);
         }
     }
@@ -39,7 +38,7 @@ public abstract class UtteranceListener implements TextToSpeech.OnUtteranceCompl
         speech.abandonAudioFocus();
     }
 
-    private boolean isReconnaissanceVocaleInstallee() {
+    protected boolean isReconnaissanceVocaleInstallee() {
         PackageManager packageManager = context.getPackageManager();
         final List<ResolveInfo> activities = packageManager.queryIntentActivities(new Intent(
                 RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);

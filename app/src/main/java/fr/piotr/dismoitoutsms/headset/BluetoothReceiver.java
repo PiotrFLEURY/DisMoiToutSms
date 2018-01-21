@@ -11,6 +11,8 @@ import android.os.Handler;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import fr.piotr.dismoitoutsms.util.ConfigurationManager;
+
 /**
  * Created by piotr on 08/08/2017.
  *
@@ -143,5 +145,10 @@ public class BluetoothReceiver extends AbstractHeadSetReceiver {
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected boolean isHeadsetModeActivated(Context context) {
+        return ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.BLUETOOTH_HEADSET_MODE);
     }
 }

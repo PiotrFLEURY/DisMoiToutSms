@@ -1,6 +1,7 @@
 package fr.piotr.dismoitoutsms.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -27,7 +28,7 @@ import fr.piotr.dismoitoutsms.contacts.Contacts;
 public class ConfigurationManager {
 
 	public enum Configuration {
-		TUTORIAL_DONE, EMOTICONES, COMMANDE_VOCALE, UNIQUEMENT_CONTACTS, CONTACTS_BANNIS, LANGUE_DICTION, ARRET_STEP_DETECTOR, HEADSET_MODE, PRIVATE_LIFE_MODE
+		TUTORIAL_DONE, EMOTICONES, COMMANDE_VOCALE, UNIQUEMENT_CONTACTS, CONTACTS_BANNIS, LANGUE_DICTION, HEADSET_MODE, BLUETOOTH_HEADSET_MODE, PRIVATE_LIFE_MODE
 	}
 
 	private static Map<String, String>	configuration	= new HashMap<>();
@@ -175,6 +176,13 @@ public class ConfigurationManager {
 			if (locale.getDisplayName().equals(string)) {
 				set(context, Configuration.LANGUE_DICTION, string);
 			}
+		}
+	}
+
+	public static void initBluetoothHeadsetMode_migration(Context context){
+		String value = get(context, Configuration.BLUETOOTH_HEADSET_MODE);
+		if(TextUtils.isEmpty(value)){
+			setBoolean(context, Configuration.BLUETOOTH_HEADSET_MODE, getBoolean(context, Configuration.HEADSET_MODE));
 		}
 	}
 

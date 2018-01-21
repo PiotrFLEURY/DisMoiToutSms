@@ -32,7 +32,7 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
 
     protected void onHeadSetPluggedIn(Context context) {
         if(!DisMoiToutSmsApplication.INSTANCE.serviceCommunicatorRunning()) {
-            if(ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.HEADSET_MODE)){
+            if(isHeadsetModeActivated(context)){
                 onAutoStart();
                 Intent service = new Intent(context, ServiceCommunicator.class);
                 service.addFlags(Intent.FLAG_FROM_BACKGROUND);
@@ -58,4 +58,5 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
         return true;
     }
 
+    protected abstract boolean isHeadsetModeActivated(Context context);
 }

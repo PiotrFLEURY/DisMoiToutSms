@@ -93,7 +93,7 @@
     <string name="tutorial_reponse_vocale_title">Without hands</string>
     <string name="tutorial_reponse_vocale_text">If you want to be able to reply to SMS simply with your voice activate the option Voice Response</string>
     <string name="tutorial_headset_mode_title">Earphone mode</string>
-    <string name="tutorial_headset_mode_text">Activate the earphone mode so that Tell me all SMS is activated automatically if wired or bluetooth headphones are connected to your phone</string>
+    <string name="tutorial_headset_mode_text">Activate the earphone mode so that Tell me all SMS is activated automatically if wired headphones are connected to your phone</string>
     <string name="help">Help</string>
     <string name="new_message_from">neue Nachricht von %s.</string>
     <string name="listen">Lesen</string>
@@ -102,4 +102,8 @@
     <string name="tutorial_private_life_mode_text">Afraid everyone hears your messages? The privacy mode is for you! Turn it on and Tell me everything will ask you if you want to read new messages or not.</string>
     <string name="ajouter">"hinzufügen "</string>
     <string name="tts_engine">TTS Engine</string>
+    <string name="bluetooth_heaset_mode_option">Bluetooth headset mode</string>
+    <string name="auto_activation">automatische Aktivierung</string>
+    <string name="tutorial_bluetooth_headset_mode_text">Activate bluetooth mode to auto actovate Dis-moi tout when bluetooth stuff is connected to the device</string>
+    <string name="tutorial_bluetooth_headset_mode_title">Bluetooth mode</string>
 </resources>

@@ -73,7 +73,8 @@
     <string name="toast.error.permission.denial">L\'application ne peut pas fonctionner sans votre autorisation</string>
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="headset_notification_text">Ecouteurs détectés, souhaitez-vous activer DisMoiTout ?</string>
-    <string name="heaset_mode_option">Mode écouteurs (activation auto)</string>
+    <string name="heaset_mode_option">Lorsque je branche des écouteurs</string>
+    <string name="bluetooth_heaset_mode_option">Lors de la connexion à un périphérique bluetooth</string>
     <string name="diction_des_sms">Diction des SMS</string>
     <string name="repeat">Répéter</string>
     <string name="stop">Arrêter</string>
@@ -97,7 +98,9 @@
     <string name="tutorial_reponse_vocale_title">Sans les mains</string>
     <string name="tutorial_reponse_vocale_text">Si vous voulez pouvoir répondre aux SMS simplement avec votre voix activez l\'option Réponse vocale</string>
     <string name="tutorial_headset_mode_title">Mode écouteurs</string>
-    <string name="tutorial_headset_mode_text">Activez le mode écouteurs pour que Dis-moi tout SMS s\'active automatiquement si des écouteurs filaires ou bluetooth sont connecté à votre téléphone</string>
+    <string name="tutorial_headset_mode_text">Activez le mode écouteurs pour que Dis-moi tout SMS s\'active automatiquement lorsque des écouteurs filaires sont branchés à votre téléphone</string>
+    <string name="tutorial_bluetooth_headset_mode_text">Activez le mode bluetooth pour que Dis-moi tout SMS s\'active automatiquement lorsqu\'un périphérique bluetooth est connecté à votre téléphone</string>
+    <string name="tutorial_bluetooth_headset_mode_title">Mode bluetooth</string>
 
     <string name="help">Aide</string>
     <string name="new_message_from">Nouveau message reçu de la part de %s.</string>
@@ -107,6 +110,7 @@
     <string name="tutorial_private_life_mode_text">Peur que tout le monde entende vos messages ? Le mode vie privée est fait pour vous ! Activez-le et Dis-moi tout vous demandera si vous souhaitez lire les nouveaux messages ou pas.</string>
     <string name="ajouter">Ajouter</string>
     <string name="tts_engine">Moteur de synthèse vocale</string>
+    <string name="auto_activation">Activation automatique</string>
 
 
 </resources>

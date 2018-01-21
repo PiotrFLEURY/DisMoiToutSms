@@ -161,7 +161,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_step_detector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -172,21 +171,34 @@
                     android:layout_height="48sp"
                     android:padding="12sp"
                     android:tint="@color/grey600"
-                    android:src="@drawable/ic_directions_run_24dp"/>
+                    android:src="@drawable/ic_security_black_24dp"/>
 
                 <TextView
                     android:layout_width="0sp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="@string/stepDetectorOption"/>
+                    android:text="@string/private_life_mode"/>
 
                 <Switch
-                    android:id="@+id/switch_step_detector"
-                    android:background="?android:selectableItemBackground"
+                    android:id="@+id/switch_private_life_mode"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:text="" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:padding="8sp"
+                android:text="@string/auto_activation"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1sp"
+                android:background="@color/divider"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -227,16 +239,16 @@
                     android:layout_height="48sp"
                     android:padding="12sp"
                     android:tint="@color/grey600"
-                    android:src="@drawable/ic_security_black_24dp"/>
+                    android:src="@drawable/ic_bluetooth_black_24dp"/>
 
                 <TextView
                     android:layout_width="0sp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="@string/private_life_mode"/>
+                    android:text="@string/bluetooth_heaset_mode_option"/>
 
                 <Switch
-                    android:id="@+id/switch_private_life_mode"
+                    android:id="@+id/switch_bluetooth_headset_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"

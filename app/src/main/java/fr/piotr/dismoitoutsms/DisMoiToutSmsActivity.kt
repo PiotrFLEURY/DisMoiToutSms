@@ -2,7 +2,6 @@ package fr.piotr.dismoitoutsms
 
 import android.Manifest
 import android.content.*
-import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.media.AudioManager.*
 import android.net.Uri
@@ -43,23 +42,17 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 EVENT_TAP_TARGET_ONLY_CCONTACTS -> tapTargetOnlyContacts()
                 EVENT_TAP_TARGET_VOCAL_ANSWER -> tapTargetVocalAnswer()
                 EVENT_TAP_TARGET_HEADSET_MODE -> tapTargetHeadsetMode()
+                EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE -> tapTargetBluetoothHeadsetMode()
                 EVENT_TAP_TARGET_PRIVATE_LIFE_MODE -> tapTargetPrivateLifeMode()
                 EVENT_END_TUTORIAL -> endTutorial()
             }
         }
     }
 
-    private val isKitKatWithStepCounter: Boolean
-        get() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                return packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_DETECTOR)
-                        && packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_STEP_COUNTER)
-            }
-            return false
-        }
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ConfigurationManager.initBluetoothHeadsetMode_migration(this)
 
         val actionBar = supportActionBar
         if (actionBar != null) {
@@ -88,9 +81,9 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         initBoutonReponseVocale()
 
-        initStepDetectorOption()
-
         initHeadSetOption()
+
+        initBluetoothHeadSetOption()
 
         initPrivateLifeOption()
 
@@ -139,15 +132,19 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     fun tapTargetVocalAnswer() {
-        tapTargetFor(switch_reponse_vocale, getString(R.string.tutorial_reponse_vocale_title), getString(R.string.tutorial_reponse_vocale_text), EVENT_TAP_TARGET_HEADSET_MODE)
-    }
-
-    fun tapTargetHeadsetMode() {
-        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_headset_mode_title), getString(R.string.tutorial_headset_mode_text), EVENT_TAP_TARGET_PRIVATE_LIFE_MODE)
+        tapTargetFor(switch_reponse_vocale, getString(R.string.tutorial_reponse_vocale_title), getString(R.string.tutorial_reponse_vocale_text), EVENT_TAP_TARGET_PRIVATE_LIFE_MODE)
     }
 
     fun tapTargetPrivateLifeMode() {
-        tapTargetFor(switch_private_life_mode, getString(R.string.tutorial_private_life_mode_title), getString(R.string.tutorial_private_life_mode_text), EVENT_END_TUTORIAL)
+        tapTargetFor(switch_private_life_mode, getString(R.string.tutorial_private_life_mode_title), getString(R.string.tutorial_private_life_mode_text), EVENT_TAP_TARGET_HEADSET_MODE)
+    }
+
+    fun tapTargetHeadsetMode() {
+        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_headset_mode_title), getString(R.string.tutorial_headset_mode_text), EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE)
+    }
+
+    fun tapTargetBluetoothHeadsetMode() {
+        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_bluetooth_headset_mode_title), getString(R.string.tutorial_bluetooth_headset_mode_text), EVENT_END_TUTORIAL)
     }
 
     fun endTutorial() {
@@ -176,6 +173,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         intentFilter.addAction(EVENT_TAP_TARGET_ONLY_CCONTACTS)
         intentFilter.addAction(EVENT_TAP_TARGET_VOCAL_ANSWER)
         intentFilter.addAction(EVENT_TAP_TARGET_HEADSET_MODE)
+        intentFilter.addAction(EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE)
         intentFilter.addAction(EVENT_TAP_TARGET_PRIVATE_LIFE_MODE)
         intentFilter.addAction(EVENT_END_TUTORIAL)
         LocalBroadcastManager.getInstance(this).registerReceiver(broadCastReceiver, intentFilter)
@@ -233,11 +231,9 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             }
         }
 
-        if (isKitKatWithStepCounter) {
-            switch_step_detector.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, ARRET_STEP_DETECTOR, isChecked) }
-        }
-
         switch_headset_mode.setOnCheckedChangeListener { _, isChecked -> setHeadsetMode(isChecked) }
+
+        switch_bluetooth_headset_mode.setOnCheckedChangeListener { _, isChecked -> setBluetoothHeadsetMode(isChecked) }
 
         switch_private_life_mode.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, PRIVATE_LIFE_MODE, isChecked) }
 
@@ -274,6 +270,13 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     private fun setHeadsetMode(isChecked: Boolean){
         setBoolean(applicationContext, HEADSET_MODE, isChecked)
+        if(isChecked) {
+            setupBatteryOptimization()
+        }
+    }
+
+    private fun setBluetoothHeadsetMode(isChecked: Boolean){
+        setBoolean(applicationContext, BLUETOOTH_HEADSET_MODE, isChecked)
         if(isChecked) {
             setupBatteryOptimization()
         }
@@ -352,7 +355,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         switch_reponse_vocale.setOnCheckedChangeListener(null)
         switch_emoticones.setOnCheckedChangeListener(null)
         switch_uniquement_mes_contacts.setOnCheckedChangeListener(null)
-        switch_step_detector.setOnCheckedChangeListener(null)
         switch_headset_mode.setOnCheckedChangeListener(null)
         switch_private_life_mode.setOnCheckedChangeListener(null)
         tv_gerer_contacts.setOnClickListener(null)
@@ -431,16 +433,12 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         switch_uniquement_mes_contacts.isChecked = getBoolean(this, UNIQUEMENT_CONTACTS)
     }
 
-    private fun initStepDetectorOption() {
-        if (isKitKatWithStepCounter) {
-            switch_step_detector.isChecked = getBoolean(this, ARRET_STEP_DETECTOR)
-        } else {
-            ll_step_detector.visibility = View.GONE
-        }
-    }
-
     private fun initHeadSetOption() {
         switch_headset_mode.isChecked = getBoolean(this, HEADSET_MODE)
+    }
+
+    private fun initBluetoothHeadSetOption() {
+        switch_bluetooth_headset_mode.isChecked = getBoolean(this, BLUETOOTH_HEADSET_MODE)
     }
 
     private fun initPrivateLifeOption() {
@@ -459,6 +457,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         val EVENT_TAP_TARGET_ONLY_CCONTACTS = TAG + ".tapTargetOnlyContacts"
         val EVENT_TAP_TARGET_VOCAL_ANSWER = TAG + ".tapTargetVocalAnswer"
         val EVENT_TAP_TARGET_HEADSET_MODE = TAG + ".tapTargetHeadsetMode"
+        val EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE = TAG + ".tapTargetBluetoothHeadsetMode"
         val EVENT_TAP_TARGET_PRIVATE_LIFE_MODE = TAG + ".tapTargetPrivateLifeMode"
         val EVENT_END_TUTORIAL = TAG + ".endTutorial"
 

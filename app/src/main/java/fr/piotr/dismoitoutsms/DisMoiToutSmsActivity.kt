@@ -252,11 +252,23 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 Manifest.permission.RECEIVE_BOOT_COMPLETED,
                 Manifest.permission.READ_PHONE_STATE)
 
+        tv_tts_voice_parameter.setOnClickListener({ openTtsVoiceParameter() })
+
         if(intent.extras?.get("android.intent.extra.REFERRER_NAME")!=null){
             onActivate()
             startActivity(IntentProvider().provideNewSmsIntent(this))
             finish()
         }
+
+    }
+
+    private fun openTtsVoiceParameter() {
+        //startActivityForResult(new Intent(android.provider.Settings.ACTION_VOICE_INPUT_SETTINGS))
+        //startActivityForResult(Intent("android.settings.VOICE_INPUT_SETTINGS"), ACTIVITY_RESULT_TTS_VOICE_PARAMETER)
+        val intent = Intent()
+        intent.action = "com.android.settings.TTS_SETTINGS"
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
 
     }
 
@@ -344,6 +356,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         switch_headset_mode.setOnCheckedChangeListener(null)
         switch_private_life_mode.setOnCheckedChangeListener(null)
         tv_gerer_contacts.setOnClickListener(null)
+        tv_tts_voice_parameter.setOnClickListener(null)
     }
 
     private fun initVolumeControl() {
@@ -357,7 +370,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         try {
             val checkIntent = Intent()
             checkIntent.action = TextToSpeech.Engine.ACTION_CHECK_TTS_DATA
-            startActivityForResult(checkIntent, 0x01)
+            startActivityForResult(checkIntent, ACTIVITY_RESULT_TTS_DATA)
         } catch (e: ActivityNotFoundException) {
             Log.e(javaClass.simpleName, e.message)
         }
@@ -365,7 +378,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 0x01) {
+        if (requestCode == ACTIVITY_RESULT_TTS_DATA) {
             if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
                 // Echec, aucun moteur n'a été trouvé, on propose à
                 // l'utilisateur d'en installer un depuis le Market
@@ -448,6 +461,9 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         val EVENT_TAP_TARGET_HEADSET_MODE = TAG + ".tapTargetHeadsetMode"
         val EVENT_TAP_TARGET_PRIVATE_LIFE_MODE = TAG + ".tapTargetPrivateLifeMode"
         val EVENT_END_TUTORIAL = TAG + ".endTutorial"
+
+        val ACTIVITY_RESULT_TTS_DATA = 1
+        val ACTIVITY_RESULT_TTS_VOICE_PARAMETER = 2
     }
 
 }

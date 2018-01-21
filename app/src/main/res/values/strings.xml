@@ -106,6 +106,7 @@
     <string name="tutorial_private_life_mode_title">Mode vie privée</string>
     <string name="tutorial_private_life_mode_text">Peur que tout le monde entende vos messages ? Le mode vie privée est fait pour vous ! Activez-le et Dis-moi tout vous demandera si vous souhaitez lire les nouveaux messages ou pas.</string>
     <string name="ajouter">Ajouter</string>
+    <string name="tts_engine">Moteur de synthèse vocale</string>
 
 
 </resources>

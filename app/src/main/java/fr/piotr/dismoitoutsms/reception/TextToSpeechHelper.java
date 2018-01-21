@@ -62,7 +62,8 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
 
         DITES_LIRE_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.listen)
                 + " " + getString(R.string.ou) + " " + getString(R.string.fermer);
-        DITES_REPONDRE_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.repondre)
+        DITES_REPONDRE_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.repeat)
+                + " " + getString(R.string.repondre)
                 + " " + getString(R.string.ou) + " " + getString(R.string.fermer);
         DITES_MODIFIER_ENVOYER_OU_FERMER = getString(R.string.dites) + " " + getString(R.string.ajouter) + ", " + getString(R.string.modifier)
                 + ", " + getString(R.string.envoyer) + " " + getString(R.string.ou) + " "
@@ -71,7 +72,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         listeners.put(Diction.MESSAGE_RECU_MODE_VIE_PRIVEE, new MessageRecuModeViePriveeUtteranceListener(context, this));
         listeners.put(Diction.MESSAGE_RECU, new MessageRecuUtteranceListener(context, this));
         listeners.put(Diction.LIRE_OU_FERMER, new LireOuFermerListener(context, this));
-        listeners.put(Diction.REPONDRE_OU_FERMER, new RepondreOuFermerListener(context, this));
+        listeners.put(Diction.REPETER_REPONDRE_OU_FERMER, new RepondreOuFermerListener(context, this));
         listeners.put(Diction.VOUS_AVEZ_REPONDU, new VousAvezReponduListener(context, this));
         listeners.put(Diction.MODIFIER_ENVOYER_OU_FERMER, new ModifierEnvoyerFermerListener(context, this));
         listeners.put(Diction.MESSAGE_ENVOYE, new MessageEnvoyeListener(context, this));

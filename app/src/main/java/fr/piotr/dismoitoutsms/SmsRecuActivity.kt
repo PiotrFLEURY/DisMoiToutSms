@@ -328,9 +328,10 @@ class SmsRecuActivity : AbstractActivity() {
             Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.action_retry) { _ -> repondre() }
                     .show()
-        } else if (instruction.`is`(LIRE_FERMER, REPONDRE_FERMER, MODIFIER_ENVOYER_FERMER) && resultCode == Activity.RESULT_OK) {
+        } else if (instruction.`is`(LIRE_FERMER, REPETER_REPONDRE_FERMER, MODIFIER_ENVOYER_FERMER) && resultCode == Activity.RESULT_OK) {
 
             when {
+                instructionIs(words, getString(R.string.repeat)) -> onMessageRecu()
                 instructionIs(words, getString(R.string.ajouter)) -> startSpeechRecognizer(AJOUTER, getString(R.string.reponse) + " " + reponse)
                 instructionIs(words, getString(R.string.repondre), getString(R.string.modifier)) -> startSpeechRecognizer(REPONSE, getString(R.string.reponse))
                 instructionIs(words, getString(R.string.envoyer)) -> {
@@ -380,8 +381,8 @@ class SmsRecuActivity : AbstractActivity() {
             LIRE_FERMER -> {
                 getString(R.string.dites) + " " + getString(R.string.listen) + " " + getString(R.string.ou) + " " + getString(R.string.fermer)
             }
-            REPONDRE_FERMER -> {
-                (getString(R.string.dites) + " " + getString(R.string.repondre)
+            REPETER_REPONDRE_FERMER -> {
+                (getString(R.string.dites) + " " + getString(R.string.repeat) + " " + getString(R.string.repondre)
                         + " " + getString(R.string.ou) + " " + getString(R.string.fermer))}
             MODIFIER_ENVOYER_FERMER -> {
                 (getString(R.string.dites) + " " + getString(R.string.ajouter)

@@ -8,7 +8,7 @@ import fr.piotr.dismoitoutsms.SmsRecuActivity;
 import fr.piotr.dismoitoutsms.reception.TextToSpeechHelper;
 
 import static fr.piotr.dismoitoutsms.reception.TextToSpeechHelper.DITES_REPONDRE_OU_FERMER;
-import static fr.piotr.dismoitoutsms.util.Instruction.REPONDRE_FERMER;
+import static fr.piotr.dismoitoutsms.util.Instruction.REPETER_REPONDRE_FERMER;
 
 /**
  * Created by piotr_000 on 19/03/2016.
@@ -23,10 +23,9 @@ public class RepondreOuFermerListener extends UtteranceListener {
     @Override
     public void onDone(String utteranceId) {
         Intent intent = new Intent(SmsRecuActivity.Companion.getEVENT_START_SPEECH_RECOGNIZER());
-        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_INSTRUCTION(), REPONDRE_FERMER);
+        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_INSTRUCTION(), REPETER_REPONDRE_FERMER);
         intent.putExtra(SmsRecuActivity.Companion.getEXTRA_PROMPT(), DITES_REPONDRE_OU_FERMER);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-//        SmsRecuActivity.startVoiceRecognition(REPONDRE_FERMER, DITES_REPONDRE_OU_FERMER);
     }
 
 }

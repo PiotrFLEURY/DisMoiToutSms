@@ -9,7 +9,7 @@ enum class Diction {
     // Etape 2 -> Dites lire ou fermer
     LIRE_OU_FERMER,
     // Etape 2 bis -> Dites répondre ou fermer
-    REPONDRE_OU_FERMER,
+    REPETER_REPONDRE_OU_FERMER,
     // Etape 3 -> Vous avez répondu...
     VOUS_AVEZ_REPONDU,
     // Etape 4 -> Dites modifier, envoyer ou fermer

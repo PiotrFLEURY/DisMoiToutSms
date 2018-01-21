@@ -41,6 +41,7 @@ public class MySpeechRecorder implements RecognitionListener {
 
     private SpeechRecognizer speech;
     private String lire;
+    private String repeter;
     private String repondre;
     private String fermer;
     private String modifier;
@@ -53,6 +54,7 @@ public class MySpeechRecorder implements RecognitionListener {
         this.localBroadcastManager = LocalBroadcastManager.getInstance(context);
 
         this.lire = context.getString(R.string.listen);
+        this.repeter = context.getString(R.string.repeat);
         this.repondre = context.getString(R.string.repondre);
         this.fermer = context.getString(R.string.fermer);
         this.modifier = context.getString(R.string.modifier);
@@ -173,8 +175,9 @@ public class MySpeechRecorder implements RecognitionListener {
                     onResults(partialResults);
                 }
                 break;
-            case REPONDRE_FERMER:
-                if(firstResult.equalsIgnoreCase(repondre)
+            case REPETER_REPONDRE_FERMER:
+                if(firstResult.equalsIgnoreCase(repeter)
+                        || firstResult.equalsIgnoreCase(repondre)
                         || firstResult.equalsIgnoreCase(fermer)){
                     Log.d(TAG, "Premature end of recognization on partial result");
                     onResults(partialResults);

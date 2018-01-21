@@ -18,6 +18,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import fr.piotr.dismoitoutsms.contacts.Contact
+import fr.piotr.dismoitoutsms.dialogs.BluetoothDevicesSelectionDialog
 import fr.piotr.dismoitoutsms.intents.IntentProvider
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService
@@ -235,6 +236,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         switch_bluetooth_headset_mode.setOnCheckedChangeListener { _, isChecked -> setBluetoothHeadsetMode(isChecked) }
 
+        iv_bluetooth_devices_settings.setOnClickListener({openBluetoothDevicePicker()})
+
         switch_private_life_mode.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, PRIVATE_LIFE_MODE, isChecked) }
 
         tv_gerer_contacts.setOnClickListener({ this.openContactSelection(it) })
@@ -256,6 +259,10 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             finish()
         }
 
+    }
+
+    private fun openBluetoothDevicePicker() {
+        BluetoothDevicesSelectionDialog(this).show()
     }
 
     private fun openTtsVoiceParameter() {
@@ -356,6 +363,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         switch_emoticones.setOnCheckedChangeListener(null)
         switch_uniquement_mes_contacts.setOnCheckedChangeListener(null)
         switch_headset_mode.setOnCheckedChangeListener(null)
+        switch_bluetooth_headset_mode.setOnClickListener(null)
+        iv_bluetooth_devices_settings.setOnClickListener(null)
         switch_private_life_mode.setOnCheckedChangeListener(null)
         tv_gerer_contacts.setOnClickListener(null)
         tv_tts_voice_parameter.setOnClickListener(null)

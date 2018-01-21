@@ -28,7 +28,9 @@ import fr.piotr.dismoitoutsms.contacts.Contacts;
 public class ConfigurationManager {
 
 	public enum Configuration {
-		TUTORIAL_DONE, EMOTICONES, COMMANDE_VOCALE, UNIQUEMENT_CONTACTS, CONTACTS_BANNIS, LANGUE_DICTION, HEADSET_MODE, BLUETOOTH_HEADSET_MODE, PRIVATE_LIFE_MODE
+		TUTORIAL_DONE, EMOTICONES, COMMANDE_VOCALE, UNIQUEMENT_CONTACTS, CONTACTS_BANNIS,
+		LANGUE_DICTION, HEADSET_MODE, BLUETOOTH_HEADSET_MODE, PRIVATE_LIFE_MODE,
+		BLUETOOTH_DEVICES_BANNED
 	}
 
 	private static Map<String, String>	configuration	= new HashMap<>();
@@ -183,6 +185,52 @@ public class ConfigurationManager {
 		String value = get(context, Configuration.BLUETOOTH_HEADSET_MODE);
 		if(TextUtils.isEmpty(value)){
 			setBoolean(context, Configuration.BLUETOOTH_HEADSET_MODE, getBoolean(context, Configuration.HEADSET_MODE));
+		}
+	}
+
+	public static List<String> getBluetoothBanned(Context context){
+		String valeur = get(context, Configuration.BLUETOOTH_DEVICES_BANNED);
+		if (valeur == null) {
+			valeur = "";
+		}
+		return new ArrayList<>(Arrays.asList(valeur.split(";")));
+	}
+
+	public static boolean isBluetoothBanned(Context context, String address) {
+		return getBluetoothBanned(context).contains(address);
+	}
+
+	public static void banBluetoothDevice(Context context, String addressToBan) {
+		List<String> bluetoothBanned = getBluetoothBanned(context);
+		if(!bluetoothBanned.contains(addressToBan)){
+			bluetoothBanned.add(addressToBan);
+		}
+		StringBuilder valeur = new StringBuilder();
+		for (String address : bluetoothBanned) {
+			valeur.append(address);
+			valeur.append(";");
+		}
+		set(context, Configuration.BLUETOOTH_DEVICES_BANNED, valeur.toString());
+	}
+
+	public static void grantBluetoothDevice(Context context, String addressToBan) {
+		List<String> bluetoothBanned = getBluetoothBanned(context);
+		if(bluetoothBanned.contains(addressToBan)){
+			bluetoothBanned.remove(addressToBan);
+		}
+		StringBuilder valeur = new StringBuilder();
+		for (String address : bluetoothBanned) {
+			valeur.append(address);
+			valeur.append(";");
+		}
+		set(context, Configuration.BLUETOOTH_DEVICES_BANNED, valeur.toString());
+	}
+
+	public static void toggleBluetoothDevice(Context context, String address, boolean checked) {
+		if(checked){
+			grantBluetoothDevice(context, address);
+		} else {
+			banBluetoothDevice(context, address);
 		}
 	}
 

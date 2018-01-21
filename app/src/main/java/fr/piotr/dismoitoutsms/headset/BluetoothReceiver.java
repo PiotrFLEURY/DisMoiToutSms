@@ -26,7 +26,8 @@ public class BluetoothReceiver extends AbstractHeadSetReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        if(device != null) {
+        if(device != null
+                && !ConfigurationManager.isBluetoothBanned(context, device.getAddress())) {
             switch(intent.getAction()){
                 case BluetoothDevice.ACTION_ACL_CONNECTED:
                     postDelayCheck(context);

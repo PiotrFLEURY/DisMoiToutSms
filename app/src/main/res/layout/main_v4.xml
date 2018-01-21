@@ -247,6 +247,15 @@
                     android:layout_height="wrap_content"
                     android:text="@string/bluetooth_heaset_mode_option"/>
 
+                <ImageView
+                    android:id="@+id/iv_bluetooth_devices_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_settings_black_24dp"
+                    android:tint="@color/grey600"
+                    android:padding="8sp"
+                    android:layout_margin="8sp"/>
+
                 <Switch
                     android:id="@+id/switch_bluetooth_headset_mode"
                     android:layout_width="wrap_content"

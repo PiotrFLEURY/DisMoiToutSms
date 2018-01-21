@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16sp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/tv_bluetooth_device_name"
+        android:layout_width="0sp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:text="Bose QC 35"/>
+
+    <Switch
+        android:id="@+id/switch_bluetooth_device_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""/>
+
+</LinearLayout>

@@ -474,6 +474,7 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     private fun notifyMessageSent() {
+        speech.parler(getString(R.string.messageenvoye), MESSAGE_ENVOYE)
         val smsSentFragment = SmsSentFragment()
         val bundle = Bundle()
         bundle.putString(SmsSentFragment.EXTRA_REPONSE, reponse)

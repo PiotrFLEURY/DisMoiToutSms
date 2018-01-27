@@ -147,7 +147,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     fun tapTargetBluetoothHeadsetMode() {
-        tapTargetFor(switch_headset_mode, getString(R.string.tutorial_bluetooth_headset_mode_title), getString(R.string.tutorial_bluetooth_headset_mode_text), EVENT_END_TUTORIAL)
+        tapTargetFor(tv_bluetooth_headset_mode, getString(R.string.tutorial_bluetooth_headset_mode_title), getString(R.string.tutorial_bluetooth_headset_mode_text), EVENT_END_TUTORIAL)
     }
 
     fun endTutorial() {

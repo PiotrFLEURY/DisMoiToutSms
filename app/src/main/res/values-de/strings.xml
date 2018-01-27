@@ -107,4 +107,5 @@
     <string name="tutorial_bluetooth_headset_mode_text">Activate bluetooth mode to auto actovate Dis-moi tout when bluetooth stuff is connected to the device</string>
     <string name="tutorial_bluetooth_headset_mode_title">Bluetooth mode</string>
     <string name="bluetooth_device_fragment_no_device_found">"Kein Gerät gefunden "</string>
+    <string name="bluetooth_device_fragment_help_text">Wählen Sie die Geräte aus, die die Diktion Ihrer SMS automatisch aktivieren und deaktivieren</string>
 </resources>

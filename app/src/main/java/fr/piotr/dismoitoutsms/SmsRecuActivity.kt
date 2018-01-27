@@ -322,11 +322,18 @@ class SmsRecuActivity : AbstractActivity() {
         return false
     }
 
+    private fun onSpeechError(instruction: Instruction){
+        when(instruction){
+            DICTER_CONTACT -> askForContact()
+            else -> repondre()
+        }
+    }
+
     private fun onSpeechResult(instruction: Instruction, resultCode: Int, words: List<String>) {
         sablier.reset()
         if (Activity.RESULT_CANCELED == resultCode) {
             Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.action_retry) { _ -> repondre() }
+                    .setAction(R.string.action_retry) { _ -> onSpeechError(instruction) }
                     .show()
         } else if (instruction.`is`(LIRE_FERMER, REPETER_REPONDRE_FERMER, MODIFIER_ENVOYER_FERMER) && resultCode == Activity.RESULT_OK) {
 

@@ -1,64 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:menu="main_menu"
     tools:context=".DisMoiToutSmsActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16sp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0sp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/diction_des_sms"
-                style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"/>
-
-            <Switch
-                android:id="@+id/switch_activation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                tools:checked="false"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_status_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/deactivated"
-            style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
-
-        <Button
-            android:id="@+id/btn_tester"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:text="@string/tester_dictiontext" />
-
-    </LinearLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll"
+        android:id="@+id/default_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,303 +19,352 @@
             android:orientation="vertical"
             android:padding="8sp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8sp"
-                android:textColor="@color/primary"
-                android:text="@string/selectioncontacttitle"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/divider"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:tint="@color/grey600"
-                    android:src="@drawable/ic_people_24dp"/>
 
                 <TextView
                     android:layout_width="0sp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="@string/uniquementcontacts"/>
+                    android:text="@string/diction_des_sms"
+                    style="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 
                 <Switch
-                    android:id="@+id/switch_uniquement_mes_contacts"
-                    android:background="?android:selectableItemBackground"
+                    android:id="@+id/switch_activation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="" />
+                    android:text=""
+                    tools:checked="false"/>
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_gerer_contacts"
+                android:id="@+id/tv_status_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingEnd="8sp"
-                android:drawableEnd="@drawable/ic_chevron_right_24dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/deactivated"
+                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"/>
+
+            <Button
+                android:id="@+id/btn_tester"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:gravity="center_vertical|end"
-                android:textColor="@color/grey600"
-                android:background="?selectableItemBackground"
-                android:text="@string/manage_contacts"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary"
-                android:padding="8sp"
-                android:text="@string/options"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/divider"/>
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:tint="@color/grey600"
-                    android:src="@android:drawable/ic_btn_speak_now"/>
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/commande_vocale"/>
-
-                <Switch
-                    android:id="@+id/switch_reponse_vocale"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:tint="@color/grey600"
-                    android:src="@drawable/ic_security_black_24dp"/>
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/private_life_mode"/>
-
-                <Switch
-                    android:id="@+id/switch_private_life_mode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:text="" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary"
-                android:padding="8sp"
-                android:text="@string/auto_activation"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/divider"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:tint="@color/grey600"
-                    android:src="@drawable/ic_headset_white_24dp"/>
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/heaset_mode_option"/>
-
-                <Switch
-                    android:id="@+id/switch_headset_mode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:text="" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:tint="@color/grey600"
-                    android:src="@drawable/ic_bluetooth_black_24dp"/>
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bluetooth_heaset_mode_option"/>
-
-                <ImageView
-                    android:id="@+id/iv_bluetooth_devices_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_settings_black_24dp"
-                    android:tint="@color/grey600"
-                    android:padding="8sp"
-                    android:layout_margin="8sp"/>
-
-                <Switch
-                    android:id="@+id/switch_bluetooth_headset_mode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:text="" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary"
-                android:padding="8sp"
-                android:text="@string/parametres"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/divider"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:tint="@color/grey600"
-                    android:src="@drawable/ic_settings_voice_black_24dp"/>
-
-                <TextView
-                    android:id="@+id/tv_tts_voice_parameter"
-                    android:layout_width="0sp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
-                    android:paddingEnd="8sp"
-                    android:gravity="center_vertical"
-                    android:background="?selectableItemBackground"
-                    android:text="@string/tts_engine"
-                    android:drawableEnd="@drawable/ic_chevron_right_24dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:src="@drawable/ic_language_24dp"
-                    android:tint="@color/grey600" />
-
-                <TextView
-                    android:id="@+id/tabwidgettext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:text="@string/langue" />
-
-                <Spinner
-                    android:id="@+id/sp_language"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/custom_spinner_item"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="16sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="48sp"
-                    android:layout_height="48sp"
-                    android:padding="12sp"
-                    android:tint="@color/grey600"
-                    android:src="@drawable/ic_insert_emoticon_24dp"/>
-
-                <TextView
-                    android:layout_width="0sp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/translate_emoticones"/>
-
-                <Switch
-                    android:id="@+id/switch_emoticones"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:text="" />
-
-            </LinearLayout>
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="@string/tester_dictiontext" />
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+        <android.support.v4.widget.NestedScrollView
 
-</LinearLayout>
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8sp"
+                    android:textColor="@color/primary"
+                    android:text="@string/selectioncontacttitle"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1sp"
+                    android:background="@color/divider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48sp"
+                        android:layout_height="48sp"
+                        android:padding="12sp"
+                        android:tint="@color/grey600"
+                        android:src="@drawable/ic_people_24dp"/>
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/uniquementcontacts"/>
+
+                    <Switch
+                        android:id="@+id/switch_uniquement_mes_contacts"
+                        android:background="?android:selectableItemBackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_gerer_contacts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8sp"
+                    android:drawableEnd="@drawable/ic_chevron_right_24dp"
+                    android:layout_gravity="end"
+                    android:gravity="center_vertical|end"
+                    android:textColor="@color/grey600"
+                    android:background="?selectableItemBackground"
+                    android:text="@string/manage_contacts"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:padding="8sp"
+                    android:text="@string/options"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1sp"
+                    android:background="@color/divider"/>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48sp"
+                        android:layout_height="48sp"
+                        android:padding="12sp"
+                        android:tint="@color/grey600"
+                        android:src="@android:drawable/ic_btn_speak_now"/>
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/commande_vocale"/>
+
+                    <Switch
+                        android:id="@+id/switch_reponse_vocale"
+                        android:background="?android:selectableItemBackground"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48sp"
+                        android:layout_height="48sp"
+                        android:padding="12sp"
+                        android:tint="@color/grey600"
+                        android:src="@drawable/ic_security_black_24dp"/>
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/private_life_mode"/>
+
+                    <Switch
+                        android:id="@+id/switch_private_life_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:padding="8sp"
+                    android:text="@string/auto_activation"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1sp"
+                    android:background="@color/divider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48sp"
+                        android:layout_height="48sp"
+                        android:padding="12sp"
+                        android:tint="@color/grey600"
+                        android:src="@drawable/ic_headset_white_24dp"/>
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/heaset_mode_option"/>
+
+                    <Switch
+                        android:id="@+id/switch_headset_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48sp"
+                        android:layout_height="48sp"
+                        android:padding="12sp"
+                        android:tint="@color/grey600"
+                        android:src="@drawable/ic_bluetooth_black_24dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_bluetooth_headset_mode"
+                        android:layout_width="0sp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:drawableEnd="@drawable/ic_chevron_right_24dp"
+                        android:paddingEnd="8sp"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/bluetooth_heaset_mode_option"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:padding="8sp"
+                    android:text="@string/parametres"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1sp"
+                    android:background="@color/divider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48sp"
+                        android:layout_height="48sp"
+                        android:padding="12sp"
+                        android:tint="@color/grey600"
+                        android:src="@drawable/ic_settings_voice_black_24dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_tts_voice_parameter"
+                        android:layout_width="0sp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="8sp"
+                        android:gravity="center_vertical"
+                        android:background="?selectableItemBackground"
+                        android:text="@string/tts_engine"
+                        android:drawableEnd="@drawable/ic_chevron_right_24dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="48sp"
+                        android:layout_height="48sp"
+                        android:padding="12sp"
+                        android:src="@drawable/ic_language_24dp"
+                        android:tint="@color/grey600" />
+
+                    <TextView
+                        android:id="@+id/tabwidgettext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:text="@string/langue" />
+
+                    <Spinner
+                        android:id="@+id/sp_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:listitem="@layout/custom_spinner_item"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48sp"
+                        android:layout_height="48sp"
+                        android:padding="12sp"
+                        android:tint="@color/grey600"
+                        android:src="@drawable/ic_insert_emoticon_24dp"/>
+
+                    <TextView
+                        android:layout_width="0sp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/translate_emoticones"/>
+
+                    <Switch
+                        android:id="@+id/switch_emoticones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64sp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="48sp"
+                android:layout_height="48sp"
+                android:padding="12sp"
+                android:tint="@color/grey600"
+                android:src="@drawable/ic_bluetooth_black_24dp"/>
+
+            <TextView
+                android:layout_width="0sp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/bluetooth_heaset_mode_option"/>
+
+            <Switch
+                android:id="@+id/switch_bluetooth_headset_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16sp"
+                android:background="?android:selectableItemBackground"
+                android:text="" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <TextView
+            android:id="@+id/bluetooth_device_fragment_tv_no_device_found"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/grey200"
+            android:text="@string/bluetooth_device_fragment_no_device_found"/>
+
+        <ListView
+            android:id="@+id/bluetooth_device_fragment_lv_devices"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            tools:listitem="@layout/bluetooth_device"
+            />
+
+    </FrameLayout>
+
+</LinearLayout>

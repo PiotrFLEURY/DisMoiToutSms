@@ -1,7 +1,10 @@
 package fr.piotr.dismoitoutsms.dialogs;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -11,14 +14,12 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ import static fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean;
  *
  */
 
-public class BluetoothDevicesSelectionFragment extends Fragment {
+public class BluetoothDevicesSelectionFragment extends BottomSheetDialogFragment {
 
     private class MyAdapter extends BaseAdapter {
 
@@ -110,24 +111,34 @@ public class BluetoothDevicesSelectionFragment extends Fragment {
     ListView listView;
     MyAdapter adapter;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.bluetooth_devices_fragment, container, false);
+    DialogInterface.OnDismissListener onDismissListener;
+
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDismissListener != null) {
+            onDismissListener.onDismiss(dialog);
+        }
+    }
 
-        tvNoDeviceFound = view.findViewById(R.id.bluetooth_device_fragment_tv_no_device_found);
-        swBluetoothHeadsetMode = view.findViewById(R.id.switch_bluetooth_headset_mode);
-        listView = view.findViewById(R.id.bluetooth_device_fragment_lv_devices);
+    @SuppressLint("RestrictedApi")
+    @Override
+    public void setupDialog(Dialog dialog, int style) {
+        super.setupDialog(dialog, style);
+        View contentView = View.inflate(getContext(), R.layout.bluetooth_devices_fragment, null);
+        dialog.setContentView(contentView);
+
+        tvNoDeviceFound = contentView.findViewById(R.id.bluetooth_device_fragment_tv_no_device_found);
+        swBluetoothHeadsetMode = contentView.findViewById(R.id.switch_bluetooth_headset_mode);
+        listView = contentView.findViewById(R.id.bluetooth_device_fragment_lv_devices);
         adapter = new MyAdapter(getContext());
         listView.setAdapter(adapter);
 
         BluetoothHelper.listBluetoothDevices(getContext());
-
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.view.View.*
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.contacts.Contacts
 import fr.piotr.dismoitoutsms.dialogs.ContactSelectionDialog
+import fr.piotr.dismoitoutsms.dialogs.NewSpeechTryDialog
 import fr.piotr.dismoitoutsms.fragments.MicrophoneFragment
 import fr.piotr.dismoitoutsms.fragments.SmsSentFragment
 import fr.piotr.dismoitoutsms.intents.IntentProvider
@@ -86,10 +87,6 @@ class SmsRecuActivity : AbstractActivity() {
                     when (resultCode) {
                         Activity.RESULT_OK -> onSmsSent()
                         else -> onSmsNotSent()
-//                        SmsManager.RESULT_ERROR_GENERIC_FAILURE -> Toast.makeText(context, "Generic failure cause", Toast.LENGTH_SHORT).show()
-//                        SmsManager.RESULT_ERROR_NO_SERVICE -> Toast.makeText(context, "Service is currently unavailable", Toast.LENGTH_SHORT).show()
-//                        SmsManager.RESULT_ERROR_NULL_PDU -> Toast.makeText(context, "No pdu provided", Toast.LENGTH_SHORT).show()
-//                        SmsManager.RESULT_ERROR_RADIO_OFF -> Toast.makeText(context, "Radio was explicitly turned off", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -148,7 +145,7 @@ class SmsRecuActivity : AbstractActivity() {
                         }
                         finish()
                     }
-                    else -> Log.i(TAG, "UNKNOWN_STATE: " + state)
+                    else -> Log.i(TAG, "UNKNOWN_STATE: $state")
                 }
                 lastState = state
             }
@@ -161,7 +158,7 @@ class SmsRecuActivity : AbstractActivity() {
             askForContact()
         } else {
             if (ConfigurationManager.getBoolean(this, Configuration.PRIVATE_LIFE_MODE)) {
-                speech.parler(String.format(format = getString(R.string.new_message_from), args = contactName), MESSAGE_RECU_MODE_VIE_PRIVEE)
+                speech.parler(getString(R.string.new_message_from, contactName), MESSAGE_RECU_MODE_VIE_PRIVEE)
             } else {
                 onMessageRecu()
             }
@@ -223,7 +220,7 @@ class SmsRecuActivity : AbstractActivity() {
 
     override fun onPause() {
         super.onPause()
-        window.clearFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
+        WakeLockManager.unsetWakeUp(this)
 
         SmsReceiver.getInstance().isDictating = false
 
@@ -303,10 +300,6 @@ class SmsRecuActivity : AbstractActivity() {
 
         runOnUiThread {
             showMicrophone(instruction, extraPrompt)
-//            speech_instructions.text = extraPrompt
-//            reponse_en_cours.text = ""
-//            speechRecorder = MySpeechRecorder(this@SmsRecuActivity)
-//            speechRecorder!!.startListening(instruction, extraPrompt)
         }
     }
 
@@ -325,16 +318,14 @@ class SmsRecuActivity : AbstractActivity() {
     private fun onSpeechError(instruction: Instruction){
         when(instruction){
             DICTER_CONTACT -> askForContact()
-            else -> repondre()
+            else -> startSpeechRecognizer(instruction, getInstructionText(instruction))
         }
     }
 
     private fun onSpeechResult(instruction: Instruction, resultCode: Int, words: List<String>) {
         sablier.reset()
         if (Activity.RESULT_CANCELED == resultCode) {
-            Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.action_retry) { _ -> onSpeechError(instruction) }
-                    .show()
+            onSpeechResultCanceled(instruction)
         } else if (instruction.`is`(LIRE_FERMER, REPETER_REPONDRE_FERMER, MODIFIER_ENVOYER_FERMER) && resultCode == Activity.RESULT_OK) {
 
             when {
@@ -379,6 +370,23 @@ class SmsRecuActivity : AbstractActivity() {
                 onBackPressed()
             }
         }
+    }
+
+    private fun onSpeechResultCanceled(instruction: Instruction) {
+//        val snackbar = Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_LONG)
+//                .setAction(R.string.action_retry) { _ -> onSpeechError(instruction) }
+
+//        smsrecu_coordinator.handler.postDelayed({
+//            if (snackbar.isShown) {
+//                snackbar.dismiss()
+//                onSpeechError(instruction)
+//            }
+//        }, 3000)
+//        snackbar.show()
+
+        val newSpeechTryDialog = NewSpeechTryDialog()
+        newSpeechTryDialog.doNext = Runnable{onSpeechError(instruction)}
+        newSpeechTryDialog.show(supportFragmentManager, NewSpeechTryDialog.TAG)
     }
 
     private fun getInstructionText(instruction: Instruction): String {
@@ -430,7 +438,7 @@ class SmsRecuActivity : AbstractActivity() {
 
     private fun showMicrophone(instruction: Instruction, extraPrompt: String) {
         microphoneFragment = MicrophoneFragment()
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putSerializable(MicrophoneFragment.INSTRUCTION, instruction)
         bundle.putString(MicrophoneFragment.EXTRA_PROMPT, extraPrompt)
         microphoneFragment.arguments = bundle
@@ -498,28 +506,28 @@ class SmsRecuActivity : AbstractActivity() {
 
     companion object {
 
-        val TAG = "SmsRecuActivity"
+        const val TAG = "SmsRecuActivity"
 
-        var EVENT_SMS_SENT = TAG + ".EVENT_SMS_SENT"
+        var EVENT_SMS_SENT = "$TAG.EVENT_SMS_SENT"
 
-        val EXTRA_SPEECH_RESULT_CODE = TAG + ".EXTRA_SPEECH_RESULT_CODE"
-        val EXTRA_SPEECH_INSTRUCTION = TAG + ".EXTRA_SPEECH_INSTRUCTION"
-        val EVENT_SPEECH_RESULT = TAG + ".EVENT_SPEECH_RESULT"
-        val EXTRA_SPEECH_WORDS = TAG + ".EXTRA_SPEECH_WORDS"
-        val EVENT_HIDE_MICROPHONE = TAG + ".EVENT_HIDE_MICROPHONE"
+        const val EXTRA_SPEECH_RESULT_CODE = "$TAG.EXTRA_SPEECH_RESULT_CODE"
+        const val EXTRA_SPEECH_INSTRUCTION = "$TAG.EXTRA_SPEECH_INSTRUCTION"
+        const val EVENT_SPEECH_RESULT = "$TAG.EVENT_SPEECH_RESULT"
+        const val EXTRA_SPEECH_WORDS = "$TAG.EXTRA_SPEECH_WORDS"
+        const val EVENT_HIDE_MICROPHONE = "$TAG.EVENT_HIDE_MICROPHONE"
 
-        val EVENT_START_SPEECH_RECOGNIZER = TAG + ".EVENT_START_SPEECH_RECOGNIZER"
-        val EVENT_FINISH = TAG + ".EVENT_FINISH"
-        val EVENT_BACK = TAG + ".EVENT_BACK"
+        const val EVENT_START_SPEECH_RECOGNIZER = "$TAG.EVENT_START_SPEECH_RECOGNIZER"
+        const val EVENT_FINISH = "$TAG.EVENT_FINISH"
+        const val EVENT_BACK = "$TAG.EVENT_BACK"
 
-        val EXTRA_INSTRUCTION = TAG + ".EXTRA_INSTRUCTION"
-        val EXTRA_PROMPT = TAG + ".EXTRA_PROMPT"
+        const val EXTRA_INSTRUCTION = "$TAG.EXTRA_INSTRUCTION"
+        const val EXTRA_PROMPT = "$TAG.EXTRA_PROMPT"
 
-        private val TELEPHON_NUMBER_FIELD_NAME = "address"
-        private val MESSAGE_BODY_FIELD_NAME = "body"
+        private const val TELEPHON_NUMBER_FIELD_NAME = "address"
+        private const val MESSAGE_BODY_FIELD_NAME = "body"
         private val SENT_MSGS_CONTET_PROVIDER = Uri.parse("content://sms/sent")
 
-        val SMS_SENT_REQUEST_CODE = 1;
+        const val SMS_SENT_REQUEST_CODE = 1
     }
 
 }

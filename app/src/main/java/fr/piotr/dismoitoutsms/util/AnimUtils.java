@@ -25,8 +25,8 @@ public class AnimUtils {
     public static void reveal(View myView, Runnable onEnd){
 
         // get the center for the clipping circle
-        int cx = myView.getWidth() / 2;
-        int cy = myView.getHeight() / 2;
+        int cx = myView.getWidth();
+        int cy = myView.getHeight();
 
         // get the final radius for the clipping circle
         float finalRadius = (float) Math.hypot(cx, cy);
@@ -60,8 +60,8 @@ public class AnimUtils {
     public static void unreveal(View myView, Runnable onEnd) {
 
         // get the center for the clipping circle
-        int cx = myView.getWidth() / 2;
-        int cy = myView.getHeight() / 2;
+        int cx = myView.getWidth();
+        int cy = myView.getHeight();
 
         // get the initial radius for the clipping circle
         float initialRadius = (float) Math.hypot(cx, cy);

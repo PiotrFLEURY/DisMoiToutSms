@@ -22,9 +22,9 @@ public class ContactsTrouvesListener extends UtteranceListener {
 
     @Override
     public void onDone(String utteranceId) {
-        Intent intent = new Intent(SmsRecuActivity.Companion.getEVENT_START_SPEECH_RECOGNIZER());
-        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_INSTRUCTION(), DICTER_CONTACT);
-        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_PROMPT(), context.getString(R.string.dictate_contact_name));
+        Intent intent = new Intent(SmsRecuActivity.EVENT_START_SPEECH_RECOGNIZER);
+        intent.putExtra(SmsRecuActivity.EXTRA_INSTRUCTION, DICTER_CONTACT);
+        intent.putExtra(SmsRecuActivity.EXTRA_PROMPT, context.getString(R.string.dictate_contact_name));
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 

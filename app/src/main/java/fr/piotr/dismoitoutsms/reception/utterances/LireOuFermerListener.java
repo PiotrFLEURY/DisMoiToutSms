@@ -22,9 +22,9 @@ public class LireOuFermerListener extends UtteranceListener {
 
     @Override
     public void onDone(String utteranceId) {
-        Intent intent = new Intent(SmsRecuActivity.Companion.getEVENT_START_SPEECH_RECOGNIZER());
-        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_INSTRUCTION(), LIRE_FERMER);
-        intent.putExtra(SmsRecuActivity.Companion.getEXTRA_PROMPT(), DITES_LIRE_OU_FERMER);
+        Intent intent = new Intent(SmsRecuActivity.EVENT_START_SPEECH_RECOGNIZER);
+        intent.putExtra(SmsRecuActivity.EXTRA_INSTRUCTION, LIRE_FERMER);
+        intent.putExtra(SmsRecuActivity.EXTRA_PROMPT, DITES_LIRE_OU_FERMER);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 

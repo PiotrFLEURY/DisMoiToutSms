@@ -187,7 +187,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 public void run() {
                     if (!messagesEnAttente.isEmpty()) {
                         if (isDictating()) {
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(SmsRecuActivity.Companion.getEVENT_FINISH()));
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(SmsRecuActivity.EVENT_FINISH));
                         }
                         Message message = messagesEnAttente.first();
                         messagesEnAttente.remove(message);

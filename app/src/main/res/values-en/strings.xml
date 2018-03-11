@@ -109,5 +109,6 @@
     <string name="tutorial_bluetooth_headset_mode_title">Bluetooth mode</string>
     <string name="bluetooth_device_fragment_no_device_found">No device found</string>
     <string name="bluetooth_device_fragment_help_text">Choose the devices that automatically enable and disable the diction of your SMS</string>
+    <string name="new_try_in">New try in %s</string>
 
 </resources>

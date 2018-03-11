@@ -33,7 +33,7 @@ public class Sablier extends Thread {
 				step++;
 			}
 			if (!finished) {
-				Intent intent = new Intent(SmsRecuActivity.Companion.getEVENT_FINISH());
+				Intent intent = new Intent(SmsRecuActivity.EVENT_FINISH);
 				LocalBroadcastManager.getInstance(DisMoiToutSmsApplication.INSTANCE.getApplicationContext()).sendBroadcast(intent);
 			}
 		} catch (InterruptedException e) {

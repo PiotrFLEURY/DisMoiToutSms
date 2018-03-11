@@ -15,7 +15,7 @@ class DisMoiToutSmsApplication: Application() {
 
     companion object {
 
-        lateinit var INSTANCE: DisMoiToutSmsApplication
+        lateinit var INSTANCE: DisMoiToutSmsApplication//FIXME use managers with injectors
 
     }
 

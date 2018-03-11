@@ -45,7 +45,7 @@ class SmsSentFragment: Fragment() {
 
     override fun onPause() {
         super.onPause()
-        tvContent.handler.removeCallbacksAndMessages(null)
+        tvContent.handler?.removeCallbacksAndMessages(null)
     }
 
     private fun start() {

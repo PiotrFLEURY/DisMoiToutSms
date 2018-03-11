@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
 import android.speech.tts.TextToSpeech
-import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.util.Log
 import android.view.Gravity
@@ -36,9 +35,6 @@ import java.util.*
 
 
 class DisMoiToutSmsActivity : AbstractActivity() {
-
-    private var bluetoothDevicesOpened:Boolean = false
-    private lateinit var bluetoothDevicesSelectionFragment:Fragment
 
     private val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
@@ -125,7 +121,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 .show()
     }
 
-    fun startTutorial(v: View = tv_drawer_help) {
+    fun startTutorial(view: View = tv_drawer_help) {
         drawer_layout.closeDrawer(Gravity.START)
         tapTargetFor(switch_activation, getString(R.string.tutorial_activation_title), getString(R.string.tutorial_activation_text), EVENT_TAP_TARGET_ONLY_CCONTACTS)
     }
@@ -170,11 +166,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     private fun onHomePressed() {
-        if (bluetoothDevicesOpened) {
-            closeBluetoothDevicePicker()
-        } else {
-            toggleDrawer()
-        }
+        toggleDrawer()
     }
 
     override fun onResume() {
@@ -261,10 +253,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         tv_tts_voice_parameter.setOnClickListener({ openTtsVoiceParameter() })
 
-        if(bluetoothDevicesOpened){
-            closeBluetoothDevicePicker()
-        }
-
         if(intent.extras?.get("android.intent.extra.REFERRER_NAME")!=null){
             onActivate()
             startActivity(IntentProvider().provideNewSmsIntent(this))
@@ -274,29 +262,9 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     private fun openBluetoothDevicePicker() {
-        setTitle(R.string.auto_activation)
-        bluetoothDevicesSelectionFragment = BluetoothDevicesSelectionFragment()
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.main_fragment_container, bluetoothDevicesSelectionFragment)
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                .commit()
-        setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
-        bluetoothDevicesOpened=true
-    }
-
-    private fun setNavigationIcon(iconReference:Int) {
-        supportActionBar?.setHomeAsUpIndicator(iconReference)
-    }
-
-    private fun closeBluetoothDevicePicker() {
-        setTitle(R.string.app_name)
-        supportFragmentManager.beginTransaction()
-                .remove(bluetoothDevicesSelectionFragment)
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                .commit()
-        bluetoothDevicesOpened=false
-        setNavigationIcon(R.drawable.ic_menu_24dp)
-        updateBluetoothHeadsetActivationStatus()
+        val bluetoothDevicesSelectionFragment = BluetoothDevicesSelectionFragment()
+        bluetoothDevicesSelectionFragment.setOnDismissListener { updateBluetoothHeadsetActivationStatus() }
+        bluetoothDevicesSelectionFragment.show(supportFragmentManager, bluetoothDevicesSelectionFragment.tag)
     }
 
     private fun openTtsVoiceParameter() {
@@ -311,13 +279,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     private fun setHeadsetMode(isChecked: Boolean){
         setBoolean(applicationContext, HEADSET_MODE, isChecked)
-        if(isChecked) {
-            setupBatteryOptimization()
-        }
-    }
-
-    private fun setBluetoothHeadsetMode(isChecked: Boolean){
-        setBoolean(applicationContext, BLUETOOTH_HEADSET_MODE, isChecked)
         if(isChecked) {
             setupBatteryOptimization()
         }
@@ -501,14 +462,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         startActivity(intent)
     }
 
-    override fun onBackPressed() {
-        if(bluetoothDevicesOpened){
-            closeBluetoothDevicePicker()
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     companion object {
 
         val TAG = "DisMoiToutSmsActivity"
@@ -520,7 +473,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         val EVENT_END_TUTORIAL = TAG + ".endTutorial"
 
         val ACTIVITY_RESULT_TTS_DATA = 1
-        val ACTIVITY_RESULT_TTS_VOICE_PARAMETER = 2
     }
 
 }

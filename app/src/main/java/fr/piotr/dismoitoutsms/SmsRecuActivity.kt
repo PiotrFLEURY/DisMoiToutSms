@@ -278,7 +278,12 @@ class SmsRecuActivity : AbstractActivity() {
         if (!TextUtils.isEmpty(numeroAQuiRepondre) && !TextUtils.isEmpty(reponse)) {
             progress_sending.visibility = View.VISIBLE
             val pendingIntent = PendingIntent.getBroadcast(this, SMS_SENT_REQUEST_CODE, Intent(EVENT_SMS_SENT), 0)
-            SmsManager.getDefault().sendTextMessage(numeroAQuiRepondre, null, reponse, pendingIntent, null)
+            val smsManager = SmsManager.getDefault()
+            val messages = smsManager.divideMessage(reponse)
+            if(messages.size==1)
+                smsManager.sendTextMessage(numeroAQuiRepondre, null, messages[0], pendingIntent, null)
+            else
+                smsManager.sendMultipartTextMessage(numeroAQuiRepondre, null, messages, arrayListOf(pendingIntent), null)
         }
     }
 

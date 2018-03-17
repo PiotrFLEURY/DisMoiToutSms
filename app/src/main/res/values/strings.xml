@@ -114,6 +114,7 @@
     <string name="auto_activation">Activation automatique</string>
     <string name="bluetooth_device_fragment_no_device_found">Aucun périphérique bluetooth audio trouvé</string>
     <string name="bluetooth_device_fragment_help_text">Choisissez les périphériques qui activent et désactivent automatiquement la diction de vos SMS</string>
+    <string name="no_response_yet">Vous n\'avez pas encore répondu</string>
 
 
 </resources>

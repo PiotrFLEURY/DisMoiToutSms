@@ -4,17 +4,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.support.v4.app.DialogFragment
 import android.support.v4.content.LocalBroadcastManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.piotr.dismoitoutsms.R
 import fr.piotr.dismoitoutsms.speech.MySpeechRecorder
-import fr.piotr.dismoitoutsms.util.AnimUtils
 import fr.piotr.dismoitoutsms.util.Instruction
+import fr.piotr.dismoitoutsms.util.WakeLockManager
 import kotlinx.android.synthetic.main.microphone.*
 
 /**
@@ -22,7 +21,7 @@ import kotlinx.android.synthetic.main.microphone.*
  *
  */
 
-class MicrophoneFragment : Fragment() {
+class MicrophoneFragment : DialogFragment() {
 
     companion object {
         const val TAG = "MicrophoneFragment."
@@ -46,12 +45,19 @@ class MicrophoneFragment : Fragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.microphone, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        WakeLockManager.setWakeUp(activity)
 
         val extraPrompt = arguments?.get(EXTRA_PROMPT) as String?
         val instruction = arguments?.get(INSTRUCTION) as Instruction?
@@ -60,12 +66,6 @@ class MicrophoneFragment : Fragment() {
         reponse_en_cours.text = ""
         speechRecorder = MySpeechRecorder(activity)
         speechRecorder.startListening(instruction, extraPrompt)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            view.handler.postDelayed({AnimUtils.reveal(microphone_layout)}, 400)
-        } else {
-            microphone_layout.visibility = View.VISIBLE
-        }
 
     }
 

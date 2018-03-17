@@ -1,29 +1,26 @@
 package fr.piotr.dismoitoutsms.fragments
 
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.CardView
+import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import fr.piotr.dismoitoutsms.R
 import fr.piotr.dismoitoutsms.util.AnimUtils
+import kotlinx.android.synthetic.main.sms_sent.*
 
 /**
  * Created by piotr on 23/12/2017.
  *
  */
-class SmsSentFragment: Fragment() {
+class SmsSentFragment: DialogFragment() {
 
     companion object {
-        val TAG = "SmsSentFragment"
-        val EXTRA_REPONSE = TAG + ".EXTRA_REPONSE"
+        const val TAG = "SmsSentFragment"
+        const val EXTRA_REPONSE = "$TAG.EXTRA_REPONSE"
     }
-
-    lateinit var tvContent: TextView
-    lateinit var card: CardView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.sms_sent, container, false)
@@ -32,20 +29,18 @@ class SmsSentFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        card = activity!!.findViewById<View>(R.id.sms_sent_card) as CardView
-        tvContent = activity!!.findViewById(R.id.sms_sent_tv_content)
-        tvContent.text = arguments?.getString(EXTRA_REPONSE)
+        sms_sent_tv_content.text = arguments?.getString(EXTRA_REPONSE)
 
     }
 
     override fun onResume() {
         super.onResume()
-        tvContent.post({start()})
+        sms_sent_tv_content.post({start()})
     }
 
     override fun onPause() {
         super.onPause()
-        tvContent.handler?.removeCallbacksAndMessages(null)
+        sms_sent_tv_content.handler?.removeCallbacksAndMessages(null)
     }
 
     private fun start() {
@@ -53,12 +48,12 @@ class SmsSentFragment: Fragment() {
             return
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AnimUtils.reveal(card)
+            AnimUtils.reveal(sms_sent_card)
         } else {
-            card.visibility = View.VISIBLE
+            sms_sent_card.visibility = View.VISIBLE
         }
 
-        tvContent.postDelayed({ end() }, 3000)
+        sms_sent_tv_content.postDelayed({ end() }, 3000)
     }
 
     fun end() {
@@ -66,14 +61,14 @@ class SmsSentFragment: Fragment() {
             return
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AnimUtils.unreveal(card, {dismiss()})
+            AnimUtils.unreveal(sms_sent_card, {dismiss()})
         } else {
             dismiss()
         }
     }
 
-    private fun dismiss() {
-        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+    override fun onDismiss(dialog: DialogInterface?) {
+        super.onDismiss(dialog)
         activity?.moveTaskToBack(true)
         activity?.finish()
     }

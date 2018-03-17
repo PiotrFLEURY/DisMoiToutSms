@@ -50,4 +50,8 @@ class Contacts : Serializable, Iterable<Contact> {
     private fun containsContact(candidate: Contact): Boolean {
         return this.contacts.any { candidate.name == it.name && candidate.telephone == it.telephone }
     }
+
+    fun isEmpty(): Boolean {
+        return contacts.isEmpty()
+    }
 }

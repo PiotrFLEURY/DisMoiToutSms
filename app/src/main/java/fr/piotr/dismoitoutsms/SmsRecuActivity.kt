@@ -15,7 +15,7 @@ import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.*
-import android.view.View.*
+import android.view.View.GONE
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.contacts.Contacts
 import fr.piotr.dismoitoutsms.dialogs.ContactSelectionDialog
@@ -55,7 +55,6 @@ class SmsRecuActivity : AbstractActivity() {
     private var numeroAQuiRepondre: String? = null
     private lateinit var sablier: Sablier
     private lateinit var speech: TextToSpeechHelper
-    //private var speechRecorder: MySpeechRecorder? = null
     private lateinit var phoneStateListener: PhoneStateListener
 
     private val receiver = object : BroadcastReceiver() {
@@ -220,7 +219,7 @@ class SmsRecuActivity : AbstractActivity() {
 
     override fun onPause() {
         super.onPause()
-        WakeLockManager.unsetWakeUp(this)
+        //WakeLockManager.unsetWakeUp(this)
 
         SmsReceiver.getInstance().isDictating = false
 
@@ -265,7 +264,7 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     private fun initReponse() {
-        tv_reponse_message.visibility = INVISIBLE
+        tv_reponse_message.text = getString(R.string.no_response_yet)
     }
 
     private fun initExpediteur() {
@@ -295,9 +294,7 @@ class SmsRecuActivity : AbstractActivity() {
         val sentSms = ContentValues()
         sentSms.put(TELEPHON_NUMBER_FIELD_NAME, telNumber)
         sentSms.put(MESSAGE_BODY_FIELD_NAME, messageBody)
-
-        val contentResolver = contentResolver
-        contentResolver.insert(SENT_MSGS_CONTET_PROVIDER, sentSms)
+        contentResolver.insert(Uri.parse("content://sms/sent"), sentSms)
     }
 
     private fun startSpeechRecognizer(instruction: Instruction, extraPrompt: String) {
@@ -349,14 +346,13 @@ class SmsRecuActivity : AbstractActivity() {
         } else if(instruction.`is`(AJOUTER) && resultCode == Activity.RESULT_OK) {
             reponse += " " + words[0]
             tv_reponse_message.text = reponse
-            smsrecu_scrollview.fullScroll(View.FOCUS_DOWN)
+            //smsrecu_scrollview.fullScroll(View.FOCUS_DOWN)
             invalidateOptionsMenu()
             speech.parler(getString(R.string.votrereponseest) + reponse, VOUS_AVEZ_REPONDU)
         } else if (instruction.`is`(REPONSE) && resultCode == Activity.RESULT_OK) {
             reponse = words[0]
-            tv_reponse_message.visibility = VISIBLE
             tv_reponse_message.text = reponse
-            smsrecu_scrollview.fullScroll(View.FOCUS_DOWN)
+            //smsrecu_scrollview.fullScroll(View.FOCUS_DOWN)
             invalidateOptionsMenu()
             speech.parler(getString(R.string.votrereponseest) + reponse, VOUS_AVEZ_REPONDU)
 
@@ -428,9 +424,14 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     private fun getCorrespondance(result: String): Contacts {
+        val allContacts = ContactHelper.getAllContacts()
+        return getCorrespondingContacts(allContacts, result)
+    }
+
+    fun getCorrespondingContacts(allContacts: Contacts, result: String): Contacts {
         val correspondances = Contacts()
-        for (aContact in ContactHelper.getAllContacts()) {
-            if (aContact.name.contains(result)) {
+        for (aContact in allContacts) {
+            if (aContact.name.contains(other = result, ignoreCase = true)) {
                 correspondances.add(aContact)
             }
         }
@@ -447,7 +448,7 @@ class SmsRecuActivity : AbstractActivity() {
         bundle.putSerializable(MicrophoneFragment.INSTRUCTION, instruction)
         bundle.putString(MicrophoneFragment.EXTRA_PROMPT, extraPrompt)
         microphoneFragment.arguments = bundle
-        supportFragmentManager.beginTransaction().replace(sms_recu_fragment_container.id, microphoneFragment, MicrophoneFragment.TAG).commit()
+        microphoneFragment.show(supportFragmentManager, MicrophoneFragment.TAG)
     }
 
     override fun onBackPressed() {
@@ -499,14 +500,7 @@ class SmsRecuActivity : AbstractActivity() {
         val bundle = Bundle()
         bundle.putString(SmsSentFragment.EXTRA_REPONSE, reponse)
         smsSentFragment.arguments = bundle
-        supportFragmentManager.beginTransaction().replace(sms_recu_fragment_container.id, smsSentFragment).commit()
-    }
-
-    fun onSmsNotSent() {
-        progress_sending.visibility = View.INVISIBLE
-        Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.action_retry) { _ -> envoyer() }
-                .show()
+        smsSentFragment.show(supportFragmentManager, SmsSentFragment.TAG)
     }
 
     companion object {
@@ -530,9 +524,16 @@ class SmsRecuActivity : AbstractActivity() {
 
         private const val TELEPHON_NUMBER_FIELD_NAME = "address"
         private const val MESSAGE_BODY_FIELD_NAME = "body"
-        private val SENT_MSGS_CONTET_PROVIDER = Uri.parse("content://sms/sent")
 
         const val SMS_SENT_REQUEST_CODE = 1
     }
+
+    fun onSmsNotSent() {
+        progress_sending.visibility = View.INVISIBLE
+        Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.action_retry) { _ -> envoyer() }
+                .show()
+    }
+
 
 }

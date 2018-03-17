@@ -109,4 +109,5 @@
     <string name="bluetooth_device_fragment_no_device_found">"Kein Gerät gefunden "</string>
     <string name="bluetooth_device_fragment_help_text">Wählen Sie die Geräte aus, die die Diktion Ihrer SMS automatisch aktivieren und deaktivieren</string>
     <string name="new_try_in">New try in %s</string>
+    <string name="no_response_yet">No response yet</string>
 </resources>

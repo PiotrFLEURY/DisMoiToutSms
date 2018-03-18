@@ -8,7 +8,6 @@ import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication;
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
-import fr.piotr.dismoitoutsms.util.ConfigurationManager;
 import fr.piotr.dismoitoutsms.util.NotificationHelper;
 
 /**

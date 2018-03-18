@@ -1,107 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:layout_width="320sp"
-    tools:context=".DisMoiToutSmsActivity"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    tools:context=".DisMoiToutSmsActivity"
+    tools:layout_width="320sp">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16sp"
-        android:gravity="center_vertical"
+        android:id="@+id/textView4"
         style="@style/TextAppearance.AppCompat.Title"
-        android:text="@string/about" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1sp"
-        android:layout_marginEnd="48sp"
-        android:background="@color/divider"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/about"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16sp"
-            android:tint="@color/grey700"
-            android:src="@drawable/ic_build_black_24dp"/>
-
-        <TextView
-            android:gravity="start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16sp"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:text="@string/app_version_name"/>
-
-        <TextView
-            android:id="@+id/drawer_tv_version"
-            android:gravity="end"
-            android:padding="16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="4"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="bottom">
+        android:layout_marginStart="24dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16sp"
-            android:tint="@color/grey700"
-            android:src="@drawable/ic_info_24dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16sp"
-            android:background="?selectableItemBackground"
-            android:gravity="center_vertical"
-            android:onClick="openPrivacyPolicy"
-            android:text="@string/privacy_policy" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView2"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="bottom">
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="12sp"
+        android:drawableStart="@drawable/ic_build_black_24dp"
+        android:drawableTint="@color/grey700"
+        android:gravity="start"
+        android:padding="16sp"
+        android:text="@string/app_version_name"
+        app:layout_constraintEnd_toStartOf="@+id/drawer_tv_version"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+    <TextView
+        android:id="@+id/drawer_tv_version"
+        android:layout_width="40dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="end"
+        android:padding="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_drawer_privacy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:text="4" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16sp"
-            android:tint="@color/grey700"
-            android:src="@drawable/ic_help_black_24dp"/>
+    <TextView
+        android:id="@+id/tv_drawer_privacy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="12sp"
+        android:drawableStart="@drawable/ic_info_24dp"
+        android:drawableTint="@color/grey700"
+        android:gravity="center_vertical"
+        android:padding="16sp"
+        android:text="@string/privacy_policy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <TextView
-            android:id="@+id/tv_drawer_help"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16sp"
-            android:background="?selectableItemBackground"
-            android:gravity="center_vertical"
-            android:onClick="startTutorial"
-            android:text="@string/help" />
+    <TextView
+        android:id="@+id/tv_drawer_help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?selectableItemBackground"
+        android:drawablePadding="12sp"
+        android:drawableStart="@drawable/ic_help_black_24dp"
+        android:drawableTint="@color/grey700"
+        android:gravity="center_vertical"
+        android:padding="16sp"
+        android:text="@string/help"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/tv_drawer_privacy" />
 
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -23,8 +23,8 @@ class ContactSelectionDialog(context: Context) : AlertDialog(context) {
     companion object {
         private const val TAG = "ContactSelectionDialog"
 
-        const val EVENT_CONTACT_SELECTED = TAG + ".EVENT_CONTACT_SELECTED"
-        const val EXTRA_CONTACT_SELECTED = TAG + ".EXTRA_CONTACT_SELECTED"
+        const val EVENT_CONTACT_SELECTED = "$TAG.EVENT_CONTACT_SELECTED"
+        const val EXTRA_CONTACT_SELECTED = "$TAG.EXTRA_CONTACT_SELECTED"
     }
 
     private val tvTitle: TextView

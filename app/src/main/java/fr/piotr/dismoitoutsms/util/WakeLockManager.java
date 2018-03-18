@@ -1,8 +1,6 @@
 package fr.piotr.dismoitoutsms.util;
 
 import android.app.Activity;
-import android.content.Context;
-import android.view.Window;
 import android.view.WindowManager;
 
 public class WakeLockManager {

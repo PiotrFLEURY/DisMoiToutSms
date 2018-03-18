@@ -10,9 +10,6 @@ import android.speech.tts.TextToSpeech;
 import java.util.List;
 
 import fr.piotr.dismoitoutsms.reception.TextToSpeechHelper;
-import fr.piotr.dismoitoutsms.util.ConfigurationManager;
-
-import static fr.piotr.dismoitoutsms.util.ConfigurationManager.getBoolean;
 
 /**
  * Created by piotr_000 on 19/03/2016.

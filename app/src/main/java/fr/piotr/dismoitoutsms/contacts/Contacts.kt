@@ -1,8 +1,7 @@
 package fr.piotr.dismoitoutsms.contacts
 
 import java.io.Serializable
-import java.util.ArrayList
-import java.util.Collections
+import java.util.*
 
 /**
  * Created by piotr_000 on 30/10/2016.
@@ -24,7 +23,7 @@ class Contacts : Serializable, Iterable<Contact> {
     }
 
     fun sort() {
-        Collections.sort(contacts)
+        contacts.sort()
     }
 
     fun asList(): List<Contact> {

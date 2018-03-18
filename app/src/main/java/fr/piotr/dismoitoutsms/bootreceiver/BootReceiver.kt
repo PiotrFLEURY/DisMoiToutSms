@@ -6,10 +6,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.PowerManager
 import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication
-
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService
 import fr.piotr.dismoitoutsms.util.AbstractActivity
-import fr.piotr.dismoitoutsms.util.ConfigurationManager
 
 /**
  * Created by piotr on 09/07/2017.

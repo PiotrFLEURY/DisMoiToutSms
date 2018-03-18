@@ -88,6 +88,8 @@ class ContactSelectionActivity : AbstractActivity() {
 
         }
 
+        btn_search.setOnClickListener({toggleSearch()})
+
     }
 
     private fun openSearch() {
@@ -106,7 +108,7 @@ class ContactSelectionActivity : AbstractActivity() {
         inputMethod.hideSoftInputFromWindow(champRecherche.windowToken, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
-    fun toggleSearch(v: View?) {
+    private fun toggleSearch() {
         if (champRecherche.visibility == View.VISIBLE) {
             closeSearch()
         } else {
@@ -122,14 +124,14 @@ class ContactSelectionActivity : AbstractActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.contacts_menu_search -> {
-                toggleSearch(null)
+                toggleSearch()
                 return true
             }
             R.id.contacts_menu_add_all -> {
-                addAll(null)
+                addAll()
                 return true
             }
-            R.id.contacts_menu_remove_all -> deleteAll(null)
+            R.id.contacts_menu_remove_all -> deleteAll()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -140,6 +142,7 @@ class ContactSelectionActivity : AbstractActivity() {
         champRecherche.onItemClickListener = null
 
         contacts.onItemClickListener = null
+        btn_search.setOnClickListener(null)
     }
 
     private fun initListContactsAdapter() {
@@ -203,7 +206,7 @@ class ContactSelectionActivity : AbstractActivity() {
         bannirLesContacts(this@ContactSelectionActivity, contactsABannir)
     }
 
-    private fun deleteAll(v: View?) {
+    private fun deleteAll() {
         val runnable = Runnable {
             contactsSelectionnes.clear()
             contactsAdapter.notifyDataSetChanged()
@@ -215,7 +218,7 @@ class ContactSelectionActivity : AbstractActivity() {
 
     }
 
-    private fun addAll(v: View?) {
+    private fun addAll() {
         val runnable = Runnable {
             contactsSelectionnes.clear()
             contactsSelectionnes.addAll(mesContacts)

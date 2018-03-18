@@ -1,6 +1,7 @@
 package fr.piotr.dismoitoutsms
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.*
 import android.media.AudioManager
 import android.media.AudioManager.*
@@ -76,8 +77,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         iniContactsControls()
 
-        initEmoticonesControl()
-
         initBoutonTester()
 
         initBoutonReponseVocale()
@@ -94,13 +93,14 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     }
 
+    @SuppressLint("BatteryLife")
     private fun setupBatteryOptimization() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val intent = Intent()
             val pm = getSystemService(POWER_SERVICE) as PowerManager
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
                 intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                intent.data = Uri.parse("package:" + packageName)
+                intent.data = Uri.parse("package:$packageName")
                 startActivity(intent)
             }
         }
@@ -121,7 +121,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 .show()
     }
 
-    fun startTutorial(view: View = tv_drawer_help) {
+    private fun startTutorial() {
         drawer_layout.closeDrawer(Gravity.START)
         tapTargetFor(switch_activation, getString(R.string.tutorial_activation_title), getString(R.string.tutorial_activation_text), EVENT_TAP_TARGET_ONLY_CCONTACTS)
     }
@@ -218,12 +218,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         btn_tester.setOnClickListener { _ -> launchTest() }
 
-        switch_emoticones
-                .setOnCheckedChangeListener { _, isChecked ->
-                    setBoolean(this@DisMoiToutSmsActivity, EMOTICONES,
-                            isChecked)
-                }
-
         switch_uniquement_mes_contacts.setOnCheckedChangeListener { _, isChecked ->
             if (checkPermissions(AbstractActivity.PERMISSIONS_REQUEST_READ_CONTACTS, Manifest.permission.READ_CONTACTS)) {
                 setBoolean(applicationContext, UNIQUEMENT_CONTACTS,
@@ -252,6 +246,9 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 Manifest.permission.READ_PHONE_STATE)
 
         tv_tts_voice_parameter.setOnClickListener({ openTtsVoiceParameter() })
+
+        tv_drawer_help.setOnClickListener({ startTutorial() })
+        tv_drawer_privacy.setOnClickListener({openPrivacyPolicy()})
 
         if(intent.extras?.get("android.intent.extra.REFERRER_NAME")!=null){
             onActivate()
@@ -355,13 +352,14 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         sp_language.onItemSelectedListener = null
         btn_tester.setOnClickListener(null)
         switch_reponse_vocale.setOnCheckedChangeListener(null)
-        switch_emoticones.setOnCheckedChangeListener(null)
         switch_uniquement_mes_contacts.setOnCheckedChangeListener(null)
         switch_headset_mode.setOnCheckedChangeListener(null)
         tv_bluetooth_headset_mode.setOnClickListener(null)
         switch_private_life_mode.setOnCheckedChangeListener(null)
         tv_gerer_contacts.setOnClickListener(null)
         tv_tts_voice_parameter.setOnClickListener(null)
+        tv_drawer_help.setOnClickListener(null)
+        tv_drawer_privacy.setOnClickListener(null)
     }
 
     private fun initVolumeControl() {
@@ -428,10 +426,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         btn_tester.isEnabled = true
     }
 
-    private fun initEmoticonesControl() {
-        switch_emoticones.isChecked = getBoolean(this, EMOTICONES)
-    }
-
     private fun iniContactsControls() {
         switch_uniquement_mes_contacts.isChecked = getBoolean(this, UNIQUEMENT_CONTACTS)
     }
@@ -456,7 +450,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         switch_private_life_mode.isChecked = getBoolean(this, PRIVATE_LIFE_MODE)
     }
 
-    fun openPrivacyPolicy(view: View) {
+    private fun openPrivacyPolicy() {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(getString(R.string.privacyPolicyLnk))
         startActivity(intent)
@@ -464,15 +458,15 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     companion object {
 
-        val TAG = "DisMoiToutSmsActivity"
-        val EVENT_TAP_TARGET_ONLY_CCONTACTS = TAG + ".tapTargetOnlyContacts"
-        val EVENT_TAP_TARGET_VOCAL_ANSWER = TAG + ".tapTargetVocalAnswer"
-        val EVENT_TAP_TARGET_HEADSET_MODE = TAG + ".tapTargetHeadsetMode"
-        val EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE = TAG + ".tapTargetBluetoothHeadsetMode"
-        val EVENT_TAP_TARGET_PRIVATE_LIFE_MODE = TAG + ".tapTargetPrivateLifeMode"
-        val EVENT_END_TUTORIAL = TAG + ".endTutorial"
+        const val TAG = "DisMoiToutSmsActivity"
+        const val EVENT_TAP_TARGET_ONLY_CCONTACTS = "$TAG.tapTargetOnlyContacts"
+        const val EVENT_TAP_TARGET_VOCAL_ANSWER = "$TAG.tapTargetVocalAnswer"
+        const val EVENT_TAP_TARGET_HEADSET_MODE = "$TAG.tapTargetHeadsetMode"
+        const val EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE = "$TAG.tapTargetBluetoothHeadsetMode"
+        const val EVENT_TAP_TARGET_PRIVATE_LIFE_MODE = "$TAG.tapTargetPrivateLifeMode"
+        const val EVENT_END_TUTORIAL = "$TAG.endTutorial"
 
-        val ACTIVITY_RESULT_TTS_DATA = 1
+        const val ACTIVITY_RESULT_TTS_DATA = 1
     }
 
 }

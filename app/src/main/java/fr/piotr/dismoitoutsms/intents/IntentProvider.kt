@@ -14,8 +14,8 @@ import java.util.*
 class IntentProvider {
 
     companion object {
-        val INTENT_TARGET = "INTENT_TARGET"
-        val TARGET_NEW_MESSAGE = "TARGET_NEW_MESSAGE"
+        const val INTENT_TARGET = "INTENT_TARGET"
+        const val TARGET_NEW_MESSAGE = "TARGET_NEW_MESSAGE"
     }
 
     fun provideNewSmsIntent(context: Context): Intent {

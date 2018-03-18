@@ -1,8 +1,7 @@
 package fr.piotr.dismoitoutsms.messages
 
-import java.util.Date
-
 import fr.piotr.dismoitoutsms.contacts.Contact
+import java.util.*
 
 data class Message(val date: Date, val contact: Contact, var message: String) : Comparable<Message> {
 
@@ -11,7 +10,7 @@ data class Message(val date: Date, val contact: Contact, var message: String) : 
     }
 
     fun append(message: String) {
-        this.message += " " + message
+        this.message += " $message"
     }
 
     override fun compareTo(other: Message): Int {

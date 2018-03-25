@@ -59,6 +59,10 @@ public class AnimUtils {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void unreveal(View myView, Runnable onEnd) {
 
+        if(myView==null){
+            return;
+        }
+
         // get the center for the clipping circle
         int cx = myView.getWidth();
         int cy = myView.getHeight();

@@ -2,7 +2,10 @@ package fr.piotr.dismoitoutsms
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.media.AudioManager
 import android.media.AudioManager.*
 import android.net.Uri
@@ -20,6 +23,9 @@ import android.view.View
 import android.widget.*
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.dialogs.BluetoothDevicesSelectionFragment
+import fr.piotr.dismoitoutsms.intentannotations.IntentReceiver
+import fr.piotr.dismoitoutsms.intentannotations.bindIntentAnnotations
+import fr.piotr.dismoitoutsms.intentannotations.unbindIntentAnnotations
 import fr.piotr.dismoitoutsms.intents.IntentProvider
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService
@@ -36,20 +42,6 @@ import java.util.*
 
 
 class DisMoiToutSmsActivity : AbstractActivity() {
-
-    private val broadCastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(contxt: Context?, intent: Intent?) {
-
-            when (intent?.action) {
-                EVENT_TAP_TARGET_ONLY_CCONTACTS -> tapTargetOnlyContacts()
-                EVENT_TAP_TARGET_VOCAL_ANSWER -> tapTargetVocalAnswer()
-                EVENT_TAP_TARGET_HEADSET_MODE -> tapTargetHeadsetMode()
-                EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE -> tapTargetBluetoothHeadsetMode()
-                EVENT_TAP_TARGET_PRIVATE_LIFE_MODE -> tapTargetPrivateLifeMode()
-                EVENT_END_TUTORIAL -> endTutorial()
-            }
-        }
-    }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +83,13 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             startTutorial()
         }
 
+        bindIntentAnnotations(this)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindIntentAnnotations(this)
     }
 
     @SuppressLint("BatteryLife")
@@ -121,31 +120,43 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 .show()
     }
 
+    @Suppress("unused")
+    @IntentReceiver(EVENT_TAP_TARGET_ONLY_CCONTACTS)
+    fun tapTargetOnlyContacts(){
+        tapTargetFor(switch_uniquement_mes_contacts, getString(R.string.tutorial_contacts_title), getString(R.string.tutorial_contacts_text), EVENT_TAP_TARGET_VOCAL_ANSWER)
+    }
+
     private fun startTutorial() {
         drawer_layout.closeDrawer(Gravity.START)
         tapTargetFor(switch_activation, getString(R.string.tutorial_activation_title), getString(R.string.tutorial_activation_text), EVENT_TAP_TARGET_ONLY_CCONTACTS)
     }
 
-    fun tapTargetOnlyContacts(){
-        tapTargetFor(switch_uniquement_mes_contacts, getString(R.string.tutorial_contacts_title), getString(R.string.tutorial_contacts_text), EVENT_TAP_TARGET_VOCAL_ANSWER)
-    }
-
+    @Suppress("unused")
+    @IntentReceiver(EVENT_TAP_TARGET_VOCAL_ANSWER)
     fun tapTargetVocalAnswer() {
         tapTargetFor(switch_reponse_vocale, getString(R.string.tutorial_reponse_vocale_title), getString(R.string.tutorial_reponse_vocale_text), EVENT_TAP_TARGET_PRIVATE_LIFE_MODE)
     }
 
+    @Suppress("unused")
+    @IntentReceiver(EVENT_TAP_TARGET_PRIVATE_LIFE_MODE)
     fun tapTargetPrivateLifeMode() {
         tapTargetFor(switch_private_life_mode, getString(R.string.tutorial_private_life_mode_title), getString(R.string.tutorial_private_life_mode_text), EVENT_TAP_TARGET_HEADSET_MODE)
     }
 
+    @Suppress("unused")
+    @IntentReceiver(EVENT_TAP_TARGET_HEADSET_MODE)
     fun tapTargetHeadsetMode() {
         tapTargetFor(switch_headset_mode, getString(R.string.tutorial_headset_mode_title), getString(R.string.tutorial_headset_mode_text), EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE)
     }
 
+    @Suppress("unused")
+    @IntentReceiver(EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE)
     fun tapTargetBluetoothHeadsetMode() {
         tapTargetFor(tv_bluetooth_headset_mode, getString(R.string.tutorial_bluetooth_headset_mode_title), getString(R.string.tutorial_bluetooth_headset_mode_text), EVENT_END_TUTORIAL)
     }
 
+    @Suppress("unused")
+    @IntentReceiver(EVENT_END_TUTORIAL)
     fun endTutorial() {
         ConfigurationManager.setBoolean(this, TUTORIAL_DONE, true)
     }
@@ -179,7 +190,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         intentFilter.addAction(EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE)
         intentFilter.addAction(EVENT_TAP_TARGET_PRIVATE_LIFE_MODE)
         intentFilter.addAction(EVENT_END_TUTORIAL)
-        LocalBroadcastManager.getInstance(this).registerReceiver(broadCastReceiver, intentFilter)
 
         toggleStatus()
 
@@ -347,7 +357,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     override fun onPause() {
         super.onPause()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadCastReceiver)
 
         sp_language.onItemSelectedListener = null
         btn_tester.setOnClickListener(null)

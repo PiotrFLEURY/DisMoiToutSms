@@ -60,11 +60,7 @@ class SmsSentFragment: DialogFragment() {
         if(isDetached){
             return
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AnimUtils.unreveal(sms_sent_card, {dismiss()})
-        } else {
-            dismiss()
-        }
+        dismiss()
     }
 
     override fun onDismiss(dialog: DialogInterface?) {

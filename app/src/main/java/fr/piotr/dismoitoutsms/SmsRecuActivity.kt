@@ -68,6 +68,7 @@ class SmsRecuActivity : AbstractActivity() {
                 EVENT_SPEECH_RESULT -> onSpeechResult(intent.getSerializableExtra(EXTRA_SPEECH_INSTRUCTION) as Instruction,
                         intent.getIntExtra(EXTRA_SPEECH_RESULT_CODE, -1),
                         intent.getStringArrayListExtra(EXTRA_SPEECH_WORDS))
+                NewSpeechTryDialog.EVENT_NEXT -> onSpeechError(intent.getSerializableExtra(NewSpeechTryDialog.ARG_EVENT_NEXT) as Instruction)
 
 
                 ContactSelectionDialog.EVENT_CONTACT_SELECTED -> {
@@ -189,6 +190,7 @@ class SmsRecuActivity : AbstractActivity() {
         filter.addAction(EVENT_HIDE_MICROPHONE)
         filter.addAction(EVENT_SPEECH_RESULT)
         filter.addAction(ContactSelectionDialog.EVENT_CONTACT_SELECTED)
+        filter.addAction(NewSpeechTryDialog.EVENT_NEXT)
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter)
 
         registerReceiver(smsSentReceiver, IntentFilter(EVENT_SMS_SENT))
@@ -374,19 +376,10 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     private fun onSpeechResultCanceled(instruction: Instruction) {
-//        val snackbar = Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_LONG)
-//                .setAction(R.string.action_retry) { _ -> onSpeechError(instruction) }
-
-//        smsrecu_coordinator.handler.postDelayed({
-//            if (snackbar.isShown) {
-//                snackbar.dismiss()
-//                onSpeechError(instruction)
-//            }
-//        }, 3000)
-//        snackbar.show()
 
         val newSpeechTryDialog = NewSpeechTryDialog()
-        newSpeechTryDialog.doNext = Runnable{onSpeechError(instruction)}
+        newSpeechTryDialog.arguments = Bundle()
+        newSpeechTryDialog.arguments?.putSerializable(NewSpeechTryDialog.ARG_INSTRUCTION, instruction)
         newSpeechTryDialog.show(supportFragmentManager, NewSpeechTryDialog.TAG)
     }
 

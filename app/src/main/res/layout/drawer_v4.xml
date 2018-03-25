@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".DisMoiToutSmsActivity"
+    android:background="@color/white"
     tools:layout_width="320sp">
 
     <TextView

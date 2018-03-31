@@ -36,7 +36,19 @@ proguard/
 Thumbs.db
 
 # Intellij IDEA (see https://intellij-support.jetbrains.com/entries/23393067)
-.idea/workspace.xml
 .idea/tasks.xml
 .idea/datasources.xml
 .idea/dataSources.ids
+app/src/main/res/drawable-hdpi/
+app/src/main/res/drawable-mdpi/
+app/src/main/res/drawable-v21/
+app/src/main/res/drawable-xhdpi/
+app/src/main/res/drawable-xxhdpi/
+app/src/main/res/values-v21/
+app/src/test/java/fr/piotr/dismoitoutsms/reception/
+captures/
+intentannotations/
+projectFilesBackup1/
+/.idea/
+*.iml
+/projectFilesBackup/

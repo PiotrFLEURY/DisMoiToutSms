@@ -45,9 +45,7 @@ app/src/main/res/drawable-v21/
 app/src/main/res/drawable-xhdpi/
 app/src/main/res/drawable-xxhdpi/
 app/src/main/res/values-v21/
-app/src/test/java/fr/piotr/dismoitoutsms/reception/
 captures/
-intentannotations/
 projectFilesBackup1/
 /.idea/
 *.iml

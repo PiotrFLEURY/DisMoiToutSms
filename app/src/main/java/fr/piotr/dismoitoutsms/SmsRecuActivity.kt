@@ -22,6 +22,10 @@ import fr.piotr.dismoitoutsms.dialogs.ContactSelectionDialog
 import fr.piotr.dismoitoutsms.dialogs.NewSpeechTryDialog
 import fr.piotr.dismoitoutsms.fragments.MicrophoneFragment
 import fr.piotr.dismoitoutsms.fragments.SmsSentFragment
+import fr.piotr.dismoitoutsms.intentannotations.Extra
+import fr.piotr.dismoitoutsms.intentannotations.IntentReceiver
+import fr.piotr.dismoitoutsms.intentannotations.bindIntentAnnotations
+import fr.piotr.dismoitoutsms.intentannotations.unbindIntentAnnotations
 import fr.piotr.dismoitoutsms.intents.IntentProvider
 import fr.piotr.dismoitoutsms.messages.Message
 import fr.piotr.dismoitoutsms.reception.SmsReceiver
@@ -98,7 +102,7 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     override fun onCreate(savedInstanceState: android.os.Bundle?) {
-        WakeLockManager.setWakeUp(this)
+        setWakeUp()
 
         // Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -150,6 +154,8 @@ class SmsRecuActivity : AbstractActivity() {
                 lastState = state
             }
         }
+
+        bindIntentAnnotations(this)
 
     }
 
@@ -221,7 +227,6 @@ class SmsRecuActivity : AbstractActivity() {
 
     override fun onPause() {
         super.onPause()
-        //WakeLockManager.unsetWakeUp(this)
 
         SmsReceiver.getInstance().isDictating = false
 
@@ -302,9 +307,13 @@ class SmsRecuActivity : AbstractActivity() {
     private fun startSpeechRecognizer(instruction: Instruction, extraPrompt: String) {
         sablier.reset()
 
-        runOnUiThread {
-            showMicrophone(instruction, extraPrompt)
-        }
+        //runOnUiThread {
+        //    showMicrophone(instruction, extraPrompt)
+        //}
+        val intent = Intent(EVENT_SHOW_MICROPHONE)
+        intent.putExtra(EXTRA_MICROPHONE_INSTRUCTION, instruction)
+        intent.putExtra(EXTRA_MICROPHONE_PROMPT, extraPrompt)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
     private fun instructionIs(instructions: List<String>, vararg possibilities: String): Boolean {
@@ -435,7 +444,10 @@ class SmsRecuActivity : AbstractActivity() {
         supportFragmentManager.beginTransaction().remove(microphoneFragment).commit()
     }
 
-    private fun showMicrophone(instruction: Instruction, extraPrompt: String) {
+    @Suppress("unused")
+    @IntentReceiver(EVENT_SHOW_MICROPHONE)
+    fun showMicrophone(@Extra(EXTRA_MICROPHONE_INSTRUCTION) instruction: Instruction,
+                       @Extra(EXTRA_MICROPHONE_PROMPT) extraPrompt: String) {
         microphoneFragment = MicrophoneFragment()
         val bundle = Bundle()
         bundle.putSerializable(MicrophoneFragment.INSTRUCTION, instruction)
@@ -453,6 +465,7 @@ class SmsRecuActivity : AbstractActivity() {
     override fun onDestroy() {
         SmsReceiver.getInstance().isDictating = false
         sablier.finished()
+        unbindIntentAnnotations(this)
         super.onDestroy()
     }
 
@@ -514,6 +527,10 @@ class SmsRecuActivity : AbstractActivity() {
 
         const val EXTRA_INSTRUCTION = "$TAG.EXTRA_INSTRUCTION"
         const val EXTRA_PROMPT = "$TAG.EXTRA_PROMPT"
+
+        const val EVENT_SHOW_MICROPHONE = "$TAG.EVENT_SHOW_MICROPHONE"
+        const val EXTRA_MICROPHONE_INSTRUCTION = "$TAG.EXTRA_MICROPHONE_INSTRUCTION"
+        const val EXTRA_MICROPHONE_PROMPT = "$TAG.EXTRA_MICROPHONE_PROMPT"
 
         private const val TELEPHON_NUMBER_FIELD_NAME = "address"
         private const val MESSAGE_BODY_FIELD_NAME = "body"

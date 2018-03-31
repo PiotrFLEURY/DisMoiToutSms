@@ -11,9 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.piotr.dismoitoutsms.R
+import fr.piotr.dismoitoutsms.intentannotations.Extra
+import fr.piotr.dismoitoutsms.intentannotations.IntentReceiver
+import fr.piotr.dismoitoutsms.intentannotations.bindIntentAnnotations
+import fr.piotr.dismoitoutsms.intentannotations.unbindIntentAnnotations
 import fr.piotr.dismoitoutsms.speech.MySpeechRecorder
 import fr.piotr.dismoitoutsms.util.Instruction
-import fr.piotr.dismoitoutsms.util.WakeLockManager
+import fr.piotr.dismoitoutsms.util.setWakeUp
 import kotlinx.android.synthetic.main.microphone.*
 
 /**
@@ -32,6 +36,9 @@ class MicrophoneFragment : DialogFragment() {
         const val EVENT_SPEECH_PARTIAL_RESULT = "$TAG.EVENT_SPEECH_PARTIAL_RESULT"
 
         const val EXTRA_SPEECH_WORDS = "$TAG.EXTRA_SPEECH_WORDS"
+
+        const val EVENT_UPDATE_RESPONSE = "$TAG.EVENT_UPDATE_RESPONSE"
+        const val EXTRA_UPDATE_RESPONSE_TEXT = "$TAG.EXTRA_UPDATE_RESPONSE_TEXT"
     }
 
     private lateinit var speechRecorder: MySpeechRecorder
@@ -50,6 +57,11 @@ class MicrophoneFragment : DialogFragment() {
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindIntentAnnotations(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.microphone, container, false)
     }
@@ -57,7 +69,7 @@ class MicrophoneFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        WakeLockManager.setWakeUp(activity)
+        setWakeUp()
 
         val extraPrompt = arguments?.get(EXTRA_PROMPT) as String?
         val instruction = arguments?.get(INSTRUCTION) as Instruction?
@@ -66,6 +78,8 @@ class MicrophoneFragment : DialogFragment() {
         reponse_en_cours.text = ""
         speechRecorder = MySpeechRecorder(activity)
         speechRecorder.startListening(instruction, extraPrompt)
+
+        bindIntentAnnotations(this)
 
     }
 
@@ -88,8 +102,17 @@ class MicrophoneFragment : DialogFragment() {
     }
 
     private fun onPartialResult(words: List<String>) {
-        activity?.runOnUiThread {
-            reponse_en_cours.text = words[0]
-        }
+        //activity?.runOnUiThread {
+        //    reponse_en_cours.text = words[0]
+        //}
+        val intent = Intent(EVENT_UPDATE_RESPONSE)
+        intent.putExtra(EXTRA_UPDATE_RESPONSE_TEXT, words[0])
+        context?.let { LocalBroadcastManager.getInstance(it).sendBroadcast(intent) }
+    }
+
+    @Suppress("unused")
+    @IntentReceiver(EVENT_UPDATE_RESPONSE)
+    fun updateResponseText(@Extra(EXTRA_UPDATE_RESPONSE_TEXT) text: String){
+        reponse_en_cours.text = text
     }
 }

@@ -1,8 +1,10 @@
 package fr.piotr.dismoitoutsms.speech;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -33,6 +35,8 @@ import static android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM;
 public class MySpeechRecorder implements RecognitionListener {
 
     private static final String TAG = "MySpeechRecorder";
+    private static final String EVENT_DESTROY = TAG + ".EVENT_DESTROY";
+    private final BroadcastReceiver receiver;
 
     private LocalBroadcastManager localBroadcastManager;
 
@@ -63,6 +67,16 @@ public class MySpeechRecorder implements RecognitionListener {
 
         speech = SpeechRecognizer.createSpeechRecognizer(context);
         speech.setRecognitionListener(this);
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (EVENT_DESTROY.equals(intent.getAction())) {
+                    destroy();
+                }
+            }
+        };
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter(EVENT_DESTROY));
     }
 
     public void startListening(Instruction instruction, String extraPrompt){
@@ -145,6 +159,7 @@ public class MySpeechRecorder implements RecognitionListener {
     }
 
     public void destroy() {
+        localBroadcastManager.unregisterReceiver(receiver);
         try {
             speech.setRecognitionListener(null);
             speech.stopListening();

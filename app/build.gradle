@@ -35,7 +35,7 @@ android {
         applicationId "fr.piotr.dismoitoutsms"
         versionCode 45
         versionName "4.12"
-        minSdkVersion 17
+        minSdkVersion 21
         targetSdkVersion 26
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

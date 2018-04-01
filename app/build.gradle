@@ -29,14 +29,6 @@ dependencies {
 }
 
 android {
-    signingConfigs {
-        PROD {
-            keyAlias 'piotr'
-            keyPassword '!knopix2501'
-            storeFile file('C:/Users/piotr/androidSignature/androidSgnature')
-            storePassword '!knopix2501'
-        }
-    }
     compileSdkVersion 26
     buildToolsVersion '27.0.3'
     defaultConfig {

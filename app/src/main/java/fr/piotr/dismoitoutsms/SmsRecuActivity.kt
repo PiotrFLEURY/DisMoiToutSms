@@ -155,8 +155,6 @@ class SmsRecuActivity : AbstractActivity() {
             }
         }
 
-        bindIntentAnnotations(this)
-
     }
 
     private fun onTtsInitialized() {
@@ -188,6 +186,8 @@ class SmsRecuActivity : AbstractActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        bindIntentAnnotations(this)
 
         val filter = IntentFilter()
         filter.addAction(EVENT_FINISH)
@@ -227,6 +227,8 @@ class SmsRecuActivity : AbstractActivity() {
 
     override fun onPause() {
         super.onPause()
+
+        unbindIntentAnnotations(this)
 
         SmsReceiver.getInstance().isDictating = false
 
@@ -465,7 +467,6 @@ class SmsRecuActivity : AbstractActivity() {
     override fun onDestroy() {
         SmsReceiver.getInstance().isDictating = false
         sablier.finished()
-        unbindIntentAnnotations(this)
         super.onDestroy()
     }
 

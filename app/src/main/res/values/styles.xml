@@ -10,6 +10,7 @@
         <item name="android:icon">@color/icons</item>
         <item name="android:divider">@color/divider</item>
         <item name="android:colorForeground">@color/white</item>
+        <item name="android:fontFamily">sans-serif-regular</item>
     </style>
 
 </resources>

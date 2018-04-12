@@ -4,6 +4,7 @@
     <string name="privacyPolicyLnk" translatable="false">http://objectifandroid.blogspot.fr/2016/12/politique-de-confidentialite.html</string>
 
     <string name="app_name">Dis-moi tout SMS</string>
+    <string name="app_slogan">Dis-moi tout lit les SMS pour vous !</string>
     <string name="service_notif_titre">Dis moi tout Sms</string>
     <string name="service_notif_texte">Diction des SMS activée</string>
     <string name="dit">dit:</string>

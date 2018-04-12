@@ -23,7 +23,7 @@ class HeadSetReceiver : AbstractHeadSetReceiver() {
         }
     }
 
-    override fun isHeadsetModeActivated(context: Context?): Boolean  {
+    override fun isHeadsetModeActivated(context: Context): Boolean  {
         return ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.HEADSET_MODE)
     }
 

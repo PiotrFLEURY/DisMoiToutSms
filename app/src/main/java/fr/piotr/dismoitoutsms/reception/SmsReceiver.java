@@ -20,6 +20,7 @@ import java.util.TreeSet;
 import fr.piotr.dismoitoutsms.SmsRecuActivity;
 import fr.piotr.dismoitoutsms.contacts.Contact;
 import fr.piotr.dismoitoutsms.messages.Message;
+import fr.piotr.dismoitoutsms.util.ConfigurationManager;
 
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.getBoolean;
@@ -176,8 +177,8 @@ public class SmsReceiver extends BroadcastReceiver {
     }
 
 	private boolean jePeuxDicterLeSmsDe(Context context, Contact contact) {
-		boolean uniquementContacts = getBoolean(context, Configuration.UNIQUEMENT_CONTACTS);
-        return !(uniquementContacts && (contact == null || leContactEstBannis(context, contact.getId())));
+		boolean uniquementContacts = ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.UNIQUEMENT_CONTACTS);
+        return !(uniquementContacts && (contact == null || ConfigurationManager.leContactEstBannis(context, contact.getId())));
     }
 
 	public void nextMessage(final Context context) {

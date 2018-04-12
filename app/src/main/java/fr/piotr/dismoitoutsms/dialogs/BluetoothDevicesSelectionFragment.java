@@ -32,6 +32,7 @@ import fr.piotr.dismoitoutsms.util.ConfigurationManager;
 import static android.content.Context.POWER_SERVICE;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.BLUETOOTH_HEADSET_MODE;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.getBoolean;
+import static fr.piotr.dismoitoutsms.util.ConfigurationManager.isBluetoothBanned;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean;
 
 /**
@@ -85,7 +86,7 @@ public class BluetoothDevicesSelectionFragment extends BottomSheetDialogFragment
 
             Switch swSelection = view.findViewById(R.id.switch_bluetooth_device_selection);
             swSelection.setOnCheckedChangeListener((buttonView, isChecked) -> ConfigurationManager.toggleBluetoothDevice(context, bluetoothHeadsetDevice.getAddress(), isChecked));
-            swSelection.setChecked(!ConfigurationManager.isBluetoothBanned(context, bluetoothHeadsetDevice.getAddress()));
+            swSelection.setChecked(!isBluetoothBanned(context, bluetoothHeadsetDevice.getAddress()));
 
             return view;
         }

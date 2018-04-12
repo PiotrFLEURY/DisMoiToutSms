@@ -152,7 +152,7 @@ class ContactSelectionActivity : AbstractActivity() {
     }
 
     private fun initContactsSelectiones() {
-        val idsContactsBannis = ConfigurationManager.getIdsContactsBannis()
+        val idsContactsBannis = ConfigurationManager.idsContactsBannis
         for (contact in mesContacts) {
             if (!idsContactsBannis.contains(contact.id.toString())) {
                 contactsSelectionnes.add(contact)

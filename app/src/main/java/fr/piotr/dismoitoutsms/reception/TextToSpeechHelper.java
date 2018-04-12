@@ -27,7 +27,8 @@ import fr.piotr.dismoitoutsms.reception.utterances.UtteranceListener;
 import fr.piotr.dismoitoutsms.reception.utterances.VousAvezReponduListener;
 import fr.piotr.dismoitoutsms.util.ConfigurationManager;
 import fr.piotr.dismoitoutsms.util.Diction;
-import fr.piotr.dismoitoutsms.util.EmoticonesManager;
+
+import static fr.piotr.dismoitoutsms.util.EmoticonesManagerKt.remplacerEmoticones;
 
 /**
  * Created by piotr_000 on 19/03/2016.
@@ -134,7 +135,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         requestAudioFocus();
 
         if (ConfigurationManager.getBoolean(context, ConfigurationManager.Configuration.EMOTICONES)) {
-            text = EmoticonesManager.getInstance().remplacer(context, text);
+            text = remplacerEmoticones(context, text);
         }
 
         registerUtteranceListener(type);

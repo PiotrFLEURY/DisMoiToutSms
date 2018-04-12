@@ -46,7 +46,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        ConfigurationManager.initBluetoothHeadsetMode_migration(this)
+        ConfigurationManager.initBluetoothHeadsetModeFormigration(this)
 
         val actionBar = supportActionBar
         if (actionBar != null) {

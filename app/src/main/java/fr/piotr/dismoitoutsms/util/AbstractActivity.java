@@ -91,13 +91,13 @@ public abstract class AbstractActivity extends AppCompatActivity {
     protected void onPermissionDenied(int requestCode) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST_READ_CONTACTS:
-                setBoolean(getApplicationContext(), UNIQUEMENT_CONTACTS, false);
+                ConfigurationManager.setBoolean(getApplicationContext(), UNIQUEMENT_CONTACTS, false);
                 checkbox(R.id.switch_uniquement_mes_contacts).setChecked(false);
                 break;
             case PERMISSIONS_REQUEST_SMS:
                 break;
             case PERMISSIONS_RECORD_AUDIO:
-                setBoolean(getApplicationContext(), COMMANDE_VOCALE, false);
+                ConfigurationManager.setBoolean(getApplicationContext(), COMMANDE_VOCALE, false);
                 checkbox(R.id.switch_reponse_vocale).setChecked(false);
                 break;
             case PERMISSIONS_READ_PHONE_STATE:

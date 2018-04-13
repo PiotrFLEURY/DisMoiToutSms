@@ -260,12 +260,20 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         tv_drawer_help.setOnClickListener({ startTutorial() })
         tv_drawer_privacy.setOnClickListener({openPrivacyPolicy()})
 
+        drawer_tv_play_store.setOnClickListener({openPlayStore()})
+
         if(intent.extras?.get("android.intent.extra.REFERRER_NAME")!=null){
             onActivate()
             startActivity(IntentProvider().provideNewSmsIntent(this))
             finish()
         }
 
+    }
+
+    private fun openPlayStore() {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(getString(R.string.playStoreLnk))
+        startActivity(intent)
     }
 
     private fun openBluetoothDevicePicker() {
@@ -369,6 +377,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         tv_tts_voice_parameter.setOnClickListener(null)
         tv_drawer_help.setOnClickListener(null)
         tv_drawer_privacy.setOnClickListener(null)
+        drawer_tv_play_store.setOnClickListener(null)
     }
 
     private fun initVolumeControl() {

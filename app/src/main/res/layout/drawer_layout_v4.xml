@@ -20,7 +20,7 @@
     <FrameLayout
         android:id="@+id/left_drawer"
         android:clickable="true"
-        android:layout_width="300sp"
+        android:layout_width="320sp"
         android:layout_height="match_parent"
         android:layout_gravity="start">
 

@@ -2,6 +2,7 @@
 <resources>
 
     <string name="privacyPolicyLnk" translatable="false">http://objectifandroid.blogspot.fr/2016/12/politique-de-confidentialite.html</string>
+    <string name="playStoreLnk" translatable="false">http://play.google.com/store/apps/details?id=fr.piotr.dismoitoutsms</string>
 
     <string name="app_name">Dis-moi tout SMS</string>
     <string name="app_slogan">Dis-moi tout lit les SMS pour vous !</string>
@@ -116,6 +117,7 @@
     <string name="bluetooth_device_fragment_no_device_found">Aucun périphérique bluetooth audio trouvé</string>
     <string name="bluetooth_device_fragment_help_text">Choisissez les périphériques qui activent et désactivent automatiquement la diction de vos SMS</string>
     <string name="no_response_yet">Vous n\'avez pas encore répondu</string>
+    <string name="play_store_link">Lien vers le play store</string>
 
 
 </resources>

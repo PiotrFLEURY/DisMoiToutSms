@@ -1,6 +1,7 @@
 package fr.piotr.dismoitoutsms.reception;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -37,6 +39,8 @@ import static fr.piotr.dismoitoutsms.util.EmoticonesManagerKt.remplacerEmoticone
 public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
 
     private static final String TAG = "TextToSpeechHelper";
+    public static final String START_SPEAK = TAG + ".START_SPEAK";
+    public static final String STOP_SPEAK = TAG + ".STOP_SPEAK";
 
     public interface StartedListener {
         void onStarted();
@@ -176,7 +180,7 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
         mTts.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String utteranceId) {
-                //Nothing to do here
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(START_SPEAK));
             }
 
             @Override
@@ -184,6 +188,8 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
                 if (utteranceListener != null) {
                     utteranceListener.onUtteranceCompleted(utteranceId);
                 }
+
+                LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(STOP_SPEAK));
             }
 
             @Override

@@ -9,26 +9,14 @@
     tools:context=".SmsRecuActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        android:alpha="0.1"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/dark" />
-
-    <ImageView
         android:id="@+id/smsrecucontactphoto"
-        android:layout_width="48sp"
-        android:layout_height="48sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/colorcircle"
-        android:padding="8sp"
+        android:layout_width="56sp"
+        android:layout_height="0dp"
+        android:padding="16sp"
+        android:contentDescription="@null"
+        android:background="@color/primaryColor"
         android:src="@drawable/ic_person_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,9 +24,9 @@
         android:id="@+id/message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:padding="8sp"
+        android:background="@color/primaryColor"
+        android:textColor="@color/primaryTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_contact_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_contact_name"
@@ -48,10 +36,9 @@
         android:id="@+id/tv_contact_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:padding="8sp"
+        android:background="@color/primaryColor"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/smsrecucontactphoto"
         app:layout_constraintTop_toTopOf="parent"
@@ -62,13 +49,12 @@
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:indeterminate="true"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/tv_reponse_message"
         app:layout_constraintStart_toStartOf="@+id/tv_reponse_message"
         app:layout_constraintTop_toTopOf="@+id/tv_reponse_message" />
@@ -77,28 +63,86 @@
         android:id="@+id/tv_reponse_message"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:background="#EEE"
         android:overScrollMode="ifContentScrolls"
-        android:padding="8sp"
+        android:padding="16sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="#666"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:text="Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?" />
+        tools:text="Impecable et toi ? Qu'est-ce que tu racontes ? Toujours ok pour demain ?" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:background="@color/primaryLightColor"
+        android:padding="16sp"
         android:text="@string/reponse"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/message" />
+
+    <View
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sms_recu_floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:srcCompat="@drawable/ic_message_24dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sms_recu_fab_repeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/primaryColor"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/white"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/sms_recu_floatingActionButton"
+        app:layout_constraintEnd_toStartOf="@+id/sms_recu_floatingActionButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_repeat_24dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sms_recu_fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/primaryColor"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/white"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@+id/sms_recu_floatingActionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/sms_recu_floatingActionButton"
+        app:srcCompat="@drawable/ic_edit_black_24dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="96dp" />
 
 </android.support.constraint.ConstraintLayout>

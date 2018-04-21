@@ -6,7 +6,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
 import android.support.v4.content.LocalBroadcastManager
+import android.util.Log
 import kotlin.reflect.KFunction
+import kotlin.reflect.full.declaredFunctions
+import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberFunctions
 
 /**
@@ -16,6 +19,8 @@ import kotlin.reflect.full.memberFunctions
 
 val intentAnnotationsHolder : MutableMap<String, KFunction<*>> = HashMap()
 val intentAnnotationsReceivers : MutableMap<Any, IntentAnnocationReceiver> = HashMap()
+
+const val TAG = "@IntentReceiver"
 
 class IntentAnnocationReceiver(private val owner: Any): BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: android.content.Intent?) {
@@ -48,17 +53,23 @@ val android.support.v4.app.DialogFragment.intentAnnotationReceiver: IntentAnnoca
     get() = intentAnnotationsReceivers[this]!!
 
 fun bindIntentAnnotations(any: Any) {
-    val clazz = any::class
+    Log.d(TAG, "${any::class} binding intents")
+    bind(any)
+    Log.d(TAG, "${any::class} binded")
+}
+
+private fun buildFilter(any: Any): IntentFilter {
     val filter = IntentFilter()
-    for (memberFunction in clazz.memberFunctions) {
-        for (annotation in memberFunction.annotations) {
-            if (annotation is IntentReceiver) {
-                parseIntent(memberFunction, annotation)
-                filter.addAction(annotation.value)
-            }
+    Log.d(TAG, "${any::class} building intent filter")
+    for (memberFunction in any::class.declaredFunctions) {
+        val annotation = memberFunction.findAnnotation<IntentReceiver>()
+        annotation?.let {
+            parseIntent(memberFunction, annotation)
+            filter.addAction(annotation.value)
         }
     }
-    bind(any, filter)
+    Log.d(TAG, "${any::class} filter built")
+    return filter
 }
 
 fun unbindIntentAnnotations(any: Any){
@@ -96,7 +107,8 @@ fun unbindActivityIntentAnnotations(activity: Activity) {
     }
 }
 
-fun bind(any: Any, filter: IntentFilter) {
+fun bind(any: Any) {
+    val filter = buildFilter(any)
     when(any){
         is Activity -> bindActivity(any, filter)
         is Fragment -> bindFragment(any, filter)

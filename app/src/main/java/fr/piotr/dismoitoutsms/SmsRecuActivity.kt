@@ -16,6 +16,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.*
 import android.view.View.GONE
+import android.widget.Toast
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.contacts.Contacts
 import fr.piotr.dismoitoutsms.dialogs.ContactSelectionDialog
@@ -61,6 +62,8 @@ class SmsRecuActivity : AbstractActivity() {
     private lateinit var speech: TextToSpeechHelper
     private lateinit var phoneStateListener: PhoneStateListener
 
+    private var floatingButtonMode = FLOATING_BUTTON_STATUS_SEND
+
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
@@ -79,6 +82,9 @@ class SmsRecuActivity : AbstractActivity() {
                     val contact = intent.getSerializableExtra(ContactSelectionDialog.EXTRA_CONTACT_SELECTED) as Contact
                     onContactSelected(contact)
                 }
+
+                TextToSpeechHelper.START_SPEAK -> updateFloatingButton(FLOATING_BUTTON_STATUS_STOP)
+                TextToSpeechHelper.STOP_SPEAK -> updateFloatingButton(FLOATING_BUTTON_STATUS_SEND)
 
             }
         }
@@ -155,6 +161,8 @@ class SmsRecuActivity : AbstractActivity() {
             }
         }
 
+        updateFloatingButton(floatingButtonMode)
+
     }
 
     private fun onTtsInitialized() {
@@ -197,6 +205,8 @@ class SmsRecuActivity : AbstractActivity() {
         filter.addAction(EVENT_SPEECH_RESULT)
         filter.addAction(ContactSelectionDialog.EVENT_CONTACT_SELECTED)
         filter.addAction(NewSpeechTryDialog.EVENT_NEXT)
+        filter.addAction(TextToSpeechHelper.START_SPEAK)
+        filter.addAction(TextToSpeechHelper.STOP_SPEAK)
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter)
 
         registerReceiver(smsSentReceiver, IntentFilter(EVENT_SMS_SENT))
@@ -206,16 +216,25 @@ class SmsRecuActivity : AbstractActivity() {
         val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         telephonyManager.listen(phoneStateListener, LISTEN_CALL_STATE)
 
+        sms_recu_floatingActionButton.setOnClickListener({onClickFloatingButton()})
+        sms_recu_fab_repeat.setOnClickListener({repeter()})
+        sms_recu_fab_edit.setOnClickListener({repondre()})
+
     }
 
     private fun repondre() {
-        startSpeechRecognizer(REPONSE, getString(R.string.reponse))
-        sablier.reset()
+        if(isReconnaissanceInstallee && ConfigurationManager.getBoolean(this@SmsRecuActivity, Configuration.COMMANDE_VOCALE)) {
+            startSpeechRecognizer(REPONSE, getString(R.string.reponse))
+            sablier.reset()
+        } else {
+            Toast.makeText(this, getString(R.string.tutorial_reponse_vocale_text), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun stop() {
         speech.stopLecture()
         sablier.reset()
+        updateFloatingButton(FLOATING_BUTTON_STATUS_SEND)
     }
 
     private fun repeter() {
@@ -238,6 +257,10 @@ class SmsRecuActivity : AbstractActivity() {
 
         val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE)
+
+        sms_recu_floatingActionButton.setOnClickListener(null)
+        sms_recu_fab_repeat.setOnClickListener(null)
+        sms_recu_fab_edit.setOnClickListener(null)
 
     }
 
@@ -368,6 +391,7 @@ class SmsRecuActivity : AbstractActivity() {
             //smsrecu_scrollview.fullScroll(View.FOCUS_DOWN)
             invalidateOptionsMenu()
             speech.parler(getString(R.string.votrereponseest) + reponse, VOUS_AVEZ_REPONDU)
+            updateFloatingButton(FLOATING_BUTTON_STATUS_SEND)
 
         } else if (instruction.`is`(DICTER_CONTACT)) {
             if (resultCode == Activity.RESULT_OK) {
@@ -471,14 +495,14 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val menuInflater = menuInflater
-        menuInflater.inflate(R.menu.sms_recu_menu, menu)
+        //val menuInflater = menuInflater
+        //menuInflater.inflate(R.menu.sms_recu_menu, menu)
 
-        menu.findItem(R.id.action_answer).isEnabled = isReconnaissanceInstallee && ConfigurationManager.getBoolean(this@SmsRecuActivity,
-                Configuration.COMMANDE_VOCALE)
+        //menu.findItem(R.id.action_answer).isEnabled = isReconnaissanceInstallee && ConfigurationManager.getBoolean(this@SmsRecuActivity,
+        //        Configuration.COMMANDE_VOCALE)
 
-        menu.findItem(R.id.action_send).isEnabled = (reponse != null && !reponse!!.isEmpty()
-                && numeroAQuiRepondre != null && !numeroAQuiRepondre!!.isEmpty())
+        //menu.findItem(R.id.action_send).isEnabled = (reponse != null && !reponse!!.isEmpty()
+        //        && numeroAQuiRepondre != null && !numeroAQuiRepondre!!.isEmpty())
 
         return true
     }
@@ -510,6 +534,26 @@ class SmsRecuActivity : AbstractActivity() {
         smsSentFragment.show(supportFragmentManager, SmsSentFragment.TAG)
     }
 
+    fun updateFloatingButton(mode: String) {
+        floatingButtonMode = mode
+        sms_recu_floatingActionButton.setImageDrawable(getDrawable(getFloatingButtonIcon()))
+    }
+
+    private fun getFloatingButtonIcon(): Int {
+        return when (floatingButtonMode) {
+            FLOATING_BUTTON_STATUS_SEND -> R.drawable.ic_send_24dp
+            else -> R.drawable.ic_stop_24dp
+        }
+    }
+
+    private fun onClickFloatingButton() {
+        when(floatingButtonMode){
+            FLOATING_BUTTON_STATUS_SEND -> {if(reponse!=null)envoyer() else repondre()}
+            FLOATING_BUTTON_STATUS_STOP -> stop()
+            else -> {}
+        }
+    }
+
     companion object {
 
         const val TAG = "SmsRecuActivity"
@@ -532,6 +576,9 @@ class SmsRecuActivity : AbstractActivity() {
         const val EVENT_SHOW_MICROPHONE = "$TAG.EVENT_SHOW_MICROPHONE"
         const val EXTRA_MICROPHONE_INSTRUCTION = "$TAG.EXTRA_MICROPHONE_INSTRUCTION"
         const val EXTRA_MICROPHONE_PROMPT = "$TAG.EXTRA_MICROPHONE_PROMPT"
+
+        const val FLOATING_BUTTON_STATUS_STOP = "$TAG.FLOATING_BUTTON_STATUS_STOP"
+        const val FLOATING_BUTTON_STATUS_SEND = "$TAG.FLOATING_BUTTON_STATUS_SEND"
 
         private const val TELEPHON_NUMBER_FIELD_NAME = "address"
         private const val MESSAGE_BODY_FIELD_NAME = "body"

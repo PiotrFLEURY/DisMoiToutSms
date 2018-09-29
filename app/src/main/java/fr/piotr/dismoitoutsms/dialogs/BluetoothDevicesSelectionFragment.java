@@ -11,8 +11,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.content.LocalBroadcastManager;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,12 +104,12 @@ public class BluetoothDevicesSelectionFragment extends BottomSheetDialogFragment
 
     public static final String TAG = "BluetoothDevicesSelectionFragment";
 
-    TextView tvNoDeviceFound;
-    Switch swBluetoothHeadsetMode;
-    ListView listView;
-    MyAdapter adapter;
+    private TextView tvNoDeviceFound;
+    private Switch swBluetoothHeadsetMode;
+    private ListView listView;
+    private MyAdapter adapter;
 
-    DialogInterface.OnDismissListener onDismissListener;
+    private DialogInterface.OnDismissListener onDismissListener;
 
     public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
@@ -158,6 +158,7 @@ public class BluetoothDevicesSelectionFragment extends BottomSheetDialogFragment
         }
     }
 
+    @SuppressLint("BatteryLife")
     private void setupBatteryOptimization() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent();

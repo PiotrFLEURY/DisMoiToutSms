@@ -6,16 +6,16 @@ import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.support.design.widget.Snackbar
-import android.support.v4.content.LocalBroadcastManager
 import android.telephony.PhoneStateListener
 import android.telephony.PhoneStateListener.LISTEN_CALL_STATE
 import android.telephony.SmsManager
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.View
 import android.view.View.GONE
+import android.view.Window
 import android.widget.Toast
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.contacts.Contacts
@@ -118,11 +118,13 @@ class SmsRecuActivity : AbstractActivity() {
         SmsReceiver.getInstance().isDictating = true
 
         val extras = intent.extras
-        date = Date(extras!!.getLong(Parameters.DATE.name))
-        contactName = extras.getString(Parameters.CONTACT_NAME.toString())
-        contact = extras.getSerializable(Parameters.CONTACT.toString()) as Contact
-        message = extras.getString(Parameters.MESSAGE.toString())
-        numeroAQuiRepondre = extras.getString(Parameters.NUMERO_A_QUI_REPONDRE.toString())
+        extras?.let {
+            date = Date(extras.getLong(Parameters.DATE.name))
+            contactName = extras.getString(Parameters.CONTACT_NAME.toString())?:""
+            contact = extras.getSerializable(Parameters.CONTACT.toString()) as Contact
+            message = extras.getString(Parameters.MESSAGE.toString())
+            numeroAQuiRepondre = extras.getString(Parameters.NUMERO_A_QUI_REPONDRE.toString())
+        }
         setContentView(R.layout.smsrecudialog)
 
         initPhoto()
@@ -140,13 +142,12 @@ class SmsRecuActivity : AbstractActivity() {
 
         phoneStateListener = object : PhoneStateListener() {
 
-            internal var lastState = -1
+            var lastState = -1
 
             override fun onCallStateChanged(state: Int, incomingNumber: String) {
                 super.onCallStateChanged(state, incomingNumber)
                 when (state) {
-                    TelephonyManager.CALL_STATE_IDLE -> {
-                    }
+                    TelephonyManager.CALL_STATE_IDLE -> {}
                     TelephonyManager.CALL_STATE_RINGING,
                         // Le téléphone sonne
                     TelephonyManager.CALL_STATE_OFFHOOK -> {
@@ -207,7 +208,7 @@ class SmsRecuActivity : AbstractActivity() {
         filter.addAction(NewSpeechTryDialog.EVENT_NEXT)
         filter.addAction(TextToSpeechHelper.START_SPEAK)
         filter.addAction(TextToSpeechHelper.STOP_SPEAK)
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter)
 
         registerReceiver(smsSentReceiver, IntentFilter(EVENT_SMS_SENT))
 
@@ -216,9 +217,9 @@ class SmsRecuActivity : AbstractActivity() {
         val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         telephonyManager.listen(phoneStateListener, LISTEN_CALL_STATE)
 
-        sms_recu_floatingActionButton.setOnClickListener({onClickFloatingButton()})
-        sms_recu_fab_repeat.setOnClickListener({repeter()})
-        sms_recu_fab_edit.setOnClickListener({repondre()})
+        sms_recu_floatingActionButton.setOnClickListener {onClickFloatingButton()}
+        sms_recu_fab_repeat.setOnClickListener {repeter()}
+        sms_recu_fab_edit.setOnClickListener {repondre()}
 
     }
 
@@ -251,7 +252,7 @@ class SmsRecuActivity : AbstractActivity() {
 
         SmsReceiver.getInstance().isDictating = false
 
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
 
         unregisterReceiver(smsSentReceiver)
 
@@ -282,7 +283,7 @@ class SmsRecuActivity : AbstractActivity() {
         speech.stopLecture()
         speech.shutdown()
         sablier.finished()
-        LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(MicrophoneFragment.EVENT_DESTROY_SPEECH_RECOGNIZER))
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(MicrophoneFragment.EVENT_DESTROY_SPEECH_RECOGNIZER))
         SmsReceiver.getInstance().nextMessage(this)
     }
 
@@ -338,7 +339,7 @@ class SmsRecuActivity : AbstractActivity() {
         val intent = Intent(EVENT_SHOW_MICROPHONE)
         intent.putExtra(EXTRA_MICROPHONE_INSTRUCTION, instruction)
         intent.putExtra(EXTRA_MICROPHONE_PROMPT, extraPrompt)
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
     private fun instructionIs(instructions: List<String>, vararg possibilities: String): Boolean {
@@ -373,7 +374,7 @@ class SmsRecuActivity : AbstractActivity() {
                 instructionIs(words, getString(R.string.envoyer)) -> {
                     envoyer()
                 }
-                instructionIs(words, getString(R.string.fermer)) -> LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(EVENT_BACK))
+                instructionIs(words, getString(R.string.fermer)) -> androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(EVENT_BACK))
                 instructionIs(words, getString(R.string.listen)) -> onMessageRecu()
                 else -> {
                     startSpeechRecognizer(instruction, getInstructionText(instruction))
@@ -494,29 +495,6 @@ class SmsRecuActivity : AbstractActivity() {
         super.onDestroy()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        //val menuInflater = menuInflater
-        //menuInflater.inflate(R.menu.sms_recu_menu, menu)
-
-        //menu.findItem(R.id.action_answer).isEnabled = isReconnaissanceInstallee && ConfigurationManager.getBoolean(this@SmsRecuActivity,
-        //        Configuration.COMMANDE_VOCALE)
-
-        //menu.findItem(R.id.action_send).isEnabled = (reponse != null && !reponse!!.isEmpty()
-        //        && numeroAQuiRepondre != null && !numeroAQuiRepondre!!.isEmpty())
-
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_repeat -> repeter()
-            R.id.action_stop -> stop()
-            R.id.action_answer -> repondre()
-            R.id.action_send -> envoyer()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     fun onSmsSent() {
         progress_sending.visibility = View.INVISIBLE
         invalidateOptionsMenu()
@@ -588,7 +566,7 @@ class SmsRecuActivity : AbstractActivity() {
 
     fun onSmsNotSent() {
         progress_sending.visibility = View.INVISIBLE
-        Snackbar.make(smsrecu_coordinator, R.string.error_occured, Snackbar.LENGTH_INDEFINITE)
+        com.google.android.material.snackbar.Snackbar.make(smsrecu_coordinator, R.string.error_occured, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.action_retry) { _ -> envoyer() }
                 .show()
     }

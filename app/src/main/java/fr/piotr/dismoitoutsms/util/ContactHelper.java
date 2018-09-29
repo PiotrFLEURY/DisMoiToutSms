@@ -74,12 +74,10 @@ public class ContactHelper {
 		ContentResolver contentResolver = context.getContentResolver();
 		final Uri uri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photoId);
 		String[] PHOTO_BITMAP_PROJECTION = new String[] { ContactsContract.CommonDataKinds.Photo.PHOTO };
-		Cursor cursor = null;
 
-		try {
-			cursor = contentResolver.query(uri, PHOTO_BITMAP_PROJECTION, null, null, null);
+		try (Cursor cursor = contentResolver.query(uri, PHOTO_BITMAP_PROJECTION, null, null, null)) {
 			Bitmap thumbnail = null;
-			if (cursor!=null && cursor.moveToFirst()) {
+			if (cursor != null && cursor.moveToFirst()) {
 				final byte[] thumbnailBytes = cursor.getBlob(0);
 				if (thumbnailBytes != null) {
 					thumbnail = BitmapFactory.decodeByteArray(thumbnailBytes, 0,
@@ -90,10 +88,6 @@ public class ContactHelper {
 		} catch (Exception e) {
 			Log.e(ContactHelper.class.getName(), e.getMessage());
 			return null;
-		} finally {
-            if(cursor!=null) {
-                cursor.close();
-            }
 		}
 
 	}

@@ -3,24 +3,23 @@ package fr.piotr.dismoitoutsms.util;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import fr.piotr.dismoitoutsms.ContactSelectionActivity;
 import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication;
 import fr.piotr.dismoitoutsms.R;
 
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.COMMANDE_VOCALE;
 import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration.UNIQUEMENT_CONTACTS;
-import static fr.piotr.dismoitoutsms.util.ConfigurationManager.setBoolean;
 
 /**
  * Created by piotr_000 on 28/02/2016.
@@ -40,9 +39,9 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     public void openContactSelection(View v) {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
-        drawerLayout.closeDrawer(Gravity.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         if(checkPermissions(PERMISSIONS_REQUEST_READ_CONTACTS, Manifest.permission.READ_CONTACTS)) {
-            startActivity(new Intent(this, ContactSelectionActivity.class));
+            startActivity(new Intent(getApplicationContext(), ContactSelectionActivity.class));
         }
 
     }
@@ -103,6 +102,6 @@ public abstract class AbstractActivity extends AppCompatActivity {
             case PERMISSIONS_READ_PHONE_STATE:
                 break;
         }
-        Toast.makeText(this, R.string.toast_error_permission_denial, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.toast_error_permission_denial, Toast.LENGTH_SHORT).show();
     }
 }

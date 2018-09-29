@@ -111,5 +111,7 @@
     <string name="bluetooth_device_fragment_help_text">Choose the devices that automatically enable and disable the diction of your SMS</string>
     <string name="new_try_in">New try in %s</string>
     <string name="no_response_yet">No response yet</string>
+    <string name="app_slogan">Dis-moi tout reads SMS for you</string>
+    <string name="play_store_link">Play store link</string>
 
 </resources>

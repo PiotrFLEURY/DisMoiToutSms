@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
@@ -17,14 +16,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeSet;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import fr.piotr.dismoitoutsms.SmsRecuActivity;
 import fr.piotr.dismoitoutsms.contacts.Contact;
 import fr.piotr.dismoitoutsms.messages.Message;
 import fr.piotr.dismoitoutsms.util.ConfigurationManager;
 
-import static fr.piotr.dismoitoutsms.util.ConfigurationManager.Configuration;
-import static fr.piotr.dismoitoutsms.util.ConfigurationManager.getBoolean;
-import static fr.piotr.dismoitoutsms.util.ConfigurationManager.leContactEstBannis;
 import static fr.piotr.dismoitoutsms.util.ContactHelper.getContact;
 
 /**
@@ -146,12 +143,9 @@ public class SmsReceiver extends BroadcastReceiver {
         String phoneNumber = message.getContact().getTelephone();
         Contact contact = message.getContact();
 
-		String contactName = phoneNumber;
-		if (contact != null) {
-			contactName = contact.getName();
-		}
+		String contactName = contact.getName();
 
-		Intent intent = new Intent(context, SmsRecuActivity.class);
+        Intent intent = new Intent(context, SmsRecuActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(SmsRecuActivity.Parameters.DATE.name(), message.getDate().getTime());
 		intent.putExtra(SmsRecuActivity.Parameters.CONTACT_NAME.toString(), contactName);

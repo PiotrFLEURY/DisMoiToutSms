@@ -3,7 +3,6 @@ package fr.piotr.dismoitoutsms.dialogs
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.content.LocalBroadcastManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import kotlinx.android.synthetic.main.new_speech_try.*
  * Created by piotr on 11/03/2018.
  *
  */
-class NewSpeechTryDialog : android.support.v4.app.DialogFragment() {
+class NewSpeechTryDialog : androidx.fragment.app.DialogFragment() {
 
     companion object {
         const val TAG = "NewSpeechTryDialog"
@@ -60,7 +59,7 @@ class NewSpeechTryDialog : android.support.v4.app.DialogFragment() {
     private fun fireNext() {
         val intent = Intent(EVENT_NEXT)
         intent.putExtra(ARG_EVENT_NEXT, getInstructionArg())
-        LocalBroadcastManager.getInstance(context!!).sendBroadcastSync(intent)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(context!!).sendBroadcastSync(intent)
     }
 
     private fun getInstructionArg(): Instruction {

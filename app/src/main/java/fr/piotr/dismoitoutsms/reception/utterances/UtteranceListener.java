@@ -35,7 +35,7 @@ public abstract class UtteranceListener implements TextToSpeech.OnUtteranceCompl
         speech.abandonAudioFocus();
     }
 
-    protected boolean isReconnaissanceVocaleInstallee() {
+    private boolean isReconnaissanceVocaleInstallee() {
         PackageManager packageManager = context.getPackageManager();
         final List<ResolveInfo> activities = packageManager.queryIntentActivities(new Intent(
                 RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);

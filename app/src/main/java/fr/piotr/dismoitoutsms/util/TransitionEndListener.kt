@@ -1,6 +1,6 @@
 package fr.piotr.dismoitoutsms.util
 
-import android.support.transition.Transition
+import androidx.transition.Transition
 
 class TransitionEndListener(private val todo:()->Unit): Transition.TransitionListener {
 

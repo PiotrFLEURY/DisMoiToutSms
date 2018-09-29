@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.LocalBroadcastManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +23,7 @@ import kotlinx.android.synthetic.main.microphone.*
  *
  */
 
-class MicrophoneFragment : DialogFragment() {
+class MicrophoneFragment : androidx.fragment.app.DialogFragment() {
 
     companion object {
         const val TAG = "MicrophoneFragment."
@@ -54,7 +52,7 @@ class MicrophoneFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
     }
 
     override fun onDestroy() {
@@ -88,12 +86,12 @@ class MicrophoneFragment : DialogFragment() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(EVENT_DESTROY_SPEECH_RECOGNIZER)
         intentFilter.addAction(EVENT_SPEECH_PARTIAL_RESULT)
-        LocalBroadcastManager.getInstance(activity!!).registerReceiver(receiver, intentFilter)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(activity!!).registerReceiver(receiver, intentFilter)
     }
 
     override fun onPause() {
         super.onPause()
-        LocalBroadcastManager.getInstance(activity!!).unregisterReceiver(receiver)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(activity!!).unregisterReceiver(receiver)
         destroySpeechRecognizer()
     }
 
@@ -107,7 +105,7 @@ class MicrophoneFragment : DialogFragment() {
         //}
         val intent = Intent(EVENT_UPDATE_RESPONSE)
         intent.putExtra(EXTRA_UPDATE_RESPONSE_TEXT, words[0])
-        context?.let { LocalBroadcastManager.getInstance(it).sendBroadcast(intent) }
+        context?.let { androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).sendBroadcast(intent) }
     }
 
     @Suppress("unused")

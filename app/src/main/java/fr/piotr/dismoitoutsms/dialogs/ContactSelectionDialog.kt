@@ -3,7 +3,6 @@ package fr.piotr.dismoitoutsms.dialogs
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.LocalBroadcastManager
 import android.view.LayoutInflater
 import android.widget.ListView
 import android.widget.TextView
@@ -51,7 +50,7 @@ class ContactSelectionDialog(context: Context) : AlertDialog(context) {
     private fun onContactSelected(contact: Contact?) {
         val intent = Intent(EVENT_CONTACT_SELECTED)
         intent.putExtra(EXTRA_CONTACT_SELECTED, contact)
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(context).sendBroadcast(intent)
         dismiss()
     }
 }

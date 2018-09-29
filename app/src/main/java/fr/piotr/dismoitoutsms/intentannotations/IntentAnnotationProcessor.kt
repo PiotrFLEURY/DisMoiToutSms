@@ -5,7 +5,7 @@ import android.app.Fragment
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.util.Log
 import kotlin.reflect.KFunction
 import kotlin.reflect.full.declaredFunctions
@@ -49,7 +49,7 @@ val Fragment.intentAnnotationReceiver: IntentAnnocationReceiver
 val Activity.intentAnnotationReceiver: IntentAnnocationReceiver
     get() = intentAnnotationsReceivers[this]!!
 
-val android.support.v4.app.DialogFragment.intentAnnotationReceiver: IntentAnnocationReceiver
+val androidx.fragment.app.DialogFragment.intentAnnotationReceiver: IntentAnnocationReceiver
     get() = intentAnnotationsReceivers[this]!!
 
 fun bindIntentAnnotations(any: Any) {
@@ -76,7 +76,7 @@ fun unbindIntentAnnotations(any: Any){
     when(any){
         is Activity -> unbindActivityIntentAnnotations(any)
         is Fragment -> unbindFragmentIntentAnnotations(any)
-        is android.support.v4.app.DialogFragment -> unbindFragmentIntentAnnotations(any)
+        is androidx.fragment.app.DialogFragment -> unbindFragmentIntentAnnotations(any)
     }
     intentAnnotationsReceivers.remove(any)
     val clazz = any::class
@@ -89,21 +89,21 @@ fun unbindIntentAnnotations(any: Any){
     }
 }
 
-fun unbindFragmentIntentAnnotations(fragment: android.support.v4.app.DialogFragment) {
+fun unbindFragmentIntentAnnotations(fragment: androidx.fragment.app.DialogFragment) {
     if(intentAnnotationsReceivers.containsKey(fragment)){
-        fragment.context?.let { LocalBroadcastManager.getInstance(it).unregisterReceiver(intentAnnotationsReceivers[fragment]!!) }
+        fragment.context?.let { androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).unregisterReceiver(intentAnnotationsReceivers[fragment]!!) }
     }
 }
 
 fun unbindFragmentIntentAnnotations(fragment: Fragment) {
     if(intentAnnotationsReceivers.containsKey(fragment)){
-        LocalBroadcastManager.getInstance(fragment.activity).unregisterReceiver(intentAnnotationsReceivers[fragment]!!)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(fragment.activity).unregisterReceiver(intentAnnotationsReceivers[fragment]!!)
     }
 }
 
 fun unbindActivityIntentAnnotations(activity: Activity) {
     if(intentAnnotationsReceivers.containsKey(activity)) {
-        LocalBroadcastManager.getInstance(activity).unregisterReceiver(intentAnnotationsReceivers[activity]!!)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(activity).unregisterReceiver(intentAnnotationsReceivers[activity]!!)
     }
 }
 
@@ -112,24 +112,24 @@ fun bind(any: Any) {
     when(any){
         is Activity -> bindActivity(any, filter)
         is Fragment -> bindFragment(any, filter)
-        is android.support.v4.app.DialogFragment -> bindFragment(any, filter)
+        is androidx.fragment.app.DialogFragment -> bindFragment(any, filter)
         else -> throw IllegalArgumentException("Not managed element $any")
     }
 }
 
-fun bindFragment(fragment: android.support.v4.app.DialogFragment, filter: IntentFilter) {
+fun bindFragment(fragment: androidx.fragment.app.DialogFragment, filter: IntentFilter) {
     intentAnnotationsReceivers[fragment] = IntentAnnocationReceiver(fragment)
-    fragment.context?.let { LocalBroadcastManager.getInstance(it).registerReceiver(fragment.intentAnnotationReceiver, filter) }
+    fragment.context?.let { androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).registerReceiver(fragment.intentAnnotationReceiver, filter) }
 }
 
 fun bindFragment(fragment: Fragment, filter: IntentFilter) {
     intentAnnotationsReceivers[fragment] = IntentAnnocationReceiver(fragment)
-    LocalBroadcastManager.getInstance(fragment.activity).registerReceiver(fragment.intentAnnotationReceiver, filter)
+    androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(fragment.activity).registerReceiver(fragment.intentAnnotationReceiver, filter)
 }
 
 fun bindActivity(activity: Activity, filter: IntentFilter) {
     intentAnnotationsReceivers[activity] = IntentAnnocationReceiver(activity)
-    LocalBroadcastManager.getInstance(activity).registerReceiver(activity.intentAnnotationReceiver, filter)
+    androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(activity).registerReceiver(activity.intentAnnotationReceiver, filter)
 }
 
 fun parseIntent(memberFunction: KFunction<*>, annotation: IntentReceiver) {

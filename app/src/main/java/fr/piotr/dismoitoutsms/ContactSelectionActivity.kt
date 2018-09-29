@@ -83,12 +83,12 @@ class ContactSelectionActivity : AbstractActivity() {
             private fun confirmerSuppression(holder: ContactViewHolder) {
                 MessageBox.confirm(context = this@ContactSelectionActivity, title = getString(R.string.suppression),
                         message = getString(R.string.confirmersuppression),
-                        ok = Runnable({ supprimerContact(holder.nom.text.toString()) }))
+                        ok = Runnable { supprimerContact(holder.nom.text.toString()) })
             }
 
         }
 
-        btn_search.setOnClickListener({toggleSearch()})
+        btn_search.setOnClickListener {toggleSearch()}
 
     }
 

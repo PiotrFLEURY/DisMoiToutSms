@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -161,17 +161,10 @@ public class TextToSpeechHelper implements TextToSpeech.OnInitListener {
     @SuppressWarnings("deprecation")
     private void speak(String text, Diction type) {
         String utteranceId = type.name();
-        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.LOLLIPOP) {
-            HashMap<String, String> parametres = new HashMap<>();
-            parametres.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
-            parametres.put(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_VOICE_CALL));
-            mTts.speak(text, TextToSpeech.QUEUE_FLUSH, parametres);
-        } else {
-            final Bundle params = new Bundle();
-            params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
-            params.putString(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_VOICE_CALL));
-            mTts.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId);
-        }
+        final Bundle params = new Bundle();
+        params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
+        params.putString(TextToSpeech.Engine.KEY_PARAM_STREAM, String.valueOf(AudioManager.STREAM_VOICE_CALL));
+        mTts.speak(text, TextToSpeech.QUEUE_FLUSH, params, utteranceId);
     }
 
     @SuppressWarnings("deprecation")

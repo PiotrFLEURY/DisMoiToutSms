@@ -7,7 +7,7 @@ import android.bluetooth.BluetoothHeadset;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.util.List;
@@ -21,8 +21,8 @@ public class BluetoothHelper {
 
     public static final String TAG = "BluetoothHelper";
 
-    public static final String HEADSET = TAG + ".HEADSET";
-    public static final String A2DP = TAG + ".A2DP";
+    private static final String HEADSET = TAG + ".HEADSET";
+    private static final String A2DP = TAG + ".A2DP";
 
     public static final String INTENT_BLUETOOTH_HEADSET_FOUND = TAG + ".INTENT_BLUETOOTH_HEADSET_FOUND";
     public static final String EXTRA_BLUETOOTH_HEADSET = TAG + ".EXTRA_BLUETOOTH_HEADSET";

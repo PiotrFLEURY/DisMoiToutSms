@@ -2,7 +2,7 @@ package fr.piotr.dismoitoutsms.reception.utterances;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.SmsRecuActivity;

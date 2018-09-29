@@ -3,7 +3,6 @@ package fr.piotr.dismoitoutsms.fragments
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import kotlinx.android.synthetic.main.sms_sent.*
  * Created by piotr on 23/12/2017.
  *
  */
-class SmsSentFragment: DialogFragment() {
+class SmsSentFragment: androidx.fragment.app.DialogFragment() {
 
     companion object {
         const val TAG = "SmsSentFragment"

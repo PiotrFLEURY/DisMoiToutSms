@@ -134,7 +134,7 @@ object ConfigurationManager {
     @JvmStatic
     fun leContactEstBannis(context: Context, id: Int?): Boolean {
         val valeur = getValue(context, Configuration.CONTACTS_BANNIS)
-        val bannis = Arrays.asList<String>(*valeur.split(";".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray())
+        val bannis = Arrays.asList<String>(*valeur.split(";".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray())
         for (cle in bannis) {
             if (cle == id!!.toString()) {
                 return true

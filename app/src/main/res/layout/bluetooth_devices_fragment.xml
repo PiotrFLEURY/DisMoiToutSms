@@ -60,8 +60,7 @@
         android:layout_height="1dp"
         android:background="@color/grey200"/>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:animateLayoutChanges="true">

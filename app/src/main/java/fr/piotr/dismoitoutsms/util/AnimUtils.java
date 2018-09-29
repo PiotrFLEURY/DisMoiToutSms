@@ -3,7 +3,7 @@ package fr.piotr.dismoitoutsms.util;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 
@@ -22,7 +22,7 @@ public class AnimUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void reveal(View myView, Runnable onEnd){
+    private static void reveal(View myView, Runnable onEnd){
 
         // get the center for the clipping circle
         int cx = myView.getWidth();
@@ -57,7 +57,7 @@ public class AnimUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void unreveal(View myView, Runnable onEnd) {
+    private static void unreveal(View myView, Runnable onEnd) {
 
         if(myView==null){
             return;

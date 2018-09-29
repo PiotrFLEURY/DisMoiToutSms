@@ -23,10 +23,6 @@ import fr.piotr.dismoitoutsms.dialogs.ContactSelectionDialog
 import fr.piotr.dismoitoutsms.dialogs.NewSpeechTryDialog
 import fr.piotr.dismoitoutsms.fragments.MicrophoneFragment
 import fr.piotr.dismoitoutsms.fragments.SmsSentFragment
-import fr.piotr.dismoitoutsms.intentannotations.Extra
-import fr.piotr.dismoitoutsms.intentannotations.IntentReceiver
-import fr.piotr.dismoitoutsms.intentannotations.bindIntentAnnotations
-import fr.piotr.dismoitoutsms.intentannotations.unbindIntentAnnotations
 import fr.piotr.dismoitoutsms.intents.IntentProvider
 import fr.piotr.dismoitoutsms.messages.Message
 import fr.piotr.dismoitoutsms.reception.SmsReceiver
@@ -85,7 +81,11 @@ class SmsRecuActivity : AbstractActivity() {
 
                 TextToSpeechHelper.START_SPEAK -> updateFloatingButton(FLOATING_BUTTON_STATUS_STOP)
                 TextToSpeechHelper.STOP_SPEAK -> updateFloatingButton(FLOATING_BUTTON_STATUS_SEND)
-
+                EVENT_SHOW_MICROPHONE -> {
+                    val instruction = intent.getSerializableExtra(EXTRA_MICROPHONE_INSTRUCTION) as Instruction
+                    val extraPrompt = intent.getStringExtra(EXTRA_MICROPHONE_PROMPT)
+                    showMicrophone(instruction, extraPrompt)
+                }
             }
         }
     }
@@ -196,8 +196,6 @@ class SmsRecuActivity : AbstractActivity() {
     override fun onResume() {
         super.onResume()
 
-        bindIntentAnnotations(this)
-
         val filter = IntentFilter()
         filter.addAction(EVENT_FINISH)
         filter.addAction(EVENT_START_SPEECH_RECOGNIZER)
@@ -208,6 +206,7 @@ class SmsRecuActivity : AbstractActivity() {
         filter.addAction(NewSpeechTryDialog.EVENT_NEXT)
         filter.addAction(TextToSpeechHelper.START_SPEAK)
         filter.addAction(TextToSpeechHelper.STOP_SPEAK)
+        filter.addAction(EVENT_SHOW_MICROPHONE)
         androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter)
 
         registerReceiver(smsSentReceiver, IntentFilter(EVENT_SMS_SENT))
@@ -247,8 +246,6 @@ class SmsRecuActivity : AbstractActivity() {
 
     override fun onPause() {
         super.onPause()
-
-        unbindIntentAnnotations(this)
 
         SmsReceiver.getInstance().isDictating = false
 
@@ -471,10 +468,7 @@ class SmsRecuActivity : AbstractActivity() {
         supportFragmentManager.beginTransaction().remove(microphoneFragment).commit()
     }
 
-    @Suppress("unused")
-    @IntentReceiver(EVENT_SHOW_MICROPHONE)
-    fun showMicrophone(@Extra(EXTRA_MICROPHONE_INSTRUCTION) instruction: Instruction,
-                       @Extra(EXTRA_MICROPHONE_PROMPT) extraPrompt: String) {
+    fun showMicrophone(instruction: Instruction, extraPrompt: String) {
         microphoneFragment = MicrophoneFragment()
         val bundle = Bundle()
         bundle.putSerializable(MicrophoneFragment.INSTRUCTION, instruction)

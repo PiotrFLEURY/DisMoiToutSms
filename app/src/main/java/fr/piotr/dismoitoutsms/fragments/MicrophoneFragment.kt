@@ -9,10 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.piotr.dismoitoutsms.R
-import fr.piotr.dismoitoutsms.intentannotations.Extra
-import fr.piotr.dismoitoutsms.intentannotations.IntentReceiver
-import fr.piotr.dismoitoutsms.intentannotations.bindIntentAnnotations
-import fr.piotr.dismoitoutsms.intentannotations.unbindIntentAnnotations
 import fr.piotr.dismoitoutsms.speech.MySpeechRecorder
 import fr.piotr.dismoitoutsms.util.Instruction
 import fr.piotr.dismoitoutsms.util.setWakeUp
@@ -46,6 +42,7 @@ class MicrophoneFragment : androidx.fragment.app.DialogFragment() {
             when(intent?.action){
                 EVENT_DESTROY_SPEECH_RECOGNIZER -> destroySpeechRecognizer()
                 EVENT_SPEECH_PARTIAL_RESULT -> onPartialResult(intent.getStringArrayListExtra(EXTRA_SPEECH_WORDS))
+                EVENT_UPDATE_RESPONSE -> updateResponseText(intent.getStringExtra(EXTRA_UPDATE_RESPONSE_TEXT))
             }
         }
     }
@@ -53,11 +50,6 @@ class MicrophoneFragment : androidx.fragment.app.DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unbindIntentAnnotations(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -77,8 +69,6 @@ class MicrophoneFragment : androidx.fragment.app.DialogFragment() {
         speechRecorder = MySpeechRecorder(activity)
         speechRecorder.startListening(instruction, extraPrompt)
 
-        bindIntentAnnotations(this)
-
     }
 
     override fun onResume() {
@@ -86,6 +76,7 @@ class MicrophoneFragment : androidx.fragment.app.DialogFragment() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(EVENT_DESTROY_SPEECH_RECOGNIZER)
         intentFilter.addAction(EVENT_SPEECH_PARTIAL_RESULT)
+        intentFilter.addAction(EVENT_UPDATE_RESPONSE)
         androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(activity!!).registerReceiver(receiver, intentFilter)
     }
 
@@ -108,9 +99,7 @@ class MicrophoneFragment : androidx.fragment.app.DialogFragment() {
         context?.let { androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).sendBroadcast(intent) }
     }
 
-    @Suppress("unused")
-    @IntentReceiver(EVENT_UPDATE_RESPONSE)
-    fun updateResponseText(@Extra(EXTRA_UPDATE_RESPONSE_TEXT) text: String){
+    fun updateResponseText(text: String){
         reponse_en_cours.text = text
     }
 }

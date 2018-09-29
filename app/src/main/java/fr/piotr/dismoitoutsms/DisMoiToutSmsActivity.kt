@@ -19,7 +19,6 @@ import android.widget.*
 import androidx.core.view.GravityCompat
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.dialogs.BluetoothDevicesSelectionFragment
-import fr.piotr.dismoitoutsms.intentannotations.unbindIntentAnnotations
 import fr.piotr.dismoitoutsms.intents.IntentProvider
 import fr.piotr.dismoitoutsms.ktx.addActions
 import fr.piotr.dismoitoutsms.reception.ServiceCommunicator
@@ -101,11 +100,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             startTutorial()
         }
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unbindIntentAnnotations(this)
     }
 
     @SuppressLint("BatteryLife")

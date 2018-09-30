@@ -50,13 +50,9 @@ class DisMoiToutSmsActivityTest {
     fun toggleOnlyContacts() {
 
         onView(withId(R.id.switch_uniquement_mes_contacts))
-                .check(matches(isDisplayed()))
+                .check(matches(isNotChecked()))
+                .perform(click())
                 .check(matches(isChecked()))
-
-//        onView(withId(R.id.switch_uniquement_mes_contacts))
-//                .check(matches(isNotChecked()))
-//                .perform(click())
-//                .check(matches(isChecked()))
 
         Assert.assertEquals(true, getBoolean(activityActivityTestRule.activity, UNIQUEMENT_CONTACTS))
 

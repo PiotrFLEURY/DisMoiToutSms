@@ -3,6 +3,7 @@ package fr.piotr.dismoitoutsms.headset
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService
 import fr.piotr.dismoitoutsms.util.ConfigurationManager
 
 /**
@@ -10,7 +11,7 @@ import fr.piotr.dismoitoutsms.util.ConfigurationManager
  *
  */
 
-class HeadSetReceiver : AbstractHeadSetReceiver() {
+class HeadSetReceiver(disMoiToutSmsService: DisMoiToutSmsService) : AbstractHeadSetReceiver(disMoiToutSmsService) {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == AudioManager.ACTION_HEADSET_PLUG) {

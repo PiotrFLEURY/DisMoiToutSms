@@ -2,12 +2,14 @@ package fr.piotr.dismoitoutsms
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Service
 import android.content.*
 import android.media.AudioManager
 import android.media.AudioManager.*
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.os.PowerManager
 import android.provider.Settings
 import android.speech.tts.TextToSpeech
@@ -21,7 +23,6 @@ import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.dialogs.BluetoothDevicesSelectionFragment
 import fr.piotr.dismoitoutsms.intents.IntentProvider
 import fr.piotr.dismoitoutsms.ktx.addActions
-import fr.piotr.dismoitoutsms.reception.ServiceCommunicator
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService
 import fr.piotr.dismoitoutsms.util.AbstractActivity
 import fr.piotr.dismoitoutsms.util.ConfigurationManager
@@ -43,7 +44,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                     EVENT_TAP_TARGET_PRIVATE_LIFE_MODE,
                     EVENT_TAP_TARGET_HEADSET_MODE,
                     EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE,
-                    EVENT_END_TUTORIAL)
+                    EVENT_END_TUTORIAL,
+                    EVENT_TOGGLE_STATUS)
 
     private val receiver = object : BroadcastReceiver() {
 
@@ -55,9 +57,28 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 EVENT_TAP_TARGET_HEADSET_MODE -> tapTargetHeadsetMode()
                 EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE -> tapTargetBluetoothHeadsetMode()
                 EVENT_END_TUTORIAL -> endTutorial()
+                EVENT_TOGGLE_STATUS -> toggleStatus()
             }
         }
 
+    }
+
+    private val mDisMoiToutSmsServiceConnection = object : ServiceConnection {
+
+        var mBound = false
+        var mService: DisMoiToutSmsService? = null
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            mBound = false
+        }
+
+        override fun onServiceConnected(p0: ComponentName?, binder: IBinder?) {
+            mBound = true
+            mService = (binder as DisMoiToutSmsService.DisMoiToutSmsServiceBinder).service
+            toggleStatus()
+        }
+
+        fun serviceCommunicatorRunning() = mService?.serviceCommunicatorBound?:false
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,10 +94,6 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         }
 
         setContentView(R.layout.drawer_layout_v4)
-
-        if (!DisMoiToutSmsApplication.INSTANCE.disMoiToutSmsServiceRunning()) {
-            startService(Intent(this, DisMoiToutSmsService::class.java))
-        }
 
         verifierExistanceServiceSyntheseVocale()
 
@@ -183,9 +200,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(receiver, filter)
 
-        toggleStatus()
+        bindService(Intent(this, DisMoiToutSmsService::class.java), mDisMoiToutSmsServiceConnection, Service.BIND_AUTO_CREATE)
 
-        switch_activation.isChecked = isMyServiceRunning
         switch_activation.setOnClickListener { v ->
             if ((v as Switch).isChecked) {
                 onActivate()
@@ -232,7 +248,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         switch_private_life_mode.setOnCheckedChangeListener { _, isChecked -> setBoolean(applicationContext, PRIVATE_LIFE_MODE, isChecked) }
 
-        tv_gerer_contacts.setOnClickListener { this.openContactSelection(it) }
+        tv_gerer_contacts.setOnClickListener { this.openContactSelection() }
 
         checkPermissions(AbstractActivity.PERMISSIONS_REQUEST_RESUME,
                 Manifest.permission.READ_CONTACTS,
@@ -307,26 +323,20 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     private fun onActivate() {
-        if (!isMyServiceRunning) {
-            val intent = Intent(this@DisMoiToutSmsActivity, ServiceCommunicator::class.java)
-            intent.addFlags(Intent.FLAG_FROM_BACKGROUND)
+        if (!mDisMoiToutSmsServiceConnection.serviceCommunicatorRunning()) {
             setupVolume()
-            startService(intent)
-            toggleStatus()
+            mDisMoiToutSmsServiceConnection.mService?.startServiceCommunicator()
         }
     }
 
     private fun onDeactivate() {
-        if (isMyServiceRunning) {
-            val intent = Intent(this@DisMoiToutSmsActivity, ServiceCommunicator::class.java)
-            intent.addFlags(Intent.FLAG_FROM_BACKGROUND)
-            stopService(intent)
-            toggleStatus()
+        if (mDisMoiToutSmsServiceConnection.serviceCommunicatorRunning()) {
+            mDisMoiToutSmsServiceConnection.mService?.stopServiceCommunicator()
         }
     }
 
     private fun launchTest() {
-        if (isMyServiceRunning) {
+        if (mDisMoiToutSmsServiceConnection.serviceCommunicatorRunning()) {
             val contact = getString(R.string.app_name)
             val message = getString(R.string.test_diction)
 
@@ -342,7 +352,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     private fun toggleStatus() {
-        if (isMyServiceRunning) {
+        if (mDisMoiToutSmsServiceConnection.serviceCommunicatorRunning()) {
             switch_activation.isChecked = true
             tv_status_text.text = getString(R.string.activated)
         } else {
@@ -355,6 +365,8 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         super.onPause()
 
         androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver)
+
+        unbindService(mDisMoiToutSmsServiceConnection)
 
         sp_language.onItemSelectedListener = null
         btn_tester.setOnClickListener(null)
@@ -473,6 +485,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         const val EVENT_TAP_TARGET_BLUETOOTH_HEADSET_MODE = "$TAG.tapTargetBluetoothHeadsetMode"
         const val EVENT_TAP_TARGET_PRIVATE_LIFE_MODE = "$TAG.tapTargetPrivateLifeMode"
         const val EVENT_END_TUTORIAL = "$TAG.endTutorial"
+        const val EVENT_TOGGLE_STATUS = "$TAG.toggleStatus"
 
         const val ACTIVITY_RESULT_TTS_DATA = 1
     }

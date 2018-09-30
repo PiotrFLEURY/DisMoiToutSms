@@ -3,6 +3,7 @@ package fr.piotr.dismoitoutsms.reception;
 import android.app.Service;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -11,6 +12,20 @@ import fr.piotr.dismoitoutsms.util.NotificationHelper;
 public class ServiceCommunicator extends Service {
 
 	private SmsReceiver		mSMSreceiver;
+	private final IBinder mBinder = new ServiceCommunicatorBinder();
+
+	public class ServiceCommunicatorBinder extends Binder {
+		public ServiceCommunicator getService() {
+			// Return this instance of LocalService so clients can call public methods
+			return ServiceCommunicator.this;
+		}
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		return mBinder;
+	}
+
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -46,11 +61,6 @@ public class ServiceCommunicator extends Service {
 
 		deleteNotification();
 
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
 	}
 
 	private void createNotification() {

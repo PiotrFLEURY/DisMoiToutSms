@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:menu="main_menu"
     tools:context=".DisMoiToutSmsActivity"
     android:id="@+id/main_content"
     app:layout_behavior="@string/bottom_sheet_behavior">
@@ -116,9 +115,10 @@
 
                 <TextView
                     android:id="@+id/tv_gerer_contacts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingEnd="8sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:drawableEnd="@drawable/ic_chevron_right_24dp"
                     android:layout_gravity="end"
                     android:gravity="center_vertical|end"

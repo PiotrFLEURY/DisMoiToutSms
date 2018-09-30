@@ -77,7 +77,7 @@ public class NotificationHelper {
 
         notificationView.setOnClickPendingIntent(R.id.complex_notification_btn_off,
                 PendingIntent.getBroadcast(context, 0,
-                        new Intent(DisMoiToutSmsService.INTENT_DEACTIVATE_FROM_NOTIFICATION),
+                        new Intent(DisMoiToutSmsService.Companion.getINTENT_DEACTIVATE_FROM_NOTIFICATION()),
                         PendingIntent.FLAG_ONE_SHOT));
 
         return notificationView;

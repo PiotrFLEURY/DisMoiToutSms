@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication;
 import fr.piotr.dismoitoutsms.R;
-import fr.piotr.dismoitoutsms.reception.ServiceCommunicator;
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
 import fr.piotr.dismoitoutsms.util.NotificationHelper;
 
@@ -17,12 +15,16 @@ import fr.piotr.dismoitoutsms.util.NotificationHelper;
 
 public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
 
+    private DisMoiToutSmsService disMoiToutSmsService;
+
+    protected AbstractHeadSetReceiver(DisMoiToutSmsService disMoiToutSmsService) {
+        this.disMoiToutSmsService = disMoiToutSmsService;
+    }
+
     protected void onHeadSetPluggedOut(Context context) {
-        if(DisMoiToutSmsApplication.INSTANCE.serviceCommunicatorRunning()) {
+        if(disMoiToutSmsService.getServiceCommunicatorBound()) {
             if(onAutoStop()) {
-                Intent service = new Intent(context, ServiceCommunicator.class);
-                service.addFlags(Intent.FLAG_FROM_BACKGROUND);
-                context.stopService(service);
+                disMoiToutSmsService.stopServiceCommunicator();
             }
         } else {
             NotificationHelper.close(context, NotificationHelper.HEADSET_PLUGGED_IN);
@@ -30,12 +32,10 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
     }
 
     protected void onHeadSetPluggedIn(Context context) {
-        if(!DisMoiToutSmsApplication.INSTANCE.serviceCommunicatorRunning()) {
+        if(!disMoiToutSmsService.getServiceCommunicatorBound()) {
             if(isHeadsetModeActivated(context)){
                 onAutoStart();
-                Intent service = new Intent(context, ServiceCommunicator.class);
-                service.addFlags(Intent.FLAG_FROM_BACKGROUND);
-                context.startService(service);
+                disMoiToutSmsService.startServiceCommunicator();
             } else {
                 notifyActivationPurpose(context);
             }
@@ -43,7 +43,7 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
     }
 
     protected void notifyActivationPurpose(Context context) {
-        Intent intent = new Intent(DisMoiToutSmsService.INTENT_ACTIVATE_FROM_NOTIFICATION);
+        Intent intent = new Intent(DisMoiToutSmsService.Companion.getINTENT_ACTIVATE_FROM_NOTIFICATION());
         intent.putExtra(NotificationHelper.EXTRA_ACTION_ICON, R.drawable.ic_headset_white_24dp);
         intent.putExtra(NotificationHelper.EXTRA_ACTION_TEXT, context.getString(R.string.activate));
         NotificationHelper.open(context, NotificationHelper.HEADSET_PLUGGED_IN, intent);

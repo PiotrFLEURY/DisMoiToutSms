@@ -21,6 +21,8 @@ class SmsSentFragment: androidx.fragment.app.DialogFragment() {
         const val EXTRA_REPONSE = "$TAG.EXTRA_REPONSE"
     }
 
+    private var doEndRunnable = { end() }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.sms_sent, container, false)
     }
@@ -34,7 +36,7 @@ class SmsSentFragment: androidx.fragment.app.DialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        sms_sent_tv_content.post({start()})
+        sms_sent_tv_content.post {start()}
     }
 
     override fun onPause() {
@@ -52,7 +54,12 @@ class SmsSentFragment: androidx.fragment.app.DialogFragment() {
             sms_sent_card.visibility = View.VISIBLE
         }
 
-        sms_sent_tv_content.postDelayed({ end() }, 3000)
+        sms_sent_tv_content.postDelayed(doEndRunnable, 3000)
+    }
+
+    override fun onDetach() {
+        sms_sent_tv_content?.removeCallbacks(doEndRunnable)
+        super.onDetach()
     }
 
     fun end() {

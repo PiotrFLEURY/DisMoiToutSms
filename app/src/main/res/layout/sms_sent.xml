@@ -3,10 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:minWidth="300dp"
     android:minHeight="80dp"
+    android:layout_gravity="center"
     android:orientation="vertical"
     android:id="@+id/sms_sent_card"
     android:background="@color/cardview_light_background">
@@ -16,12 +17,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_check_circle_white_48dp"
-        android:tint="@color/grey400"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:tint="@color/primaryColor"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,14 +31,16 @@
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
         android:text="@string/messageenvoye"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/dark"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/sms_sent_tv_content"
@@ -53,6 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        tools:text="Ok à tout à l'heure !" />
+        android:textColor="@color/grey600"
+        tools:text="Ok à tout à l'heure ! Je passe faire les courses avant et peut être aussi un plein d'essence je suis presque sur la réserve. N'oublie pas d'amener Léo chez le vétérinaire." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,7 @@ import static fr.piotr.dismoitoutsms.util.ContactHelper.getContact;
  */
 public class SmsReceiver extends BroadcastReceiver {
 
-	private static final String		ACTION_RECEIVE_SMS	= "android.provider.Telephony.SMS_RECEIVED";
+	public static final String	ACTION_RECEIVE_SMS	= "android.provider.Telephony.SMS_RECEIVED";
 
 	private static SmsReceiver	instance;
 	private SortedSet<Message> messagesEnAttente;
@@ -84,14 +84,14 @@ public class SmsReceiver extends BroadcastReceiver {
                     for (SmsMessage sms : messages) {
                         smsEntier.append(sms.getMessageBody());
                     }
-                    onSmsReceived(context, messages[0], smsEntier.toString());
+                    SmsMessage message = messages[0];
+                    onSmsReceived(context, message.getDisplayOriginatingAddress(), smsEntier.toString());
                 }
             }
         }
     }
 
-    private void onSmsReceived(Context context, SmsMessage message, String smsEntier) {
-        String phoneNumber = message.getDisplayOriginatingAddress();
+    public void onSmsReceived(Context context, String phoneNumber, String smsEntier) {
         Contact contact = getContact(context, phoneNumber);
         if (jePeuxDicterLeSmsDe(context, contact)) {
             Log.i("DisMoiToutSms", "SmsReceiver can speak");

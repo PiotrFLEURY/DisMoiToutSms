@@ -322,14 +322,14 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         }
     }
 
-    private fun onActivate() {
+    public fun onActivate() {
         if (!mDisMoiToutSmsServiceConnection.serviceCommunicatorRunning()) {
             setupVolume()
             mDisMoiToutSmsServiceConnection.mService?.startServiceCommunicator()
         }
     }
 
-    private fun onDeactivate() {
+    public fun onDeactivate() {
         if (mDisMoiToutSmsServiceConnection.serviceCommunicatorRunning()) {
             mDisMoiToutSmsServiceConnection.mService?.stopServiceCommunicator()
         }

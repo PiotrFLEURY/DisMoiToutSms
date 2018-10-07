@@ -1,10 +1,11 @@
 package fr.piotr.dismoitoutsms.bootreceiver
 
-import android.app.Service
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Build
-import android.os.IBinder
 import android.os.PowerManager
+import android.util.Log
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService
 
 /**
@@ -14,28 +15,19 @@ import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService
 
 class BootReceiver : BroadcastReceiver() {
 
-    private var mBound: Boolean = false
-
-    private val mServiceConnection = object : ServiceConnection {
-        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-            mBound = true
-        }
-
-        override fun onServiceDisconnected(p0: ComponentName?) {
-            mBound = false
-        }
+    companion object {
+        const val TAG = "BootReceiver"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d(TAG, "intent received")
         if (intent.action == Intent.ACTION_BOOT_COMPLETED && canStartService(context)) {
-            context.bindService(Intent(context, DisMoiToutSmsService::class.java), mServiceConnection, Service.BIND_AUTO_CREATE)
+            Log.d(TAG, "starting DisMoiToutSmsService...")
+            context.startService(Intent(context, DisMoiToutSmsService::class.java))
         }
     }
 
     private fun canStartService(context: Context) : Boolean {
-        if (mBound) {
-            return false
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
             return pm.isIgnoringBatteryOptimizations(context.packageName)

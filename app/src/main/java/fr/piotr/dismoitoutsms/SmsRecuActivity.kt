@@ -17,6 +17,8 @@ import android.view.View
 import android.view.View.GONE
 import android.view.Window
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.contacts.Contacts
 import fr.piotr.dismoitoutsms.dialogs.ContactSelectionDialog
@@ -227,7 +229,11 @@ class SmsRecuActivity : AbstractActivity() {
             startSpeechRecognizer(REPONSE, getString(R.string.reponse))
             sablier.reset()
         } else {
-            Toast.makeText(this, getString(R.string.tutorial_reponse_vocale_text), Toast.LENGTH_SHORT).show()
+            AlertDialog
+                    .Builder(this, android.R.style.Theme_Material_Light_Dialog)
+                    .setTitle(R.string.commande_vocale)
+                    .setMessage(R.string.tutorial_reponse_vocale_text)
+                    .setPositiveButton(android.R.string.ok) { _, _ -> }.show()
         }
     }
 

@@ -92,7 +92,7 @@ abstract class AbstractActivity : AppCompatActivity() {
             PERMISSIONS_READ_PHONE_STATE -> {
             }
         }
-        Toast.makeText(applicationContext, R.string.toast_error_permission_denial, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(applicationContext, R.string.toast_error_permission_denial, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

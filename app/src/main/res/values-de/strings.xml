@@ -67,7 +67,6 @@
     <string name="emoticone_indecis">unentschieden</string>
     <string name="emoticone_perspective_d_argent">reich</string>
     <string name="emoticone_circonflex"> </string>
-    <string name="toast.error.permission.denial">Die Anwendung kann nicht funktionieren ohne Ihre Zustimmung</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="headset_notification_text">Headset erkannt wird, tun Sie DisMoiTout aktivieren?</string>
     <string name="heaset_mode_option">Kopfhörer (auto-Aktivierung)</string>
@@ -112,4 +111,5 @@
     <string name="no_response_yet">No response yet</string>
     <string name="app_slogan">Dis-moi tout reads SMS for you</string>
     <string name="play_store_link">Play store link</string>
+    <string name="warn_ignore_battery_optimization">Warning ! The battery optimization can stop the app at any time. Click here to fix it.</string>
 </resources>

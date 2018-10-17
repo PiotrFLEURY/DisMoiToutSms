@@ -17,7 +17,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Switch
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import fr.piotr.dismoitoutsms.contacts.Contact
@@ -51,7 +55,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     private val receiver = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
-            when(intent?.action){
+            when (intent?.action) {
                 EVENT_TAP_TARGET_ONLY_CCONTACTS -> tapTargetOnlyContacts()
                 EVENT_TAP_TARGET_VOCAL_ANSWER -> tapTargetVocalAnswer()
                 EVENT_TAP_TARGET_PRIVATE_LIFE_MODE -> tapTargetPrivateLifeMode()
@@ -79,7 +83,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             toggleStatus()
         }
 
-        fun serviceCommunicatorRunning() = mService?.serviceCommunicatorBound?:false
+        fun serviceCommunicatorRunning() = mService?.serviceCommunicatorBound ?: false
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,23 +118,43 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
         drawer_tv_version.text = BuildConfig.VERSION_NAME
 
-        if(!ConfigurationManager.getBoolean(this, ConfigurationManager.Configuration.TUTORIAL_DONE)) {
+        if (!ConfigurationManager.getBoolean(this, ConfigurationManager.Configuration.TUTORIAL_DONE)) {
             startTutorial()
         }
 
     }
 
-    @SuppressLint("BatteryLife")
-    private fun setupBatteryOptimization() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val intent = Intent()
-            val pm = getSystemService(POWER_SERVICE) as PowerManager
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                intent.data = Uri.parse("package:$packageName")
-                startActivity(intent)
+    private fun tellUserBatteryOptimized() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isIgnoreBatteryOptimizations()) {
+            tv_warn_battery_optimization.visibility = View.VISIBLE
+            tv_warn_battery_optimization.setOnClickListener {
+                requestIgnoreBatteryOptimizations()
+                tv_warn_battery_optimization.visibility = View.GONE
             }
+        } else {
+            tv_warn_battery_optimization.setOnClickListener{}
         }
+    }
+
+    private fun setupBatteryOptimization() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isIgnoreBatteryOptimizations()) {
+            requestIgnoreBatteryOptimizations()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isIgnoreBatteryOptimizations(): Boolean {
+        val pm = getSystemService(POWER_SERVICE) as PowerManager
+        return pm.isIgnoringBatteryOptimizations(packageName)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    @SuppressLint("BatteryLife")
+    private fun requestIgnoreBatteryOptimizations() {
+        val intent = Intent()
+        intent.action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+        intent.data = Uri.parse("package:$packageName")
+        startActivity(intent)
     }
 
     private fun tapTargetFor(view: View?, title: String, text: String, action: String) {
@@ -148,7 +172,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 .show()
     }
 
-    fun tapTargetOnlyContacts(){
+    fun tapTargetOnlyContacts() {
         tapTargetFor(switch_uniquement_mes_contacts, getString(R.string.tutorial_contacts_title), getString(R.string.tutorial_contacts_text), EVENT_TAP_TARGET_VOCAL_ANSWER)
     }
 
@@ -184,7 +208,9 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> {onHomePressed()}
+            android.R.id.home -> {
+                onHomePressed()
+            }
             //R.id.main_menu_people -> openContactSelection(null)
             else -> {
             }
@@ -263,11 +289,13 @@ class DisMoiToutSmsActivity : AbstractActivity() {
         tv_tts_voice_parameter.setOnClickListener { openTtsVoiceParameter() }
 
         tv_drawer_help.setOnClickListener { startTutorial() }
-        tv_drawer_privacy.setOnClickListener {openPrivacyPolicy()}
+        tv_drawer_privacy.setOnClickListener { openPrivacyPolicy() }
 
-        drawer_tv_play_store.setOnClickListener {openPlayStore()}
+        drawer_tv_play_store.setOnClickListener { openPlayStore() }
 
-        if(intent.extras?.get("android.intent.extra.REFERRER_NAME")!=null){
+        tellUserBatteryOptimized()
+
+        if (intent.extras?.get("android.intent.extra.REFERRER_NAME") != null) {
             onActivate()
             startActivity(IntentProvider().provideNewSmsIntent(this))
             finish()
@@ -297,9 +325,9 @@ class DisMoiToutSmsActivity : AbstractActivity() {
 
     }
 
-    private fun setHeadsetMode(isChecked: Boolean){
+    private fun setHeadsetMode(isChecked: Boolean) {
         setBoolean(applicationContext, HEADSET_MODE, isChecked)
-        if(isChecked) {
+        if (isChecked) {
             setupBatteryOptimization()
         }
     }
@@ -345,7 +373,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             intent.putExtra(SmsRecuActivity.Parameters.DATE.name, Date().time)
             intent.putExtra(SmsRecuActivity.Parameters.CONTACT_NAME.toString(), contact)
             intent.putExtra(SmsRecuActivity.Parameters.MESSAGE.toString(), message)
-            intent.putExtra(SmsRecuActivity.Parameters.CONTACT.name, Contact(name =  contact, telephone = "0000000000"))
+            intent.putExtra(SmsRecuActivity.Parameters.CONTACT.name, Contact(name = contact, telephone = "0000000000"))
             startActivity(intent)
         } else {
             AlertDialog
@@ -399,7 +427,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             val checkIntent = Intent()
             checkIntent.action = TextToSpeech.Engine.ACTION_CHECK_TTS_DATA
             startActivityForResult(checkIntent, ACTIVITY_RESULT_TTS_DATA)
-        } catch (e: ActivityNotFoundException) {
+        } catch (e: Throwable) {
             Log.e(javaClass.simpleName, e.message)
         }
 
@@ -465,7 +493,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
     }
 
     private fun getBluetoothHeadsetActivationStatus(): String {
-        if(ConfigurationManager.getBoolean(this, BLUETOOTH_HEADSET_MODE)){
+        if (ConfigurationManager.getBoolean(this, BLUETOOTH_HEADSET_MODE)) {
             return getString(R.string.activated)
         }
         return getString(R.string.deactivated)

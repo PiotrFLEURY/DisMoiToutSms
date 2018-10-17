@@ -72,7 +72,6 @@
     <string name="emoticone_indecis">indecis</string>
     <string name="emoticone_perspective_d_argent">perspective d\'argent</string>
     <string name="emoticone_circonflex"> </string>
-    <string name="toast.error.permission.denial">L\'application ne peut pas fonctionner sans votre autorisation</string>
     <string name="privacy_policy">Politique de confidentialité</string>
     <string name="headset_notification_text">Ecouteurs détectés, souhaitez-vous activer DisMoiTout ?</string>
     <string name="heaset_mode_option">Lorsque je branche des écouteurs</string>
@@ -118,6 +117,7 @@
     <string name="bluetooth_device_fragment_help_text">Choisissez les périphériques qui activent et désactivent automatiquement la diction de vos SMS</string>
     <string name="no_response_yet">Vous n\'avez pas encore répondu</string>
     <string name="play_store_link">Lien vers le play store</string>
+    <string name="warn_ignore_battery_optimization">Attention ! l\'optimisation de la batterie risque d\'arrêter Dis-moi tout SMS sans raison... cliquer ici pour corriger</string>
 
 
 </resources>

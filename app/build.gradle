@@ -34,8 +34,8 @@ android {
     buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "fr.piotr.dismoitoutsms"
-        versionCode 48
-        versionName "4.15"
+        versionCode 49
+        versionName "4.16"
         minSdkVersion 21
         targetSdkVersion 28
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

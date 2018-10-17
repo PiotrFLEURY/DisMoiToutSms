@@ -18,6 +18,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.dialogs.BluetoothDevicesSelectionFragment
@@ -347,7 +348,11 @@ class DisMoiToutSmsActivity : AbstractActivity() {
             intent.putExtra(SmsRecuActivity.Parameters.CONTACT.name, Contact(name =  contact, telephone = "0000000000"))
             startActivity(intent)
         } else {
-            Toast.makeText(this, R.string.deactivated, Toast.LENGTH_SHORT).show()
+            AlertDialog
+                    .Builder(this, android.R.style.Theme_Material_Light_Dialog)
+                    .setTitle(R.string.tester_dictiontext)
+                    .setMessage(R.string.deactivated)
+                    .setPositiveButton(android.R.string.ok) { _, _ -> }.show()
         }
     }
 

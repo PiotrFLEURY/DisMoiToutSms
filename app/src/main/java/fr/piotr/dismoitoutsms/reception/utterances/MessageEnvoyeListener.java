@@ -17,6 +17,6 @@ public class MessageEnvoyeListener extends UtteranceListener {
 
     @Override
     public void onDone(String utteranceId) {
-        SmsReceiver.getInstance().nextMessage(context);
+        SmsReceiver.Companion.getInstance().nextMessage(context);
     }
 }

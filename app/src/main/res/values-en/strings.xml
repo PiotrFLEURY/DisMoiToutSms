@@ -113,5 +113,6 @@
     <string name="app_slogan">Dis-moi tout reads SMS for you</string>
     <string name="play_store_link">Play store link</string>
     <string name="warn_ignore_battery_optimization">Warning ! The battery optimization can stop the app at any time. Click here to fix it.</string>
+    <string name="threads_title">Threads</string>
 
 </resources>

@@ -118,6 +118,7 @@
     <string name="no_response_yet">Vous n\'avez pas encore répondu</string>
     <string name="play_store_link">Lien vers le play store</string>
     <string name="warn_ignore_battery_optimization">Attention ! l\'optimisation de la batterie risque d\'arrêter Dis-moi tout SMS sans raison... cliquer ici pour corriger</string>
+    <string name="threads_title">Messages</string>
 
 
 </resources>

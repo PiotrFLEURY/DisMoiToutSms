@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.os.PowerManager
 import android.provider.Settings
+import android.provider.Telephony
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.Menu
@@ -132,7 +133,7 @@ class DisMoiToutSmsActivity : AbstractActivity() {
                 tv_warn_battery_optimization.visibility = View.GONE
             }
         } else {
-            tv_warn_battery_optimization.setOnClickListener{}
+            tv_warn_battery_optimization.setOnClickListener {}
         }
     }
 

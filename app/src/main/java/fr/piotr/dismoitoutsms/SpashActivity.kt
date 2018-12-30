@@ -3,6 +3,8 @@ package fr.piotr.dismoitoutsms
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Telephony
+import android.widget.Toast
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import androidx.appcompat.app.AppCompatActivity
@@ -27,18 +29,42 @@ class SpashActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        ic_message.setOnClickListener{openThreads()}
+        ic_settings.setOnClickListener{openMain()}
+    }
+
+    override fun onPause() {
+        super.onPause()
+        ic_message.setOnClickListener{}
+        ic_settings.setOnClickListener{}
+    }
+
     private fun animateLayout() {
         val transition = AutoTransition()
         transition.duration = 400
-        transition.addListener(TransitionEndListener {openMain()})
+//        transition.addListener(TransitionEndListener {openMain()})
         TransitionManager.beginDelayedTransition(spash_constraint, transition)
         setFinished.applyTo(spash_constraint)
+
+        declareAsDefaultSmsHandler()
     }
 
     private fun openMain() {
         startActivity(Intent(this, DisMoiToutSmsActivity::class.java))
-        finish()
     }
 
+    private fun openThreads() {
+        startActivity(Intent(this, ThreadsActivity::class.java))
+    }
+
+    private fun declareAsDefaultSmsHandler() {
+        if (Telephony.Sms.getDefaultSmsPackage(this) != packageName) {
+            val intent = Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT)
+            intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, packageName)
+            startActivity(intent)
+        }
+    }
 
 }

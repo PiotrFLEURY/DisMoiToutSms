@@ -152,7 +152,7 @@ class SmsRecuActivity : AbstractActivity() {
                         // Le téléphone sonne
                     TelephonyManager.CALL_STATE_OFFHOOK -> {
                         if(contact!=null && message!=null) {
-                            SmsReceiver.getInstance().standBy(Message(date, contact!!, message!!))
+                            SmsReceiver.getInstance().standBy(Message(date = date, contact = contact!!, message = message!!))
                         }
                         finish()
                     }
@@ -454,7 +454,7 @@ class SmsRecuActivity : AbstractActivity() {
     }
 
     private fun getCorrespondance(result: String): Contacts {
-        val allContacts = ContactHelper.getAllContacts()
+        val allContacts = ContactHelper.allContacts
         return getCorrespondingContacts(allContacts, result)
     }
 
@@ -565,7 +565,7 @@ class SmsRecuActivity : AbstractActivity() {
     fun onSmsNotSent() {
         progress_sending.visibility = View.INVISIBLE
         com.google.android.material.snackbar.Snackbar.make(smsrecu_coordinator, R.string.error_occured, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.action_retry) { _ -> envoyer() }
+                .setAction(R.string.action_retry) { envoyer() }
                 .show()
     }
 

@@ -8,6 +8,8 @@ import fr.piotr.dismoitoutsms.R;
 import fr.piotr.dismoitoutsms.service.DisMoiToutSmsService;
 import fr.piotr.dismoitoutsms.util.NotificationHelper;
 
+import static fr.piotr.dismoitoutsms.util.NotificationHelper.HEADSET_PLUGGED_IN;
+
 /**
  * Created by piotr on 08/08/2017.
  *
@@ -27,7 +29,7 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
                 disMoiToutSmsService.stopServiceCommunicator();
             }
         } else {
-            NotificationHelper.close(context, NotificationHelper.HEADSET_PLUGGED_IN);
+            NotificationHelper.INSTANCE.close(context, HEADSET_PLUGGED_IN);
         }
     }
 
@@ -44,9 +46,9 @@ public abstract class AbstractHeadSetReceiver extends BroadcastReceiver {
 
     protected void notifyActivationPurpose(Context context) {
         Intent intent = new Intent(DisMoiToutSmsService.Companion.getINTENT_ACTIVATE_FROM_NOTIFICATION());
-        intent.putExtra(NotificationHelper.EXTRA_ACTION_ICON, R.drawable.ic_headset_white_24dp);
-        intent.putExtra(NotificationHelper.EXTRA_ACTION_TEXT, context.getString(R.string.activate));
-        NotificationHelper.open(context, NotificationHelper.HEADSET_PLUGGED_IN, intent);
+        intent.putExtra(NotificationHelper.INSTANCE.getEXTRA_ACTION_ICON(), R.drawable.ic_headset_white_24dp);
+        intent.putExtra(NotificationHelper.INSTANCE.getEXTRA_ACTION_TEXT(), context.getString(R.string.activate));
+        NotificationHelper.INSTANCE.open(context, HEADSET_PLUGGED_IN, intent);
     }
 
     protected void onAutoStart(){

@@ -11,4 +11,11 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
 </resources>

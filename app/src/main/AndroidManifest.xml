@@ -3,45 +3,51 @@
     package="fr.piotr.dismoitoutsms">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <uses-permission android:name="android.permission.RECEIVE_MMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
+
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
-        android:icon="@mipmap/ic_launcher_score"
-        android:roundIcon="@mipmap/ic_volume_up_round"
-        android:label="@string/app_name"
         android:name=".DisMoiToutSmsApplication"
+        android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
-        android:allowBackup="true">
-
-        <activity android:name=".SpashActivity"
+        android:icon="@mipmap/ic_launcher_score"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_volume_up_round">
+        <activity
+            android:name=".SpashActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".DisMoiToutSmsActivity"
-            android:label="@string/app_name"
             android:excludeFromRecents="true"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-        </activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SmsRecuActivity"
             android:permission="android.permission.DISABLE_KEYGUARD"
@@ -55,8 +61,6 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
 
-
-
         <receiver android:name=".bootreceiver.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -65,6 +69,59 @@
 
         <service android:name=".reception.ServiceCommunicator" />
         <service android:name=".service.DisMoiToutSmsService" />
+
+        <!-- DEFAULT SMS APP PART -->
+
+        <activity android:name=".ThreadsActivity"
+            android:parentActivityName=".SpashActivity"
+            android:theme="@style/AppTheme.Light"/>
+
+        <!-- BroadcastReceiver that listens for incoming SMS messages -->
+        <receiver android:name=".SmsReceiver"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_DELIVER" />
+            </intent-filter>
+        </receiver>
+
+        <!-- BroadcastReceiver that listens for incoming MMS messages -->
+        <receiver android:name=".MmsReceiver"
+            android:permission="android.permission.BROADCAST_WAP_PUSH">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Activity that allows the user to send new SMS/MMS messages -->
+        <activity android:name=".ComposeSmsActivity"
+            android:theme="@style/AppTheme.Light"
+            android:parentActivityName=".ThreadsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </activity>
+
+        <!-- Service that delivers messages from the phone "quick response" -->
+        <service android:name=".HeadlessSmsSendService"
+            android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </service>
 
     </application>
 

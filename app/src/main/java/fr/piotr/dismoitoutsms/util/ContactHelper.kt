@@ -8,6 +8,8 @@ import android.provider.ContactsContract
 import android.telephony.PhoneNumberUtils
 import android.util.Log
 import fr.piotr.dismoitoutsms.DisMoiToutSmsApplication
+import fr.piotr.dismoitoutsms.MyMessagesManager
+import fr.piotr.dismoitoutsms.R
 import fr.piotr.dismoitoutsms.contacts.Contact
 import fr.piotr.dismoitoutsms.contacts.Contacts
 import java.lang.IllegalArgumentException
@@ -21,18 +23,23 @@ object ContactHelper {
 
     private val ALL_CONTACTS_PROJECTION = arrayOf(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.PHOTO_ID)
 
-    val allContacts: Contacts
-        get() = getAllContacts(DisMoiToutSmsApplication.INSTANCE.applicationContext)
+    val allContacts: Contacts by lazy {
+        getAllContacts(DisMoiToutSmsApplication.INSTANCE.applicationContext)
+    }
 
     @JvmStatic
-    fun getContact(context: Context, phoneNumber: String): Contact {
-        val allContacts = getAllContacts(context)
+    fun getContactByPhoneNumber(context: Context, phoneNumber: String): Contact {
+        val allContacts = allContacts
         for (contact in allContacts) {
             if (PhoneNumberUtils.compare(phoneNumber, contact.telephone)) {
                 return contact
             }
         }
-        return Contact(name = phoneNumber, telephone = phoneNumber)
+        return if(PhoneNumberUtils.compare(phoneNumber, MyMessagesManager.getMyOwnPhoneNumber(context))) {
+            Contact(name = context.getString(R.string.you), telephone = phoneNumber)
+        } else {
+            Contact(name = phoneNumber, telephone = phoneNumber)
+        }
     }
 
     fun getContactById(context: Context, contactId: Long): Contact {
@@ -107,4 +114,5 @@ object ContactHelper {
         }
 
     }
+
 }

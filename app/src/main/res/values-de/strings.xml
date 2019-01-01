@@ -113,4 +113,10 @@
     <string name="play_store_link">Play store link</string>
     <string name="warn_ignore_battery_optimization">Warning ! The battery optimization can stop the app at any time. Click here to fix it.</string>
     <string name="threads_title">Mensajes</string>
+    <string name="you">Sie</string>
+    <string name="message_not_sent">nicht gesendet</string>
+    <string name="not_yout_default_sms_handler">Dis-moi tout ist nicht der SMS-Manager</string>
+    <string name="change_sms_manager_snack_action">Veränderung</string>
+    <string name="reply_label">Antworten</string>
+    <string name="mark_as_read">als gelesen markieren</string>
 </resources>

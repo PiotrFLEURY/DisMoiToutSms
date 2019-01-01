@@ -1,7 +1,7 @@
 package fr.piotr.dismoitoutsms.messages
 
-import fr.piotr.dismoitoutsms.contacts.Contact
 import java.io.Serializable
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
-data class Thread(val id: Long, val date: Date, val messageCount: Int, val snippet: String, val recipientIds: List<Long>): Serializable
+data class Thread(val id: Long, val date: Date, var messageCount: Int, var snippet: String, var recipients: List<String>, var complete: AtomicBoolean = AtomicBoolean(false)): Serializable

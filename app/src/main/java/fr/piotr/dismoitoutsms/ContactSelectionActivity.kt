@@ -26,7 +26,9 @@ class ContactSelectionActivity : AbstractActivity() {
     private lateinit var contactsAdapter: ContactsAdapter
     private lateinit var dorpDownAdapter: ContactsAdapter
 
-    private val mesContacts: Contacts = getAllContacts(this)
+    private val mesContacts: Contacts by lazy {
+        getAllContacts(this)
+    }
     private val contactsSelectionnes: Contacts = Contacts()
 
     override fun onCreate(savedInstanceState: Bundle?) {

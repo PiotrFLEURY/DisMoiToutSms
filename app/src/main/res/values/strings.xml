@@ -119,6 +119,11 @@
     <string name="play_store_link">Lien vers le play store</string>
     <string name="warn_ignore_battery_optimization">Attention ! l\'optimisation de la batterie risque d\'arrêter Dis-moi tout SMS sans raison... cliquer ici pour corriger</string>
     <string name="threads_title">Messages</string>
-
+    <string name="you">Vous</string>
+    <string name="message_not_sent">Non envoyé</string>
+    <string name="not_yout_default_sms_handler">Dis-moi tout n\'est pas gestionnaire des SMS</string>
+    <string name="change_sms_manager_snack_action">Changer</string>
+    <string name="reply_label">Répondre</string>
+    <string name="mark_as_read">Marquer comme lu</string>
 
 </resources>

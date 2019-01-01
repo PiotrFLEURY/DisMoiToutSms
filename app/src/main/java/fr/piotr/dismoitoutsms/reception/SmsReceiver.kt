@@ -62,7 +62,7 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     fun onSmsReceived(context: Context, phoneNumber: String, smsEntier: String) {
-        val contact = ContactHelper.getContact(context, phoneNumber)
+        val contact = ContactHelper.getContactByPhoneNumber(context, phoneNumber)
         if (jePeuxDicterLeSmsDe(context, contact)) {
             Log.i("DisMoiToutSms", "SmsReceiver can speak")
 
@@ -97,7 +97,7 @@ class SmsReceiver : BroadcastReceiver() {
                 }
             } else {
                 Log.i("DisMoiToutSms", "SmsReceiver reading message")
-                afficherEtLiteLeMessage(context, Message(date = Calendar.getInstance().time, contact = contact, message = contenuDuMessage))
+                afficherEtLiteLeMessage(context, Message(date = Calendar.getInstance().time, contact = contact, message = contenuDuMessage, messageType = Message.MessageType.DRAFT))
             }
         }
     }
@@ -128,7 +128,7 @@ class SmsReceiver : BroadcastReceiver() {
                 return
             }
         }
-        messagesEnAttente.add(Message(date = Calendar.getInstance().time, contact = contact, message = phrase))
+        messagesEnAttente.add(Message(date = Calendar.getInstance().time, contact = contact, message = phrase, messageType = Message.MessageType.DRAFT))
     }
 
     fun standBy(message: Message) {

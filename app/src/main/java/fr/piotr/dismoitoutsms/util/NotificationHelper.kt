@@ -148,7 +148,7 @@ object NotificationHelper {
         notificationManager.cancel(id)
     }
 
-    private fun createChannel(notificationManager: NotificationManager, channelId: String, channelTitle: String) {
+    fun createChannel(notificationManager: NotificationManager, channelId: String, channelTitle: String) {
         /* Create or update. */
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId,
